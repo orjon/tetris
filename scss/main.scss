@@ -1,4 +1,13 @@
 $gridSquare : 4vh;
+$blockColorRed : #F00;
+$blockColorEdgeRed : #F88;
+$blockColorGreen : #0F0;
+$blockColorEdgeGreen : #8F8;
+$blockColorBlue : #00F;
+$blockColorEdgeBlue : #88F;
+$blockColorOrange: #F90;
+$blockColorEdgeOrange : #F96;
+
 
 
 
@@ -55,20 +64,25 @@ main {
 
 
       }
-      .fillRed {
-        background-color: #F00;
-        box-shadow: 0px 0px 5px #F00;
-        border: 1px solid #F88;
+      .red {
+        background-color: $blockColorRed;
+        box-shadow: 0px 0px 5px $blockColorRed;
+        border: 1px solid $blockColorEdgeRed;
       }
-      .fillGreen {
-        background-color: #0F0;
-        box-shadow: 0px 0px 5px #0F0;
-        border: 1px solid #8F8;
+      .green {
+        background-color: $blockColorGreen;
+        box-shadow: 0px 0px 5px $blockColorGreen;
+        border: 1px solid $blockColorEdgeGreen;
       }
-      .fillBlue {
-        background-color: #00F;
-        box-shadow: 0px 0px 5px #00F;
-        border: 1px solid #88F;
+      .blue {
+        background-color: $blockColorBlue;
+        box-shadow: 0px 0px 5px $blockColorBlue;
+        border: 1px solid $blockColorEdgeBlue;
+      }
+      .orange {
+        background-color: $blockColorOrange;
+        box-shadow: 0px 0px 5px $blockColorOrange;
+        border: 1px solid $blockColorEdgeOrange;
       }
       .empty {
         // visibility: hidden;

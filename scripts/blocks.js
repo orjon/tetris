@@ -1,101 +1,104 @@
-class TetriA {
-  constructor(type, anchor){
-    this.type = type
+class Tetrimino {
+  constructor(anchor){
     this.anchor = anchor
+    this.falling = true
+  }
+  fall(gameGridArray){
+
+    if ((gameGridArray[this.anchor+10] === 0) && (this.anchor+10 >= 10) && this.falling){
+      gameGridArray[this.anchor]=0
+      // console.log('falling...')
+      this.anchor += 10
+    } else {
+      this.falling = false
+    }
+  }
+  move(direction){
+    switch (direction) {
+      case -1:
+      console.log(`${this.type} << Moving left`)
+      break
+      case 0:
+      console.log(`${this.type} - Not Moving -`)
+      break
+      case 1:
+      console.log(`${this.type} Moving Right >>`)
+      break
+    }
+  }
+  draw(gameGridArray, $gridSquares) {
+    gameGridArray[this.anchor] = 1
+    $gridSquares.siblings().eq(this.anchor).addClass(`${this.color}`)
+  }
+  destroy() {
+    // tetriSequence = tetriSequence.filter( u => {
+    //   return u.
+    // })
+  }
+
+}
+
+
+class TetriA extends Tetrimino{
+  constructor(anchor, falling){
+    super(anchor, falling)
+    this.type = 'TetriA'
+    this.color = 'red'
     this.shape = [
       [1,1],
       [1,1]
     ]
   }
-  fall(){
-    console.log('falling...')
-  }
-  move(direction){
-    switch (direction) {
-      case -1:
-        console.log(`${this.type} << Moving left`)
-        break
-      case 0:
-        console.log(`${this.type} - Not Moving -`)
-        break
-      case 1:
-        console.log(`${this.type} Moving Right >>`)
-        break
-    }
-  }
-  draw(gameGridArray, $gridSquares) {
-    gameGridArray[this.anchor] = 1
-    $gridSquares.siblings().eq(this.anchor).addClass('fillRed')
-  }
+
 
 }
 
-class TetriB {
-  constructor(type, anchor){
-    this.type = type
-    this.anchor = anchor
+class TetriB extends Tetrimino{
+  constructor(anchor, falling){
+    super(anchor, falling)
+    this.type = 'TetriB'
+    this.color = 'green'
     this.shape = [1,1,1,1]
   }
-  fall(){
-    console.log('falling...')
-  }
-  move(direction){
-    switch (direction) {
-      case -1:
-        console.log(`${this.type} << Moving left`)
-        break
-      case 0:
-        console.log(`${this.type} - Not Moving -`)
-        break
-      case 1:
-        console.log(`${this.type} Moving Right >>`)
-        break
-    }
-  }
-  draw(gameGridArray, $gridSquares) {
-    gameGridArray[this.anchor] = 1
-    $gridSquares.siblings().eq(this.anchor).addClass('fillGreen')
-  }
 }
 
-class TetriC {
-  constructor(type, anchor){
-    this.type = type
-    this.anchor = anchor
+class TetriC extends Tetrimino{
+  constructor(anchor, falling){
+    super(anchor, falling)
+    this.type = 'TetriC'
+    this.color = 'blue'
     this.shape = [
-      [1,1,1,1]
+      [1,1]
     ]
   }
-  fall(){
-    console.log('falling...')
-  }
-  move(direction){
-    switch (direction) {
-      case -1:
-        console.log(`${this.type} << Moving left`)
-        break
-      case 0:
-        console.log(`${this.type} - Not Moving -`)
-        break
-      case 1:
-        console.log(`${this.type} Moving Right >>`)
-        break
-    }
-  }
-  draw(gameGridArray, $gridSquares) {
-    gameGridArray[this.anchor] = 1
-    $gridSquares.siblings().eq(this.anchor).addClass('fillBlue')
-  }
+}
 
+class TetriD extends Tetrimino{
+  constructor(anchor, falling){
+    super(anchor, falling)
+    this.type = 'TetriD'
+    this.color = 'orange'
+    this.shape = [
+      [1,1]
+    ]
+  }
 }
 
 
-var tetri001 = new TetriA('TypeA', 0)
-var tetri002 = new TetriB('TypeB', 45)
-var tetri003 = new TetriC('TypeC', 18)
+var tetri001 = new TetriA(0,'red')
+var tetri002 = new TetriB(45,'green')
+var tetri003 = new TetriC(48,'blue')
+var tetri004 = new TetriD(18,'orange')
+var tetri005 = new TetriA(65,'red')
+var tetri006 = new TetriB(61,'green')
+var tetri007 = new TetriC(104,'blue')
+var tetri008 = new TetriD(4,'orange')
 
 
-
+function tetriNew() {
+  const tetriNum = (Math.floor(Math.random() * 7)+1) //find random mole
+  console.log(tetriNum)
+}
 
 //
 // function fillGrid(array) {
@@ -135,41 +138,3 @@ var tetri003 = new TetriC('TypeC', 18)
 
 
 //
-//
-// class Tetrimino { // eslint-disable-line no-unused-vars
-//   constructor(color, shape) {
-//     this.color = color
-//     this.shape = shape
-//   }
-//   rotate() {
-//   console.log(`${this.name}`)
-//   }
-//
-//   fall() {
-//
-//   }
-//
-// }
-//
-// class Cube extends Tetrimino { // eslint-disable-line no-unused-vars
-//   constructor(color) {
-//     super(color, [
-//       { row: -1, col: -1 },
-//       { row: -1, col: 1 },
-//       { row: 1, col: -1 },
-//       { row: 1, col: 1 }
-//     ])
-//   }
-// }
-//
-//
-//
-// class User {
-//
-//   constructor(name) {
-//     this.name = name;
-//   }
-//
-//   sayHi() {
-//     alert(this.name);
-//   }
