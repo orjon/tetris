@@ -17,12 +17,14 @@ class Tetrimino {
     switch (direction) {
       case -1:
       console.log(`${this.type} << Moving left`)
+      this.anchor--
       break
       case 0:
       console.log(`${this.type} - Not Moving -`)
       break
       case 1:
       console.log(`${this.type} Moving Right >>`)
+      this.anchor++
       break
     }
   }

@@ -61,12 +61,15 @@ $(() => {
   $(document).keydown(function(e) {
     switch(e.which) {
       case 37: // left
+      tetriSequence[(tetriSequence.length-1)].move(-1)
       console.log('left')
       break
-      case 38: // up
+      case 38:
+       // up
       console.log('up')
       break
       case 39: // right
+      tetriSequence[tetriSequence.length-1].move(1)
       console.log('right')
       break
       case 40: // down
