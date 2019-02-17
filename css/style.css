@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box; }
+
+html {
+  font-family: sans-serif; }
+
+body {
+  background-color: #CCC;
+  margin: 0;
+  padding: 0; }
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  border: 1px solid darkgrey; }
+  main header {
+    height: 10vh;
+    width: 100vw;
+    border: 1px dashed darkgrey; }
+  main gameGrid {
+    height: 85vh;
+    width: 0 auto;
+    border: 1px dashed darkgrey;
+    display: flex;
+    flex-direction: column;
+    border: 1px red; }
+    main gameGrid .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center; }
+      main gameGrid .row .square {
+        width: 4vh;
+        height: 4vh;
+        display: flex;
+        flex-direction: row;
+        border: 1px solid darkgrey; }
+      main gameGrid .row .fillRed {
+        background-color: red; }
+      main gameGrid .row .empty {
+        background-color: rgba(255, 0, 0, 0.5); }
+  main footer {
+    height: 5vh;
+    border: 1px dashed darkgrey; }
+
+/*# sourceMappingURL=style.css.map */

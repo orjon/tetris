@@ -1,0 +1,73 @@
+$gridSquare : 4vh;
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+
+  font-family: sans-serif;
+}
+
+body {
+  background-color: #CCC;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  border: 1px solid darkgrey;
+
+  header {
+    height: 10vh;
+    width: 100vw;
+    border: 1px dashed darkgrey;
+  }
+
+  gameGrid {
+    height: 85vh;
+    width: 0 auto;
+    border: 1px dashed darkgrey;
+    display: flex;
+    flex-direction: column;
+    border: 1px red;
+
+    .row {
+      display: flex;
+      flex-direction: row;
+        justify-content: center;
+      // border: 1px solid blue;
+
+
+      .square {
+        width: $gridSquare;
+        height: $gridSquare;
+        display: flex;
+        flex-direction: row;
+        border: 1px solid darkgrey;
+
+
+      }
+      .fillRed {
+        background-color: red;
+      }
+      .empty {
+        background-color: rgba(255,0,0,0.5);
+      }
+
+    }
+
+  }
+
+  footer {
+    height: 5vh;
+    border: 1px dashed darkgrey;
+  }
+}
