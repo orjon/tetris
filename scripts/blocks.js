@@ -85,56 +85,18 @@ class TetriD extends Tetrimino{
 }
 
 
-var tetri001 = new TetriA(0,'red')
-var tetri002 = new TetriB(45,'green')
-var tetri003 = new TetriC(48,'blue')
-var tetri004 = new TetriD(18,'orange')
-var tetri005 = new TetriA(65,'red')
-var tetri006 = new TetriB(61,'green')
-var tetri007 = new TetriC(104,'blue')
-var tetri008 = new TetriD(4,'orange')
+// var tetri001 = new TetriA(0,'red')
+// var tetri002 = new TetriB(45,'green')
+// var tetri003 = new TetriC(48,'blue')
+// var tetri004 = new TetriD(18,'orange')
+// var tetri005 = new TetriA(65,'red')
+// var tetri006 = new TetriB(61,'green')
+// var tetri007 = new TetriC(104,'blue')
+// var tetri008 = new TetriD(4,'orange')
 
 
-function tetriNew() {
-  const tetriNum = (Math.floor(Math.random() * 7)+1) //find random mole
-  console.log(tetriNum)
-}
-
-//
-// function fillGrid(array) {
-//   for (let i=0; i<gameGridTotal; i++){
-//     switch (array[i]) {
-//       case 0:
-//       // $gridSquares.siblings().eq(i).removeClass('.fillRed')
-//       // console.log('Found 0 @: '+i)
-//         $gridSquares.siblings().eq(i).addClass('empty')
-//         break
-//       case 1:
-//       // console.log('Found 1 @: '+i)
-//         $gridSquares.siblings().eq(i).addClass('fillRed')
-//         break
-//     }
-//   }
-// }
-//
-//
-// function gravity(){
-//   console.log('GRAVITY LOOP')
-//   // console.log('gravity test range: '+(gameArray.length - 11) + ' to '+0)
-//   // for (let i = gameArray.length - 11; i >= 0; --i){
-//   //
-//   //   // console.log('gameArray i: '+i+ ' +10: ' +(i+10))
-//   //   if ((gameArray[i] === 1) && (gameArray[i+10] === 0 )) {
-//   //     console.log('Block: '+i +' moved to '+ (i+10))
-//   //     gameArray[i] = 0
-//   //     gameArray[i+10] = 1
-//   //
-//   //   } else {
-//   //     console.log('else')
-//   //   }
-//   // }
-//   fillGrid(gameArray)
-// }
-
-
-//
+// new TetriD(18,'orange')
+// new TetriA(65,'red')
+// new TetriB(61,'green')
+// new TetriC(104,'blue')
+// new TetriD(4,'orange')
