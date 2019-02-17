@@ -12,7 +12,7 @@ html {
 }
 
 body {
-  background-color: #CCC;
+  background-color: #555;
   margin: 0;
   padding: 0;
 }
@@ -28,7 +28,7 @@ main {
   header {
     height: 10vh;
     width: 100vw;
-    border: 1px dashed darkgrey;
+    // border: 1px dashed darkgrey;
   }
 
   gameGrid {
@@ -51,15 +51,30 @@ main {
         height: $gridSquare;
         display: flex;
         flex-direction: row;
-        border: 1px solid darkgrey;
+        border: 1px solid #666;
 
 
       }
       .fillRed {
-        background-color: red;
+        background-color: #F00;
+        box-shadow: 0px 0px 5px #F00;
+        border: 1px solid #F88;
+      }
+      .fillGreen {
+        background-color: #0F0;
+        box-shadow: 0px 0px 5px #0F0;
+        border: 1px solid #8F8;
+      }
+      .fillBlue {
+        background-color: #00F;
+        box-shadow: 0px 0px 5px #00F;
+        border: 1px solid #88F;
       }
       .empty {
-        background-color: rgba(255,0,0,0.5);
+        // visibility: hidden;
+        // display:none;
+        background-color: none;
+        // background-color: rgba(255,0,0,0);
       }
 
     }
@@ -68,6 +83,6 @@ main {
 
   footer {
     height: 5vh;
-    border: 1px dashed darkgrey;
+    // border: 1px dashed darkgrey;
   }
 }

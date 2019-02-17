@@ -5,7 +5,7 @@ html {
   font-family: sans-serif; }
 
 body {
-  background-color: #CCC;
+  background-color: #555;
   margin: 0;
   padding: 0; }
 
@@ -18,8 +18,7 @@ main {
   border: 1px solid darkgrey; }
   main header {
     height: 10vh;
-    width: 100vw;
-    border: 1px dashed darkgrey; }
+    width: 100vw; }
   main gameGrid {
     height: 85vh;
     width: 0 auto;
@@ -36,13 +35,22 @@ main {
         height: 4vh;
         display: flex;
         flex-direction: row;
-        border: 1px solid darkgrey; }
+        border: 1px solid #666; }
       main gameGrid .row .fillRed {
-        background-color: red; }
+        background-color: #F00;
+        box-shadow: 0px 0px 5px #F00;
+        border: 1px solid #F88; }
+      main gameGrid .row .fillGreen {
+        background-color: #0F0;
+        box-shadow: 0px 0px 5px #0F0;
+        border: 1px solid #8F8; }
+      main gameGrid .row .fillBlue {
+        background-color: #00F;
+        box-shadow: 0px 0px 5px #00F;
+        border: 1px solid #88F; }
       main gameGrid .row .empty {
-        background-color: rgba(255, 0, 0, 0.5); }
+        background-color: none; }
   main footer {
-    height: 5vh;
-    border: 1px dashed darkgrey; }
+    height: 5vh; }
 
 /*# sourceMappingURL=style.css.map */
