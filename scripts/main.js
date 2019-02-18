@@ -8,11 +8,11 @@ $(() => {
   // const gameGridWidth = 10
   // const gameGridHeight = 20
   const gameGridTotal = 240
-  const startPosition = 34
 
-  let tetriCount = 0
-  const tetriSequence = []
+
+
   const gameGridArray = []
+  let occupiedArray = []
 
   function anyFalling() {
     // console.log('tetriSequence.length: '+ tetriSequence.length)
@@ -27,37 +27,7 @@ $(() => {
 
 
 
-  function tetriNew() {
-    let temp = 0
-    const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
-    console.log('New Tetrimino No: '+ tetriNum)
-    switch (tetriNum) {
-      case 1:
-      temp = new TetriA(startPosition)
-      break
-      case 2:
-      temp = new TetriB(startPosition)
-      break
-      case 3:
-      temp = new TetriC(startPosition)
-      break
-      case 4:
-      temp = new TetriD(startPosition)
-      break
-      case 5:
-      temp = new TetriE(startPosition)
-      break
-      case 6:
-      temp = new TetriF(startPosition)
-      break
-      case 7:
-      temp = new TetriG(startPosition)
-      break
-    }
-    tetriSequence.push(temp)
-    tetriCount++
-    // console.log('Number of Tetriminos: '+ tetriCount)
-  }
+
 
   $(document).keydown(function(e) {
     switch(e.which) {
@@ -66,7 +36,7 @@ $(() => {
       console.log('left')
       break
       case 38:
-      // up
+      clearInterval(gameLoop)
       console.log('up')
       break
       case 39: // right
@@ -101,6 +71,20 @@ $(() => {
     $gridSquares.siblings().addClass('empty')
   }
 
+  function gameOver(){
+    console.log('Lowest value: '+ Math.min(...occupiedArray))
+  }
+
+  function listNonZero(gameGridArray) {
+    occupiedArray = []
+    for(var i=0; i < gameGridArray.length; i++){
+      if (gameGridArray[i] != 0) {
+        occupiedArray.push(i)
+      }
+    }
+    console.log('Occupied: '+occupiedArray)
+  }
+
   function clockTick() {
     console.log('--------------')
     if (anyFalling()=== false) {
@@ -109,19 +93,29 @@ $(() => {
 
     gridClear()
 
-    for(var i=0; i < tetriSequence.length; i++){
+    //Draw non-moving shapes
+    for(var i=0; i < tetriSequence.length-1; i++) {
       console.log(i + ': '+tetriSequence[i].showLocation(gameGridArray))
-console.log(gameGridArray)
-      console.log(tetriSequence[i].checkBelow(gameGridArray))
-      tetriSequence[i].fall(gameGridArray)
       tetriSequence[i].draw(gameGridArray, $gridSquares)
-      // console.log(tetriSequence[i].showLocation(gameGridArray))
     }
+
+    //Draw moving shape
+    tetriSequence[tetriSequence.length-1].clearGridLocation(gameGridArray)
+    tetriSequence[tetriSequence.length-1].fall(gameGridArray)
+    tetriSequence[tetriSequence.length-1].draw(gameGridArray, $gridSquares)
+    listNonZero(gameGridArray)
+    gameOver()
   }
 
   console.log(gameGridArray)
 
-  setInterval(clockTick,200)
+  let gameLoop = setInterval(clockTick,250)
+
+
+
+
+
+
 
 
 })

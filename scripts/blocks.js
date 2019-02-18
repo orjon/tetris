@@ -1,3 +1,8 @@
+  const startPosition = 34
+
+  let tetriCount = 0
+  const tetriSequence = []
+
 class Tetrimino {
   constructor(anchor){
     this.anchor = anchor
@@ -64,21 +69,22 @@ class Tetrimino {
   //   }
   // }
 
-  // clearLocation(gameGridArray) {
-  //   let indexTemp = 0
-  //   for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-  //     indexTemp = this.anchor+this.shape[i] //every pixel below
-  //     gameGridArray[indexTemp] = 0
-  //   }
-  // }
+  clearGridLocation(gameGridArray) {
+    console.log('Clear grid location')
+    let indexTemp = 0
+    for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+      indexTemp = this.anchor+this.shape[i] //every pixel below
+      gameGridArray[indexTemp] = 0
+    }
+  }
 
   fall(gameGridArray){
-    let indexTemp = 0
+    // let indexTemp = 0
     if ((gameGridArray[this.anchor+10] === 0) && (this.anchor+10 >= 10) && this.falling){
-      for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-        indexTemp = this.anchor+this.shape[i] //every pixel below
-        gameGridArray[indexTemp] = 0
-      }
+      // for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+      //   indexTemp = this.anchor+this.shape[i] //every pixel below
+      //   gameGridArray[indexTemp] = 0
+      // }
       this.anchor += 10
     } else {
       this.falling = false
@@ -184,4 +190,36 @@ class TetriG extends Tetrimino{
     this.color = 'purple'
     this.shape = [-10,-9,1,2]
   }
+}
+
+function tetriNew() {
+  let temp = 0
+  const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
+  console.log('New Tetrimino No: '+ tetriNum)
+  switch (tetriNum) {
+    case 1:
+    temp = new TetriA(startPosition)
+    break
+    case 2:
+    temp = new TetriB(startPosition)
+    break
+    case 3:
+    temp = new TetriC(startPosition)
+    break
+    case 4:
+    temp = new TetriD(startPosition)
+    break
+    case 5:
+    temp = new TetriE(startPosition)
+    break
+    case 6:
+    temp = new TetriF(startPosition)
+    break
+    case 7:
+    temp = new TetriG(startPosition)
+    break
+  }
+  tetriSequence.push(temp)
+  tetriCount++
+  // console.log('Number of Tetriminos: '+ tetriCount)
 }
