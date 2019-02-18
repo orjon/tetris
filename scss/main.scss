@@ -7,6 +7,14 @@ $blockColorBlue : #00F;
 $blockColorEdgeBlue : #88F;
 $blockColorOrange: #F90;
 $blockColorEdgeOrange : #F96;
+$blockColorPink: #F0F;
+$blockColorEdgePink : #F9F;
+
+$blockColorPurple: #A0A;
+$blockColorEdgePurple : #A5A;
+
+$blockColorCyan: #0DD;
+$blockColorEdgeCyan: #7DD;
 
 
 
@@ -51,8 +59,7 @@ main {
     .row {
       display: flex;
       flex-direction: row;
-        justify-content: center;
-      // border: 1px solid blue;
+      justify-content: center;
 
 
       .square {
@@ -79,10 +86,25 @@ main {
         box-shadow: 0px 0px 5px $blockColorBlue;
         border: 1px solid $blockColorEdgeBlue;
       }
+      .pink {
+        background-color: $blockColorPink;
+        box-shadow: 0px 0px 5px $blockColorPink;
+        border: 1px solid $blockColorEdgePink;
+      }
+      .purple{
+        background-color: $blockColorPurple;
+        box-shadow: 0px 0px 5px $blockColorPurple;
+        border: 1px solid $blockColorEdgePurple;
+      }
       .orange {
         background-color: $blockColorOrange;
         box-shadow: 0px 0px 5px $blockColorOrange;
         border: 1px solid $blockColorEdgeOrange;
+      }
+      .cyan {
+        background-color: $blockColorCyan;
+        box-shadow: 0px 0px 5px $blockColorCyan;
+        border: 1px solid $blockColorEdgeCyan;
       }
       .empty {
         // visibility: hidden;

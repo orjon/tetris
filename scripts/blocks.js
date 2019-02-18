@@ -3,16 +3,90 @@ class Tetrimino {
     this.anchor = anchor
     this.falling = true
   }
-  fall(gameGridArray){
 
+  // fall(gameGridArray){
+  //   for (let i=0; i<this.shape.length; i++) { //for each shape pixel
+  //     let tempIndex = this.anchor+this.shape[i]
+  //     if ((gameGridArray[tempIndex+10] === 0) && (tempIndex+10 >= 10) && this.falling){
+  //       gameGridArray[this.anchor]=0 //declare empty
+  //       this.anchor += 10
+  //     } else {
+  //       this.falling = false
+  //     }
+  //   }
+  // }
+
+  showLocation(gameGridArray){
+    let tempArray = []
+    for (let i=0; i<this.shape.length; i++) {
+      tempArray.push(this.anchor+this.shape[i])
+    }
+    return `${tempArray}`
+  }
+
+  checkStop(gameGridArray){
+    for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+      let tempIndex = this.anchor+this.shape[i]+10
+
+      if ((gameGridArray[tempIndex] === 0) && (tempIndex >= 10)){
+        return 'FALLING'
+        // return true
+      }
+    }
+    return 'STOPPED'
+    // return false
+  }
+
+
+  checkBelow(gameGridArray){
+    for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+      let indexBelow = this.anchor+this.shape[i]+10 //every pixel below
+      if (indexBelow > 229) {
+        return 'Touched bottom'
+      }
+      if (gameGridArray[indexBelow] === 1) {
+        return 'Obstruction'
+        // return true
+      }
+    }
+    return 'Free to fall'
+    // return false
+  }
+
+
+
+  // fall(gameGridArray){
+  //   if ((gameGridArray[this.anchor+10] === 0) && (this.anchor+10 >= 10) && this.falling){
+  //     gameGridArray[this.anchor]=0 //declare empty
+  //     this.anchor += 10
+  //   } else {
+  //     this.falling = false
+  //   }
+  // }
+
+  // clearLocation(gameGridArray) {
+  //   let indexTemp = 0
+  //   for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+  //     indexTemp = this.anchor+this.shape[i] //every pixel below
+  //     gameGridArray[indexTemp] = 0
+  //   }
+  // }
+
+  fall(gameGridArray){
+    let indexTemp = 0
     if ((gameGridArray[this.anchor+10] === 0) && (this.anchor+10 >= 10) && this.falling){
-      gameGridArray[this.anchor]=0 //declare empty
-      // console.log('falling...')
+      for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+        indexTemp = this.anchor+this.shape[i] //every pixel below
+        gameGridArray[indexTemp] = 0
+      }
       this.anchor += 10
     } else {
       this.falling = false
     }
   }
+
+
+
   move(gameGridArray, direction){
     console.log('Anchor: '+this.anchor)
     switch (direction) {
@@ -36,8 +110,15 @@ class Tetrimino {
     }
   }
   draw(gameGridArray, $gridSquares) {
-    gameGridArray[this.anchor] = 1
-    $gridSquares.siblings().eq(this.anchor).addClass(`${this.color}`)
+    // console.log('Anchor: '+this.anchor)
+    // console.log('This shape length ' + this.shape.length)
+    for (let i=0; i<this.shape.length; i++) {
+      let tempIndex = (this.anchor+this.shape[i])
+      gameGridArray[tempIndex]= 1 //fill in virtual grid
+      if (tempIndex > 39) {
+        $gridSquares.siblings().eq(tempIndex-40).addClass(`${this.color}`)
+      }
+    }
   }
   destroy() {
     // tetriSequence = tetriSequence.filter( u => {
@@ -51,61 +132,56 @@ class Tetrimino {
 class TetriA extends Tetrimino{
   constructor(anchor, falling){
     super(anchor, falling)
-    this.type = 'TetriA'
     this.color = 'red'
-    this.shape = [
-      [1,1],
-      [1,1]
-    ]
+    this.shape = [0, -10, -9, 1]
   }
-
-
 }
 
 class TetriB extends Tetrimino{
   constructor(anchor, falling){
     super(anchor, falling)
-    this.type = 'TetriB'
     this.color = 'green'
-    this.shape = [1,1,1,1]
+    this.shape = [0,1,-9,-19]
   }
 }
 
 class TetriC extends Tetrimino{
   constructor(anchor, falling){
     super(anchor, falling)
-    this.type = 'TetriC'
     this.color = 'blue'
-    this.shape = [
-      [1,1]
-    ]
+    this.shape = [0,-10,-20,-30]
   }
 }
 
 class TetriD extends Tetrimino{
   constructor(anchor, falling){
     super(anchor, falling)
-    this.type = 'TetriD'
     this.color = 'orange'
-    this.shape = [
-      [1,1]
-    ]
+    this.shape = [0,1,2,-9]
+  }
+}
+
+class TetriE extends Tetrimino{
+  constructor(anchor, falling){
+    super(anchor, falling)
+    this.color = 'pink'
+    this.shape = [0,-20,-10,1]
   }
 }
 
 
-// var tetri001 = new TetriA(0,'red')
-// var tetri002 = new TetriB(45,'green')
-// var tetri003 = new TetriC(48,'blue')
-// var tetri004 = new TetriD(18,'orange')
-// var tetri005 = new TetriA(65,'red')
-// var tetri006 = new TetriB(61,'green')
-// var tetri007 = new TetriC(104,'blue')
-// var tetri008 = new TetriD(4,'orange')
+class TetriF extends Tetrimino{
+  constructor(anchor, falling){
+    super(anchor, falling)
+    this.color = 'cyan'
+    this.shape = [0,1,-9,-8]
+  }
+}
 
-
-// new TetriD(18,'orange')
-// new TetriA(65,'red')
-// new TetriB(61,'green')
-// new TetriC(104,'blue')
-// new TetriD(4,'orange')
+class TetriG extends Tetrimino{
+  constructor(anchor, falling){
+    super(anchor, falling)
+    this.color = 'purple'
+    this.shape = [-10,-9,1,2]
+  }
+}

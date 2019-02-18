@@ -48,10 +48,22 @@ main {
         background-color: #00F;
         box-shadow: 0px 0px 5px #00F;
         border: 1px solid #88F; }
+      main gameGrid .row .pink {
+        background-color: #F0F;
+        box-shadow: 0px 0px 5px #F0F;
+        border: 1px solid #F9F; }
+      main gameGrid .row .purple {
+        background-color: #A0A;
+        box-shadow: 0px 0px 5px #A0A;
+        border: 1px solid #A5A; }
       main gameGrid .row .orange {
         background-color: #F90;
         box-shadow: 0px 0px 5px #F90;
         border: 1px solid #F96; }
+      main gameGrid .row .cyan {
+        background-color: #0DD;
+        box-shadow: 0px 0px 5px #0DD;
+        border: 1px solid #7DD; }
       main gameGrid .row .empty {
         background-color: none; }
   main footer {

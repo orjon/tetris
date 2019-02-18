@@ -7,14 +7,15 @@ $(() => {
   //
   // const gameGridWidth = 10
   // const gameGridHeight = 20
-  const gameGridTotal = 200
+  const gameGridTotal = 240
+  const startPosition = 34
 
   let tetriCount = 0
   const tetriSequence = []
   const gameGridArray = []
 
   function anyFalling() {
-    console.log('tetriSequence.length: '+ tetriSequence.length)
+    // console.log('tetriSequence.length: '+ tetriSequence.length)
     if (tetriSequence.length === 0) {
       return false
     } else if (tetriSequence[tetriSequence.length-1].falling) {
@@ -32,25 +33,25 @@ $(() => {
     console.log('New Tetrimino No: '+ tetriNum)
     switch (tetriNum) {
       case 1:
-      temp = new TetriA(0,'red')
+      temp = new TetriA(startPosition)
       break
       case 2:
-      temp = new TetriB(1,'green')
+      temp = new TetriB(startPosition)
       break
       case 3:
-      temp = new TetriC(2,'blue')
+      temp = new TetriC(startPosition)
       break
       case 4:
-      temp = new TetriD(3,'orange')
+      temp = new TetriD(startPosition)
       break
       case 5:
-      temp = new TetriA(4,'red')
+      temp = new TetriE(startPosition)
       break
       case 6:
-      temp = new TetriB(5,'green')
+      temp = new TetriF(startPosition)
       break
       case 7:
-      temp = new TetriC(6,'blue')
+      temp = new TetriG(startPosition)
       break
     }
     tetriSequence.push(temp)
@@ -65,7 +66,7 @@ $(() => {
       console.log('left')
       break
       case 38:
-       // up
+      // up
       console.log('up')
       break
       case 39: // right
@@ -81,7 +82,6 @@ $(() => {
   })
 
 
-
   function linearArray(array, length, defaultValue){
     for(var i=0; i < length; i++){
       array.push(defaultValue)
@@ -95,36 +95,33 @@ $(() => {
     $gridSquares.siblings().removeClass('green')
     $gridSquares.siblings().removeClass('blue')
     $gridSquares.siblings().removeClass('orange')
+    $gridSquares.siblings().removeClass('cyan')
+    $gridSquares.siblings().removeClass('pink')
+    $gridSquares.siblings().removeClass('purple')
     $gridSquares.siblings().addClass('empty')
   }
 
-
-
   function clockTick() {
-    // console.log('=========')
-    // console.log(tetriSequence)
+    console.log('--------------')
     if (anyFalling()=== false) {
       tetriNew()
     }
 
-    // console.log(tetriSequence)
     gridClear()
+
     for(var i=0; i < tetriSequence.length; i++){
+      console.log(i + ': '+tetriSequence[i].showLocation(gameGridArray))
+console.log(gameGridArray)
+      console.log(tetriSequence[i].checkBelow(gameGridArray))
       tetriSequence[i].fall(gameGridArray)
       tetriSequence[i].draw(gameGridArray, $gridSquares)
-
-      // console.log('TetriSequence: '+tetriSequence[i].type)
+      // console.log(tetriSequence[i].showLocation(gameGridArray))
     }
-
-
-
-
   }
 
   console.log(gameGridArray)
 
-
-  setInterval(clockTick,100)
+  setInterval(clockTick,200)
 
 
 })
