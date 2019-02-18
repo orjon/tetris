@@ -55,13 +55,13 @@ $(() => {
     }
     tetriSequence.push(temp)
     tetriCount++
-    console.log('Number of Tetriminos: '+ tetriCount)
+    // console.log('Number of Tetriminos: '+ tetriCount)
   }
 
   $(document).keydown(function(e) {
     switch(e.which) {
       case 37: // left
-      tetriSequence[(tetriSequence.length-1)].move(-1)
+      tetriSequence[(tetriSequence.length-1)].move(gameGridArray,'left')
       console.log('left')
       break
       case 38:
@@ -69,7 +69,7 @@ $(() => {
       console.log('up')
       break
       case 39: // right
-      tetriSequence[tetriSequence.length-1].move(1)
+      tetriSequence[tetriSequence.length-1].move(gameGridArray,'right')
       console.log('right')
       break
       case 40: // down
@@ -101,8 +101,8 @@ $(() => {
 
 
   function clockTick() {
-    console.log('=========')
-    console.log(tetriSequence)
+    // console.log('=========')
+    // console.log(tetriSequence)
     if (anyFalling()=== false) {
       tetriNew()
     }

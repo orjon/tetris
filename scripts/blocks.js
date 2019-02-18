@@ -6,25 +6,32 @@ class Tetrimino {
   fall(gameGridArray){
 
     if ((gameGridArray[this.anchor+10] === 0) && (this.anchor+10 >= 10) && this.falling){
-      gameGridArray[this.anchor]=0
+      gameGridArray[this.anchor]=0 //declare empty
       // console.log('falling...')
       this.anchor += 10
     } else {
       this.falling = false
     }
   }
-  move(direction){
+  move(gameGridArray, direction){
+    console.log('Anchor: '+this.anchor)
     switch (direction) {
-      case -1:
-      console.log(`${this.type} << Moving left`)
-      this.anchor--
+      case 'left':
+      if (gameGridArray[this.anchor-1]===0){
+        console.log(`${this.type} << Moving left`)
+        gameGridArray[this.anchor]=0 //declare empty
+        this.anchor--
+      }
       break
       case 0:
       console.log(`${this.type} - Not Moving -`)
       break
-      case 1:
-      console.log(`${this.type} Moving Right >>`)
-      this.anchor++
+      case 'right':
+      if (gameGridArray[this.anchor+1]===0){
+        console.log(`${this.type} Moving Right >>`)
+        gameGridArray[this.anchor]=0 //declare empty
+        this.anchor++
+      }
       break
     }
   }
