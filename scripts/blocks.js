@@ -1,12 +1,12 @@
-  const startPosition = 34
+const startPosition = 34
 
-  let tetriCount = 0
-  const tetriSequence = []
+const tetriSequence = []
+let tetriCount = 0
 
 class Tetrimino {
-  constructor(anchor){
-    this.anchor = anchor
-    this.falling = true
+  constructor(tetriName){
+    this.tetriName = tetriName
+    this.tetriFalling = true
   }
 
   // fall(gameGridArray){
@@ -59,15 +59,6 @@ class Tetrimino {
   }
 
 
-
-  // fall(gameGridArray){
-  //   if ((gameGridArray[this.anchor+10] === 0) && (this.anchor+10 >= 10) && this.falling){
-  //     gameGridArray[this.anchor]=0 //declare empty
-  //     this.anchor += 10
-  //   } else {
-  //     this.falling = false
-  //   }
-  // }
 
   clearGridLocation(gameGridArray) {
     console.log('Clear grid location')
@@ -122,7 +113,7 @@ class Tetrimino {
       let tempIndex = (this.anchor+this.shape[i])
       gameGridArray[tempIndex]= 1 //fill in virtual grid
       if (tempIndex > 39) {
-        $gridSquares.siblings().eq(tempIndex-40).addClass(`${this.color}`)
+        $gridSquares.siblings().eq(tempIndex).addClass(`${this.color}`)
       }
     }
   }
@@ -136,90 +127,95 @@ class Tetrimino {
 
 
 class TetriA extends Tetrimino{
-  constructor(anchor, falling){
-    super(anchor, falling)
+  constructor(teriName, tetriFalling){
+    super(teriName, tetriFalling)
     this.color = 'red'
-    this.shape = [0, -10, -9, 1]
+    this.shape = [30, 20, 21, 31]
   }
 }
 
 class TetriB extends Tetrimino{
-  constructor(anchor, falling){
-    super(anchor, falling)
+  constructor(teriName, tetriFalling){
+    super(teriName, tetriFalling)
     this.color = 'green'
-    this.shape = [0,1,-9,-19]
+    this.shape = [30,31,21,11]
   }
 }
 
 class TetriC extends Tetrimino{
-  constructor(anchor, falling){
-    super(anchor, falling)
+  constructor(teriName, tetriFalling){
+    super(teriName, tetriFalling)
     this.color = 'blue'
-    this.shape = [0,-10,-20,-30]
+    this.shape = [30,20,10,0]
   }
 }
 
 class TetriD extends Tetrimino{
-  constructor(anchor, falling){
-    super(anchor, falling)
+  constructor(teriName, tetriFalling){
+    super(teriName, tetriFalling)
     this.color = 'orange'
-    this.shape = [0,1,2,-9]
+    this.shape = [30,31,21,32]
   }
 }
 
 class TetriE extends Tetrimino{
-  constructor(anchor, falling){
-    super(anchor, falling)
+  constructor(teriName, tetriFalling){
+    super(teriName, tetriFalling)
     this.color = 'pink'
-    this.shape = [0,-20,-10,1]
+    this.shape = [30,31,20,10]
   }
 }
 
 
 class TetriF extends Tetrimino{
-  constructor(anchor, falling){
-    super(anchor, falling)
+  constructor(teriName, tetriFalling){
+    super(teriName, tetriFalling)
     this.color = 'cyan'
-    this.shape = [0,1,-9,-8]
+    this.shape = [30,31,21,22]
   }
 }
 
 class TetriG extends Tetrimino{
-  constructor(anchor, falling){
-    super(anchor, falling)
+  constructor(teriName, tetriFalling){
+    super(teriName, tetriFalling)
     this.color = 'purple'
-    this.shape = [-10,-9,1,2]
+    this.shape = [31,32,20,21]
   }
 }
 
+
+
 function tetriNew() {
-  let temp = 0
+  let tetriBaby = 0
   const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
   console.log('New Tetrimino No: '+ tetriNum)
   switch (tetriNum) {
     case 1:
-    temp = new TetriA(startPosition)
+    tetriBaby = new TetriA('A')
+    // tetriBaby = new TetriA(`tetri${tetriCount}`)
     break
     case 2:
-    temp = new TetriB(startPosition)
+    tetriBaby = new TetriB('b')
     break
     case 3:
-    temp = new TetriC(startPosition)
+    tetriBaby = new TetriC('c')
     break
     case 4:
-    temp = new TetriD(startPosition)
+    tetriBaby = new TetriD('d')
     break
     case 5:
-    temp = new TetriE(startPosition)
+    tetriBaby = new TetriE('e')
     break
     case 6:
-    temp = new TetriF(startPosition)
+    tetriBaby = new TetriF('f')
     break
     case 7:
-    temp = new TetriG(startPosition)
+    tetriBaby = new TetriG('h')
     break
   }
-  tetriSequence.push(temp)
+  console.log(tetriBaby)
+  tetriSequence.push(tetriBaby)
+  console.log('Tetri Seq: '+tetriSequence)
   tetriCount++
-  // console.log('Number of Tetriminos: '+ tetriCount)
+  console.log('Number of Tetriminos: '+ tetriCount)
 }

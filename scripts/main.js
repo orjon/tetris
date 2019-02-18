@@ -14,11 +14,18 @@ $(() => {
   const gameGridArray = []
   let occupiedArray = []
 
+
+
+
+
+
+
   function anyFalling() {
-    // console.log('tetriSequence.length: '+ tetriSequence.length)
+    console.log('> tetriSequence.length: '+ tetriSequence.length)
+    console.log('Falling: '+tetriSequence[tetriSequence.length-1])
     if (tetriSequence.length === 0) {
-      return false
-    } else if (tetriSequence[tetriSequence.length-1].falling) {
+      return false // New game coniditon
+    } else if (tetriSequence[tetriSequence.length-1].tetriFalling) {
       return true
     } else {
       return false
@@ -71,8 +78,12 @@ $(() => {
     $gridSquares.siblings().addClass('empty')
   }
 
+
+
+
+
   function gameOver(){
-    console.log('Lowest value: '+ Math.min(...occupiedArray))
+    // console.log('Lowest value: '+ Math.min(...occupiedArray))
   }
 
   function listNonZero(gameGridArray) {
@@ -93,23 +104,28 @@ $(() => {
 
     gridClear()
 
-    //Draw non-moving shapes
-    for(var i=0; i < tetriSequence.length-1; i++) {
-      console.log(i + ': '+tetriSequence[i].showLocation(gameGridArray))
-      tetriSequence[i].draw(gameGridArray, $gridSquares)
-    }
+    // for(var i=0; i < tetriSequence.length-1; i++) {
+    //   console.log(i + ': '+tetriSequence[i].showLocation(gameGridArray))
+    //   tetriSequence[i].draw(gameGridArray, $gridSquares)
+    // }
 
-    //Draw moving shape
-    tetriSequence[tetriSequence.length-1].clearGridLocation(gameGridArray)
-    tetriSequence[tetriSequence.length-1].fall(gameGridArray)
-    tetriSequence[tetriSequence.length-1].draw(gameGridArray, $gridSquares)
-    listNonZero(gameGridArray)
-    gameOver()
+    //Draw non-moving shapes
+    // for(var i=0; i < tetriSequence.length-1; i++) {
+    //   console.log(i + ': '+tetriSequence[i].showLocation(gameGridArray))
+    //   tetriSequence[i].draw(gameGridArray, $gridSquares)
+    // }
+    //
+    // //Draw moving shape
+    // tetriSequence[tetriSequence.length-1].clearGridLocation(gameGridArray)
+    // tetriSequence[tetriSequence.length-1].fall(gameGridArray)
+    // tetriSequence[tetriSequence.length-1].draw(gameGridArray, $gridSquares)
+    // listNonZero(gameGridArray)
+    // gameOver()
   }
 
   console.log(gameGridArray)
 
-  let gameLoop = setInterval(clockTick,250)
+  let gameLoop = setInterval(clockTick,1000)
 
 
 
