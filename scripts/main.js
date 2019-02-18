@@ -3,9 +3,9 @@ $(() => {
   console.log('hello')
 
   const gameGridTotal = 240
+let gameSpeed = 750
 
-
-  let occupiedArray = []
+  let gridLocationsOccupied = []
 
   // const startPosition = 34
   const gameGridArray = []
@@ -21,18 +21,6 @@ $(() => {
       this.tetriFalling = true
     }
 
-    // fall(){
-    //   for (let i=0; i<this.shape.length; i++) { //for each shape pixel
-    //     let tempIndex = this.anchor+this.shape[i]
-    //     if ((gameGridArray[tempIndex+10] === 0) && (tempIndex+10 >= 10) && this.falling){
-    //       gameGridArray[this.anchor]=0 //declare empty
-    //       this.anchor += 10
-    //     } else {
-    //       this.falling = false
-    //     }
-    //   }
-    // }
-
     // showLocation(){
     //   const tempArray = []
     //   for (let i=0; i<this.shape.length; i++) {
@@ -40,91 +28,32 @@ $(() => {
     //   }
     //   return `${tempArray}`
     // }
-    //
-    // checkStop(){
-    //   for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-    //     const tempIndex = this.anchor+this.shape[i]+10
-    //
-    //     if ((gameGridArray[tempIndex] === 0) && (tempIndex >= 10)){
-    //       return 'FALLING'
-    //       // return true
-    //     }
-    //   }
-    //   return 'STOPPED'
-    //   // return false
-    // }
-    //
-    //
-    // checkBelow(){
-    //   for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-    //     const indexBelow = this.anchor+this.shape[i]+10 //every pixel below
-    //     if (indexBelow > 229) {
-    //       return 'Touched bottom'
-    //     }
-    //     if (gameGridArray[indexBelow] === 1) {
-    //       return 'Obstruction'
-    //       // return true
-    //     }
-    //   }
-    //   return 'Free to fall'
-    //   // return false
-    // }
-
-
-
-    clearGridLocation() {
-      console.log('Clear grid location')
-      let indexTemp = 0
-      for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-        indexTemp = this.anchor+this.shape[i] //every pixel below
-        gameGridArray[indexTemp] = 0
-      }
-    }
-    //
-    // fall(){
-    //   // let indexTemp = 0
-    //   if ((gameGridArray[this.anchor+10] === 0) && (this.anchor+10 >= 10) && this.falling){
-    //     // for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-    //     //   indexTemp = this.anchor+this.shape[i] //every pixel below
-    //     //   gameGridArray[indexTemp] = 0
-    //     // }
-    //     this.anchor += 10
-    //   } else {
-    //     this.falling = false
-    //   }
-    // }
-
-    //
-    // checkBelow(){
-    //   for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-    //     const indexBelow = this.shape[i]+10 //every pixel below
-    //     if (indexBelow > 229) {
-    //       return 'Touched bottom'
-    //     }
-    //     if (gameGridArray[indexBelow] === 1) {
-    //       return 'Obstruction'
-    //       // return true
-    //     }
-    //   }
 
 
     hitSomething() {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationBelow = this.shape[i]+10 //every pixel below
-        if (gridLocationBelow > 229) {
-          return 'Touched bottom'
-        }
-        if (gameGridArray[gridLocationBelow] === 1) {
-          return 'Obstruction'
-          // return true
+        if (gridLocationBelow >= 240) {
+          return true
+        } else if (gridLocationsOccupied.includes(gridLocationBelow)) {
+          return true
         }
       }
+      return false
     }
 
 
     fall(){
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         this.shape[i] += 10 //every pixel below
+      }
+      if (this.hitSomething()) {
+        this.tetriFalling = false //stop block falling
+
+        for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+          gridLocationsOccupied.push(this.shape[i]) //and to occupied list
+        }
+        console.log(`Occupied: ${gridLocationsOccupied}`)
       }
     }
 
@@ -153,14 +82,17 @@ $(() => {
     }
 
     drawTeri() {
-      console.log('Draw tetri')
+
+      const gridLocations = []
       for (let i=0; i<this.shape.length; i++) {
+        gridLocations.push(this.shape[i])
         const gridLocationShifted = this.shape[i]-gridShift
-        console.log(this.shape[i])
+
         if (gridLocationShifted >= 0) {
           $gridSquares.siblings().eq(gridLocationShifted).addClass(`${this.color}`)
         }
       }
+      console.log(`Tetri @ ${gridLocations}`)
     }
 
     destroy() {
@@ -171,7 +103,6 @@ $(() => {
 
   }
 
-  // body > main > gamegrid > div:nth-child(7) > div:nth-child(2)
 
   class TetriA extends Tetrimino{
     constructor(teriName, tetriFalling){
@@ -235,11 +166,10 @@ $(() => {
   function tetriNew() {
     let tetriBaby = 0
     const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
-    console.log('New Tetrimino No: '+ tetriNum)
+    // console.log('New Tetrimino Type: '+ tetriNum)
     switch (tetriNum) {
       case 1:
         tetriBaby = new TetriA('a')
-        // tetriBaby = new TetriA(`tetri${tetriCount}`)
         break
       case 2:
         tetriBaby = new TetriB('b')
@@ -260,15 +190,14 @@ $(() => {
         tetriBaby = new TetriG('g')
         break
     }
-    console.log(tetriBaby)
     tetriSequence.push(tetriBaby)
     tetriCount++
-    console.log('New Tetriminos: '+ tetriCount)
+    console.log('Total Tetriminos: '+ tetriCount)
   }
 
 
   function anyFalling() {
-    console.log('tetriSequence.length: '+ tetriSequence.length)
+    // console.log('tetriSequence.length: '+ tetriSequence.length)
     if (tetriSequence.length === 0) {
       return false // New game coniditon
     } else if (tetriSequence[tetriSequence.length-1].tetriFalling) {
@@ -349,18 +278,18 @@ $(() => {
     }
 
     gridClear()
-    $gridSquares.siblings().eq(100-gridShift).addClass('cyan')
-    // console.log('Terti Seq: '+tetriSequence.tetriName)
 
 
-//draws all block
+    tetriSequence[tetriSequence.length-1].fall()
+
+    //draws all block
     for (var i=0; i < tetriSequence.length; i++) {
       // console.log(i + ': '+ tetriSequence[i].tetriName)
       tetriSequence[i].drawTeri()
     }
 
     //draw Move bloc
-    tetriSequence[tetriSequence.length-1].fall()
+
 
     //Draw non-moving shapes
     // for(var i=0; i < tetriSequence.length-1; i++) {
@@ -378,7 +307,7 @@ $(() => {
 
   console.log(gameGridArray)
 
-const gameLoop = setInterval(clockTick,1000)
+const gameLoop = setInterval(clockTick,gameSpeed)
 
 
 
