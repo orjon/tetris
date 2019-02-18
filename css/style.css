@@ -39,33 +39,40 @@ main {
         flex-direction: row;
         border: 1px solid #666; }
       main gameGrid .row .red {
+        color: #FAA;
         background-color: #F00;
         box-shadow: 0px 0px 5px #F00;
-        border: 1px solid #F88; }
+        border: 1px solid #FAA; }
       main gameGrid .row .green {
-        background-color: #0F0;
-        box-shadow: 0px 0px 5px #0F0;
-        border: 1px solid #8F8; }
+        color: #BFB;
+        background-color: #0D0;
+        box-shadow: 0px 0px 5px #0D0;
+        border: 1px solid #BFB; }
       main gameGrid .row .blue {
         background-color: #00F;
         box-shadow: 0px 0px 5px #00F;
-        border: 1px solid #88F; }
+        border: 1px solid #99F;
+        color: #99F; }
       main gameGrid .row .pink {
         background-color: #F0F;
         box-shadow: 0px 0px 5px #F0F;
-        border: 1px solid #F9F; }
+        border: 1px solid #FAF;
+        color: #FAF; }
       main gameGrid .row .purple {
         background-color: #A0A;
         box-shadow: 0px 0px 5px #A0A;
-        border: 1px solid #A5A; }
+        border: 1px solid #C9C;
+        color: #C9C; }
       main gameGrid .row .orange {
         background-color: #F90;
         box-shadow: 0px 0px 5px #F90;
-        border: 1px solid #F96; }
+        border: 1px solid #FC8;
+        color: #FC8; }
       main gameGrid .row .cyan {
         background-color: #0DD;
         box-shadow: 0px 0px 5px #0DD;
-        border: 1px solid #7DD; }
+        border: 1px solid #9FF;
+        color: #9FF; }
       main gameGrid .row .empty {
         background-color: none; }
   main footer {

@@ -3,7 +3,7 @@ $(() => {
   console.log('hello')
 
   const gameGridTotal = 240
-let gameSpeed = 750
+let gameSpeed = 250
 
   let gridLocationsOccupied = []
 
