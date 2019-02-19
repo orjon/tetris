@@ -3,7 +3,7 @@ $(() => {
   console.log('hello')
 
   const gameGridTotal = 240
-  const gameSpeed = 500
+  const gameSpeed = 250
 
   const gridLocationsOccupied = []
 
@@ -72,19 +72,6 @@ $(() => {
       }
     }
 
-    drawTeri() {
-
-      const gridLocations = []
-      for (let i=0; i<this.shape.length; i++) {
-        gridLocations.push(this.shape[i])
-        const gridLocationShifted = this.shape[i]-gridShift
-
-        if (gridLocationShifted >= 0) {
-          $gridSquares.siblings().eq(gridLocationShifted).addClass(`${this.color}`)
-        }
-      }
-      // console.log(`Tetri @ ${gridLocations}`)
-    }
 
     move(direction){
       switch (direction) {
@@ -110,6 +97,19 @@ $(() => {
       }
     }
 
+    drawTeri() {
+
+      const gridLocations = []
+      for (let i=0; i<this.shape.length; i++) {
+        gridLocations.push(this.shape[i])
+        const gridLocationShifted = this.shape[i]-gridShift
+
+        if (gridLocationShifted >= 0) {
+          $gridSquares.siblings().eq(gridLocationShifted).addClass(`${this.color}`)
+        }
+      }
+      // console.log(`Tetri @ ${gridLocations}`)
+    }
 
     destroy() {
       // tetriSequence = tetriSequence.filter( u => {
