@@ -32,7 +32,7 @@ main {
       justify-content: center; }
       main gameGrid .row .square {
         color: #444;
-        font-size: 0vh;
+        font-size: 1.5vh;
         width: 4vh;
         height: 4vh;
         display: flex;

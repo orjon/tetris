@@ -1,18 +1,31 @@
+/* eslint-disable no-unused-vars */
+
 $(() => {
 
   console.log('hello')
 
-  const gameGridTotal = 240
-  const gameSpeed = 250
+  const $gridSquares = $('.square')
 
+  const tetriSequence = []
+  let   tetriCount = 0
   const gridLocationsOccupied = []
 
-  // const startPosition = 34
-  const gameGridArray = []
-  const tetriSequence = []
-  let tetriCount = 0
-  const $gridSquares = $('.square')
-  const gridShift = 40
+
+  const soundMove = document.querySelector('.moveWav')
+  const soundRotate = document.querySelector('.rotateWav')
+
+  // function soundBump() {
+  //   // soundRotate.currentTime = 0
+  //   // soundRotate.playbackRate = 1
+  //   // soundRotate.play()
+  }
+
+  function soundNudge() {
+    soundMove.currentTime = 0
+    soundMove.playbackRate = 1
+    soundMove.play()
+  }
+
 
 
   class Tetrimino {
@@ -26,8 +39,10 @@ $(() => {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationBelow = this.shape[i]+10 //every pixel below
         if (gridLocationBelow >= 240) {
+          soundBump()
           return true //Hit bottom
         } else if (gridLocationsOccupied.includes(gridLocationBelow)) {
+          soundBump()
           return true //Hit another block
         }
       }
@@ -38,8 +53,13 @@ $(() => {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationLeft = this.shape[i]-1 //every pixel below
         if (this.shape[i] % 10 === 0) {
+          console.log('HIT LEFT')
+          soundBump()
           return true //Hit left
-        } else if (gridLocationsOccupied.includes(gridLocationLeft)) {
+        }
+        if (gridLocationsOccupied.includes(gridLocationLeft)) {
+          console.log('HIT OBJECT')
+          soundBump()
           return true //Hit another block
         }
       }
@@ -49,9 +69,14 @@ $(() => {
     hitSomethingRight() {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationRight = this.shape[i]+1 //every pixel below
-        if (this.shape[i] % 9 === 0) {
+        if ((this.shape[i]+1) % 10 === 0) {
+          console.log('HIT RIGHT')
+          soundBump()
           return true //Hit right
-        } else if (gridLocationsOccupied.includes(gridLocationRight)) {
+        }
+        if (gridLocationsOccupied.includes(gridLocationRight)) {
+          console.log('HIT OBJECT')
+          soundBump()
           return true //Hit another block
         }
       }
@@ -74,41 +99,61 @@ $(() => {
 
 
     move(direction){
+      gridClear()
       switch (direction) {
-        case 'left':
+        case 37: //left
           if (!this.hitSomethingLeft()) {
-            console.log('<< Moving left')
             for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
               this.shape[i] -= 1 //every pixel below
             }
+            soundNudge()
           }
           break
-        case 0:
+
+        case 38: //UP
+          clearInterval(gameLoop)
           console.log(' - Not Moving -')
           break
-        case 'right':
+
+
+        case 39: // right
           if (!this.hitSomethingRight()) {
-            console.log('Moving Right >>')
             for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
               this.shape[i] += 1 //every pixel below
             }
+            soundNudge()
+          }
+          break
+
+
+        case 40: // down
+          if (this.fellOnSomething()) {
+            this.tetriFalling = false //stop block falling
+          } else {
+            console.log('vv Moving Down vv')
+            for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+              this.shape[i] += 10 //every pixel below
+            }
+            soundNudge()
+
           }
           break
       }
+
+      for (var i=0; i < tetriSequence.length; i++) {
+        tetriSequence[i].drawTetri()
+      }
     }
 
-    drawTeri() {
-
+    drawTetri() {
       const gridLocations = []
       for (let i=0; i<this.shape.length; i++) {
         gridLocations.push(this.shape[i])
         const gridLocationShifted = this.shape[i]-gridShift
-
         if (gridLocationShifted >= 0) {
           $gridSquares.siblings().eq(gridLocationShifted).addClass(`${this.color}`)
         }
       }
-      // console.log(`Tetri @ ${gridLocations}`)
     }
 
     destroy() {
@@ -185,28 +230,29 @@ $(() => {
     // console.log('New Tetrimino Type: '+ tetriNum)
     switch (tetriNum) {
       case 1:
-        tetriBaby = new TetriA('a')
-        break
+      tetriBaby = new TetriA('a')
+      break
       case 2:
-        tetriBaby = new TetriB('b')
-        break
+      tetriBaby = new TetriB('b')
+      break
       case 3:
-        tetriBaby = new TetriC('c')
-        break
+      tetriBaby = new TetriC('c')
+      break
       case 4:
-        tetriBaby = new TetriD('d')
-        break
+      tetriBaby = new TetriD('d')
+      break
       case 5:
-        tetriBaby = new TetriE('e')
-        break
+      tetriBaby = new TetriE('e')
+      break
       case 6:
-        tetriBaby = new TetriF('f')
-        break
+      tetriBaby = new TetriF('f')
+      break
       case 7:
-        tetriBaby = new TetriG('g')
-        break
+      tetriBaby = new TetriG('g')
+      break
     }
     tetriSequence.push(tetriBaby)
+    tetriCurrent = tetriSequence[tetriSequence.length-1]
     tetriCount++
     console.log('Total Tetriminos: '+ tetriCount)
   }
@@ -216,7 +262,7 @@ $(() => {
     // console.log('tetriSequence.length: '+ tetriSequence.length)
     if (tetriSequence.length === 0) {
       return false // New game coniditon
-    } else if (tetriSequence[tetriSequence.length-1].tetriFalling) {
+    } else if (tetriCurrent.tetriFalling) {
       return true
     } else {
       return false
@@ -228,33 +274,10 @@ $(() => {
 
 
   $(document).keydown(function(e) {
-    switch(e.which) {
-      case 37: // left
-        tetriSequence[(tetriSequence.length-1)].move('left')
-        break
-      case 38:
-        console.log('up')
-        clearInterval(gameLoop)
-        break
-      case 39: // right
-        tetriSequence[tetriSequence.length-1].move('right')
-        break
-      case 40: // down
-        console.log('down')
-        break
-      default: return // exit this handler for other keys
-    }
     e.preventDefault() // prevent the default action (scroll / move caret)
+    tetriCurrent.move(e.which)
   })
 
-
-  function linearArray(array, length, defaultValue){
-    for(var i=0; i < length; i++){
-      array.push(defaultValue)
-    }
-  }
-
-  linearArray(gameGridArray,gameGridTotal,0)
 
   function gridClear(){
     $gridSquares.siblings().removeClass('red')
@@ -268,45 +291,25 @@ $(() => {
   }
 
 
-
-
-  //
-  // function gameOver(){
-  //   // console.log('Lowest value: '+ Math.min(...occupiedArray))
-  // }
-  //
-  // function listNonZero() {
-  //   occupiedArray = []
-  //   for(var i=0; i < gameGridArray.length; i++){
-  //     if (gameGridArray[i] != 0) {
-  //       occupiedArray.push(i)
-  //     }
-  //   }
-  //   console.log('Occupied: '+occupiedArray)
-  // }
-
   function clockTick() {
-    // console.log('--------------')
     if (anyFalling()=== false) {
-      tetriNew()
+      tetriNew(tetriCurrent)
     }
 
     gridClear()
-
     tetriSequence[tetriSequence.length-1].fall()
+    // tetriSequence[tetriSequence.length-1].drawTetri()
 
-    //draws all block
+    // draws all block
     for (var i=0; i < tetriSequence.length; i++) {
-      tetriSequence[i].drawTeri()
+
+      tetriSequence[i].drawTetri()
     }
 
-    // listNonZero(gameGridArray)
-    // gameOver()
   }
 
-  console.log(gameGridArray)
 
-const gameLoop = setInterval(clockTick,gameSpeed)
+  const gameLoop = setInterval(clockTick,gameSpeed)
 
 
 

@@ -1,5 +1,14 @@
 const gameGridArray = []
 
+const gameSpeed = 500
+
+
+
+
+
+const gridShift = 40
+let tetriCurrent = undefined
+
 
 const $gridSquares = $('.square')
 
