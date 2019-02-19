@@ -1,4 +1,7 @@
 $gridSquare : 4vh;
+// $gridSquareLabelSize :1.5vh;
+$gridSquareLabelSize :0vh;
+
 $blockColorRed : #F00;
 $blockColorEdgeRed : #FAA;
 $blockColorGreen : #0D0;
@@ -9,10 +12,8 @@ $blockColorOrange: #F90;
 $blockColorEdgeOrange : #FC8;
 $blockColorPink: #F0F;
 $blockColorEdgePink : #FAF;
-
 $blockColorPurple: #A0A;
 $blockColorEdgePurple : #C9C;
-
 $blockColorCyan: #0DD;
 $blockColorEdgeCyan: #9FF;
 
@@ -64,7 +65,7 @@ main {
 
       .square {
         color: #444;
-        font-size: 1.5vh;
+        font-size: $gridSquareLabelSize;
         width: $gridSquare;
         height: $gridSquare;
         display: flex;
