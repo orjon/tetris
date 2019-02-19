@@ -18,18 +18,18 @@ main {
   main header {
     height: 10vh;
     width: 100vw; }
-  main gameGrid {
+  main #gameGrid {
     height: 85vh;
     width: 0 auto;
     border: 1px dashed darkgrey;
     display: flex;
     flex-direction: column;
     border: 1px red; }
-    main gameGrid .row {
+    main #gameGrid .row {
       display: flex;
       flex-direction: row;
       justify-content: center; }
-      main gameGrid .row .square {
+      main #gameGrid .row .square {
         color: #444;
         font-size: 1.5vh;
         width: 4vh;
@@ -37,42 +37,42 @@ main {
         display: flex;
         flex-direction: row;
         border: 1px solid #666; }
-      main gameGrid .row .red {
+      main #gameGrid .row .red {
         color: #FAA;
         background-color: #F00;
         box-shadow: 0px 0px 5px #F00;
         border: 1px solid #FAA; }
-      main gameGrid .row .green {
+      main #gameGrid .row .green {
         color: #BFB;
         background-color: #0D0;
         box-shadow: 0px 0px 5px #0D0;
         border: 1px solid #BFB; }
-      main gameGrid .row .blue {
+      main #gameGrid .row .blue {
         background-color: #00F;
         box-shadow: 0px 0px 5px #00F;
         border: 1px solid #99F;
         color: #99F; }
-      main gameGrid .row .pink {
+      main #gameGrid .row .pink {
         background-color: #F0F;
         box-shadow: 0px 0px 5px #F0F;
         border: 1px solid #FAF;
         color: #FAF; }
-      main gameGrid .row .purple {
+      main #gameGrid .row .purple {
         background-color: #A0A;
         box-shadow: 0px 0px 5px #A0A;
         border: 1px solid #C9C;
         color: #C9C; }
-      main gameGrid .row .orange {
+      main #gameGrid .row .orange {
         background-color: #F90;
         box-shadow: 0px 0px 5px #F90;
         border: 1px solid #FC8;
         color: #FC8; }
-      main gameGrid .row .cyan {
+      main #gameGrid .row .cyan {
         background-color: #0DD;
         box-shadow: 0px 0px 5px #0DD;
         border: 1px solid #9FF;
         color: #9FF; }
-      main gameGrid .row .empty {
+      main #gameGrid .row .empty {
         background-color: none; }
   main footer {
     height: 5vh; }
