@@ -14,10 +14,10 @@ $(() => {
   const soundMove = document.querySelector('.moveWav')
   const soundRotate = document.querySelector('.rotateWav')
 
-  // function soundBump() {
-  //   // soundRotate.currentTime = 0
-  //   // soundRotate.playbackRate = 1
-  //   // soundRotate.play()
+  function soundBump() {
+    // soundRotate.currentTime = 0
+    // soundRotate.playbackRate = 1
+    // soundRotate.play()
   }
 
   function soundNudge() {
