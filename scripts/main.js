@@ -1,9 +1,7 @@
 /* eslint-disable no-unused-vars */
-
-
 $(() => {
 
-  console.log('hello')
+  console.log('Welcome to Tetris')
 
 const $gameGrid = $('#gameGrid')
   const $gridSquares = $('.square')
@@ -18,27 +16,36 @@ const $gameGrid = $('#gameGrid')
   const startPosition = 34
   let rowsToRemove = []
   let soundOn = false
+  let gamePaused = false
 
-
-  const soundMove = document.querySelector('.moveWav')
-  const soundRotate = document.querySelector('.rotateWav')
+  const soundMoveWav = document.querySelector('.moveWav')
+  const soundBumpWav = document.querySelector('.rotateWav')
 
   function soundBump() {
     if (!soundOn) {
       return
     }
-    soundRotate.currentTime = 0
-    soundRotate.playbackRate = 1
-    soundRotate.play()
+    soundBumpWav.currentTime = 0
+    soundBumpWav.playbackRate = 1
+    soundBumpWav.play()
   }
 
   function soundNudge() {
     if (!soundOn) {
       return
     }
-    soundMove.currentTime = 0
-    soundMove.playbackRate = 1
-    soundMove.play()
+    soundMoveWav.currentTime = 0
+    soundMoveWav.playbackRate = 1
+    soundMoveWav.play()
+  }
+
+  function soundRotate() {
+    if (!soundOn) {
+      return
+    }
+    // soundRotateWav.currentTime = 0
+    // soundRotateWav.playbackRate = 1
+    // soundRotateWav.play()
   }
 
 
@@ -76,7 +83,7 @@ const $gameGrid = $('#gameGrid')
     }
 
 
-    fallOnSomething() {
+    willFallOnSomething() {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationBelow = this.shape[i]+10 //every pixel below
         if (gridLocationBelow >= 240) {
@@ -135,45 +142,46 @@ const $gameGrid = $('#gameGrid')
     move(direction){
       gridClear()
       switch (direction) {
+        case 32: //sapcebar
+          this.rotate()
+          break
         case 37: //left
-        if (!this.hitSomethingLeft()) {
-          for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-            this.shape[i] -= 1 //every pixel below
+          if (!this.hitSomethingLeft()) {
+            soundNudge()
+            for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+              this.shape[i] -= 1 //every pixel below
+            }
           }
-          soundNudge()
-        }
-        break
-
+          break
         case 38: //UP
-        clearInterval(gameLoop)
-        console.log(' - Not Moving -')
-        break
-
-
+          if (!gamePaused) {
+            clearInterval(looper)
+            console.log(' - Paused -')
+            gamePaused = true
+          } else {
+            looper = setInterval(gameLoop,gameSpeed)
+            console.log(' - Resume -')
+            gamePaused = false
+          }
+          break
         case 39: // right
-        if (!this.hitSomethingRight()) {
-          for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-            this.shape[i] += 1 //every pixel below
+          if (!this.hitSomethingRight()) {
+            soundNudge()
+            for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+              this.shape[i] += 1 //every pixel below
+            }
           }
-          soundNudge()
-        }
-        break
-
-
+          break
         case 40: // down
-        if (this.fallOnSomething()) {
-          this.tetriFalling = false //stop block falling
-
-
-        } else {
-          console.log('vv Moving Down vv')
-          for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-            this.shape[i] += 10 //every pixel below
+          if (this.willFallOnSomething()) {
+            this.tetriFalling = false //stop block falling
+          } else {
+            soundNudge()
+            for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+              this.shape[i] += 10 //every pixel below
+            }
           }
-          soundNudge()
-
-        }
-        break
+          break
       }
 
       for (let i=0; i < tetriSequence.length; i++) {
@@ -205,7 +213,10 @@ const $gameGrid = $('#gameGrid')
     constructor(teriName, tetriFalling){
       super(teriName, tetriFalling)
       this.color = 'red'
-      this.shape = [30, 20, 21, 31]
+      this.shape = [31,30,21,20]
+    }
+    rotate(){
+      console.log('Rotate')
     }
   }
 
@@ -213,7 +224,14 @@ const $gameGrid = $('#gameGrid')
     constructor(teriName, tetriFalling){
       super(teriName, tetriFalling)
       this.color = 'green'
-      this.shape = [30,31,21,11]
+      this.shape = [31,30,21,11]
+
+    }
+    rotate(){
+      console.log('Rotate')
+      const rotate1 = [1,-10,0,11]
+      for (let i=0; i<this.shape.length; i++)
+        this.shape[i]+= rotate1[i]
     }
   }
 
@@ -229,7 +247,7 @@ const $gameGrid = $('#gameGrid')
     constructor(teriName, tetriFalling){
       super(teriName, tetriFalling)
       this.color = 'orange'
-      this.shape = [30,31,21,32]
+      this.shape = [32,31,30,21]
     }
   }
 
@@ -237,7 +255,7 @@ const $gameGrid = $('#gameGrid')
     constructor(teriName, tetriFalling){
       super(teriName, tetriFalling)
       this.color = 'pink'
-      this.shape = [30,31,20,10]
+      this.shape = [31,30,20,10]
     }
   }
 
@@ -246,7 +264,7 @@ const $gameGrid = $('#gameGrid')
     constructor(teriName, tetriFalling){
       super(teriName, tetriFalling)
       this.color = 'cyan'
-      this.shape = [30,31,21,22]
+      this.shape = [31,30,22,21]
     }
   }
 
@@ -254,7 +272,7 @@ const $gameGrid = $('#gameGrid')
     constructor(teriName, tetriFalling){
       super(teriName, tetriFalling)
       this.color = 'purple'
-      this.shape = [31,32,20,21]
+      this.shape = [32,31,21,20]
     }
   }
 
@@ -313,9 +331,10 @@ const $gameGrid = $('#gameGrid')
     $gridSquares.siblings().addClass('empty')
   }
 
-
-  for (let i=0; i < tetriSequence.length; i++) {
-    tetriSequence[i].drawTetri()
+  function drawAll() {
+    for (let i=0; i < tetriSequence.length; i++) {
+      tetriSequence[i].drawTetri()
+    }
   }
 
   function removeOccurances(array, element) {
@@ -331,25 +350,23 @@ const $gameGrid = $('#gameGrid')
         for (let k=0; k<tetriSequence[j].shape.length; k++) { //loop through all blocks
           if (tetriSequence[j].shape[k] < (rowsToRemove[i]*10)) {
             console.log('Removing index: '+tetriSequence[j].shape[k])
-            // gridLocationsOccupied = removeOccurances(gridLocationsOccupied, tetriSequence[j].shape[k])
             tetriSequence[j].shape[k] += 10
           }
         }
       }
       for (let l=0; l<gridLocationsOccupied.length; l++) {
-        gridLocationsOccupied[l] +=10
+        if (gridLocationsOccupied[l]<(rowsToRemove[i]*10)) {
+          gridLocationsOccupied[l] +=10
+        }
       }
       console.log(`Occupied (less): ${gridLocationsOccupied}`)
     }
-
   }
 
   function removeRows() {
-    // console.log('Row remover....')
-    for (let i=0; i<tetriSequence.length; i++){ //loop through all blocks
-      // console.log('checking block: '+i)
+    for (let i=0; i<tetriSequence.length; i++){ //loop through all blocks on grid
       const numberPixels = tetriSequence[i].shape.length
-      for (let j=numberPixels-1 ; j>=0; j--) {//loop through all block locations
+      for (let j=numberPixels-1 ; j>=0; j--) {//loop through all grid locations occupied by block (backwards)
         if (rowsToRemove.includes(Math.floor(tetriSequence[i].shape[j]/10))){
           console.log('Remove '+tetriSequence[i].shape[j])
           gridLocationsOccupied = removeOccurances(gridLocationsOccupied, tetriSequence[i].shape[j]) //Updates list of occupied spaces.
@@ -399,30 +416,25 @@ const $gameGrid = $('#gameGrid')
 
 
 
-  function clockTick() {
-    tetriCurrent.fallOnSomething()
+  function gameLoop() {
+    tetriCurrent.willFallOnSomething()
 
     if (!tetriCurrent.isFalling) {
       checkFullRows()
       tetriNew(tetriCurrent)
     }
-
     gridClear()
     tetriCurrent.fall()
-
-    // draws all block
-    for (let i=0; i < tetriSequence.length; i++) {
-      tetriSequence[i].drawTetri()
-    }
+    drawAll()
   }
 
 
 
-// createBoard()
-console.log('make first')
-tetriNew(tetriCurrent)
-console.log('start')
+  // createBoard()
+  console.log('make first')
+  tetriNew(tetriCurrent)
+  console.log('start')
 
-  const gameLoop = setInterval(clockTick,gameSpeed)
+  let looper = setInterval(gameLoop,gameSpeed)
 
 })
