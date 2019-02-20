@@ -17,14 +17,14 @@ const $gameGrid = $('#gameGrid')
   const gameGridTotal = 240
   const startPosition = 34
   let rowsToRemove = []
-  let soundOff = true
+  let soundOn = true
 
 
   const soundMove = document.querySelector('.moveWav')
   const soundRotate = document.querySelector('.rotateWav')
 
   function soundBump() {
-    if (soundOff) {
+    if (!soundOn) {
       return
     }
     soundRotate.currentTime = 0
@@ -33,7 +33,7 @@ const $gameGrid = $('#gameGrid')
   }
 
   function soundNudge() {
-    if (soundOff) {
+    if (!soundOn) {
       return
     }
     soundMove.currentTime = 0
@@ -57,28 +57,37 @@ const $gameGrid = $('#gameGrid')
 
 
 
-
-
   class Tetrimino {
     constructor(tetriName){
       this.tetriName = tetriName
-      this.tetriFalling = true
+      this.isFalling = true
+    }
+
+    stopFalling() {
+      this.isFalling = false //stop block falling
+      soundBump()
+      for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+        gridLocationsOccupied.push(this.shape[i]) //and to occupied list
+      }
+      gridLocationsOccupied.sort()
+      console.log(`Occupied: ${gridLocationsOccupied}`)
     }
 
 
-    fellOnSomething() {
+    fallOnSomething() {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationBelow = this.shape[i]+10 //every pixel below
         if (gridLocationBelow >= 240) {
-          soundBump()
+          this.stopFalling()
           return true //Hit bottom
         } else if (gridLocationsOccupied.includes(gridLocationBelow)) {
-          soundBump()
+          this.stopFalling()
           return true //Hit another block
         }
       }
       return false //Not hit anything
     }
+
 
     hitSomethingLeft() {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
@@ -114,21 +123,12 @@ const $gameGrid = $('#gameGrid')
       return false //Not hit anything
     }
 
+
     fall(){
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         this.shape[i] += 10 //every pixel below
       }
-      if (this.fellOnSomething()) {
-        this.tetriFalling = false //stop block falling
-
-        for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-          gridLocationsOccupied.push(this.shape[i]) //and to occupied list
-        }
-        gridLocationsOccupied.sort()
-        console.log(`Occupied: ${gridLocationsOccupied}`)
-      }
     }
-
 
     move(direction){
       gridClear()
@@ -159,14 +159,8 @@ const $gameGrid = $('#gameGrid')
 
 
         case 40: // down
-        if (this.fellOnSomething()) {
+        if (this.fallOnSomething()) {
           this.tetriFalling = false //stop block falling
-
-          for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-            gridLocationsOccupied.push(this.shape[i]) //and to occupied list
-          }
-          gridLocationsOccupied.sort()
-          console.log(`Occupied: ${gridLocationsOccupied}`)
 
         } else {
           console.log('vv Moving Down vv')
@@ -266,7 +260,7 @@ const $gameGrid = $('#gameGrid')
   function tetriNew() {
     let tetriBaby = 0
     // const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
-    const tetriNum = (Math.floor(Math.random() * 4)+1) //find random
+    const tetriNum = (Math.floor(Math.random() * 1)+1) //find random
     // console.log('New Tetrimino Type: '+ tetriNum)
     switch (tetriNum) {
       case 1:
@@ -298,18 +292,6 @@ const $gameGrid = $('#gameGrid')
   }
 
 
-  function anyFalling() {
-    // console.log('tetriSequence.length: '+ tetriSequence.length)
-    if (tetriSequence.length === 0) {
-      return false // New game coniditon
-    } else if (tetriCurrent.tetriFalling) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
     tetriCurrent.move(e.which)
@@ -329,18 +311,20 @@ const $gameGrid = $('#gameGrid')
   }
 
 
-function removeRows() {
-  console.log('All blocks')
-  for (let i=0; i<tetriSequence[tetriSequence.length]; i++){
-    console.log(tetriSequence[i])
+  function removeRows() {
+    console.log('Row remover....')
+    for (let i=0; i<tetriSequence.length; i++){
+
+      console.log(tetriSequence[i])
+    }
+
   }
-
-}
-
 
 
   function checkRow(rowNumber) {
-    for (let j=0; j<10; j++) {
+    // console.log('Checking row '+rowNumber)
+    for (let j=0; j<10; j++) {    // Loop through all cells
+      // console.log('Cell '+j)
       if (!gridLocationsOccupied.includes(rowNumber*10+j)) {
         return false
       }
@@ -350,17 +334,20 @@ function removeRows() {
   }
 
 
-  function checkLines() {
+  function checkFullRows() {
     rowsToRemove = []
     let linesCounted = 0
     for (let i=4; i<24; i +=1) {
-      if (checkRow(i)) {
+      if (checkRow(i)) {  //Loop through all rows
         linesCounted++
       }
     }
-    console.log('Completed rows: '+ rowsToRemove)
-    if (rowsToRemove !== []) {
+
+    if (rowsToRemove.length > 0) {
+      console.log('Completed rows: '+ rowsToRemove)
       removeRows()
+    } else {
+      console.log('No rows to remove')
     }
   }
 
@@ -370,13 +357,15 @@ function removeRows() {
 
 
   function clockTick() {
-    if (anyFalling() === false) {
-      checkLines()
+    tetriCurrent.fallOnSomething()
+
+    if (!tetriCurrent.isFalling) {
+      checkFullRows()
       tetriNew(tetriCurrent)
     }
 
     gridClear()
-    tetriSequence[tetriSequence.length-1].fall()
+    tetriCurrent.fall()
 
     // draws all block
     for (var i=0; i < tetriSequence.length; i++) {
@@ -385,6 +374,10 @@ function removeRows() {
   }
 
 // createBoard()
+console.log('make first')
+tetriNew(tetriCurrent)
+console.log('start')
+
   const gameLoop = setInterval(clockTick,gameSpeed)
 
 })
