@@ -5,6 +5,7 @@ $(() => {
 
   console.log('hello')
 
+const $gameGrid = $('#gameGrid')
   const $gridSquares = $('.square')
   const tetriSequence = []
   let   tetriCount = 0
@@ -16,22 +17,45 @@ $(() => {
   const gameGridTotal = 240
   const startPosition = 34
   let rowsToRemove = []
+  let soundOff = true
 
 
   const soundMove = document.querySelector('.moveWav')
   const soundRotate = document.querySelector('.rotateWav')
 
   function soundBump() {
+    if (soundOff) {
+      return
+    }
     soundRotate.currentTime = 0
     soundRotate.playbackRate = 1
     soundRotate.play()
   }
 
   function soundNudge() {
+    if (soundOff) {
+      return
+    }
     soundMove.currentTime = 0
     soundMove.playbackRate = 1
     soundMove.play()
   }
+
+
+  // function createBoard() {
+  //   let gridNumbers = '' //40 //starting point for visible grid
+  //   for (let i=0; i<20; i++){ //Create 20 rows of..
+  //
+  //     $('<div></div>').addClass('row').appendTo($gameGrid) //Divs with .row, with
+  //   }
+  //   for (let j=0; j<10; j++) {
+  //     $('.row').append('<div>'+gridNumbers+'</div>') //10 Divs with gridNumbers++
+  //     // gridNumbers++
+  //   }
+  //   $('#gameGrid .row').children().addClass('square') //
+  // }
+
+
 
 
 
@@ -286,7 +310,7 @@ $(() => {
   }
 
 
-  $(document).keydown(function(e) {
+  $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
     tetriCurrent.move(e.which)
   })
@@ -341,6 +365,10 @@ function removeRows() {
   }
 
 
+
+
+
+
   function clockTick() {
     if (anyFalling() === false) {
       checkLines()
@@ -356,7 +384,7 @@ function removeRows() {
     }
   }
 
-
+// createBoard()
   const gameLoop = setInterval(clockTick,gameSpeed)
 
 })
