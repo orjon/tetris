@@ -9,9 +9,9 @@ const $gameGrid = $('#gameGrid')
   const $gridSquares = $('.square')
   const tetriSequence = []
   let   tetriCount = 0
-  const gridLocationsOccupied = []
+  let gridLocationsOccupied = []
   const gameGridArray = []
-  const gameSpeed = 500
+  const gameSpeed = 250
   const gridShift = 40
   let tetriCurrent = []
   const gameGridTotal = 240
@@ -162,6 +162,7 @@ const $gameGrid = $('#gameGrid')
         if (this.fallOnSomething()) {
           this.tetriFalling = false //stop block falling
 
+
         } else {
           console.log('vv Moving Down vv')
           for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
@@ -173,7 +174,7 @@ const $gameGrid = $('#gameGrid')
         break
       }
 
-      for (var i=0; i < tetriSequence.length; i++) {
+      for (let i=0; i < tetriSequence.length; i++) {
         tetriSequence[i].drawTetri()
       }
     }
@@ -260,7 +261,7 @@ const $gameGrid = $('#gameGrid')
   function tetriNew() {
     let tetriBaby = 0
     // const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
-    const tetriNum = (Math.floor(Math.random() * 1)+1) //find random
+    const tetriNum = (Math.floor(Math.random() * 3)+1) //find random
     // console.log('New Tetrimino Type: '+ tetriNum)
     switch (tetriNum) {
       case 1:
@@ -311,14 +312,33 @@ const $gameGrid = $('#gameGrid')
   }
 
 
+  for (let i=0; i < tetriSequence.length; i++) {
+    tetriSequence[i].drawTetri()
+  }
+
+  function removeOccurances(array, element) {
+    return array.filter(el => el !== element)
+  }
+
+
+
   function removeRows() {
     console.log('Row remover....')
-    for (let i=0; i<tetriSequence.length; i++){
-
-      console.log(tetriSequence[i])
+    for (let i=0; i<tetriSequence.length; i++){ //loop through all blocks
+      console.log('checking block: '+i)
+      const numberPixels = tetriSequence[i].shape.length
+      for (let j=numberPixels-1 ; j>=0; j--) {//loop through all block locations
+        if (rowsToRemove.includes(Math.floor(tetriSequence[i].shape[j]/10))){
+          console.log('Remove '+tetriSequence[i].shape[j])
+          gridLocationsOccupied = removeOccurances(gridLocationsOccupied, tetriSequence[i].shape[j]) //Updates list of occupied spaces.
+          tetriSequence[i].shape.splice(j,1)
+        }
+      } // finish each block
+      // gridClear()
+      tetriSequence[i].drawTetri()
     }
-
   }
+
 
 
   function checkRow(rowNumber) {
@@ -346,6 +366,7 @@ const $gameGrid = $('#gameGrid')
     if (rowsToRemove.length > 0) {
       console.log('Completed rows: '+ rowsToRemove)
       removeRows()
+
     } else {
       console.log('No rows to remove')
     }
@@ -368,10 +389,12 @@ const $gameGrid = $('#gameGrid')
     tetriCurrent.fall()
 
     // draws all block
-    for (var i=0; i < tetriSequence.length; i++) {
+    for (let i=0; i < tetriSequence.length; i++) {
       tetriSequence[i].drawTetri()
     }
   }
+
+
 
 // createBoard()
 console.log('make first')
