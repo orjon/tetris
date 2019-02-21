@@ -9,7 +9,7 @@ const $gameGrid = $('#gameGrid')
   let   tetriCount = 0
   let gridLocationsOccupied = []
   const gameGridArray = []
-  const gameSpeed = 250
+  const gameSpeed = 750
   const gridShift = 40
   let tetriCurrent = []
   const gameGridTotal = 240
@@ -68,7 +68,9 @@ const $gameGrid = $('#gameGrid')
     constructor(tetriName){
       this.tetriName = tetriName
       this.isFalling = true
+      this.rotation = 0
     }
+
 
     stopFalling() {
       this.isFalling = false //stop block falling
@@ -115,6 +117,7 @@ const $gameGrid = $('#gameGrid')
       return false //Not hit anything
     }
 
+
     hitSomethingRight() {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationRight = this.shape[i]+1 //every pixel below
@@ -139,12 +142,10 @@ const $gameGrid = $('#gameGrid')
       }
     }
 
+
     move(direction){
       gridClear()
       switch (direction) {
-        case 32: //sapcebar
-          this.rotate()
-          break
         case 37: //left
           if (!this.hitSomethingLeft()) {
             soundNudge()
@@ -183,10 +184,7 @@ const $gameGrid = $('#gameGrid')
           }
           break
       }
-
-      for (let i=0; i < tetriSequence.length; i++) {
-        tetriSequence[i].drawTetri()
-      }
+      drawAll()
     }
 
     drawTetri() {
@@ -205,84 +203,177 @@ const $gameGrid = $('#gameGrid')
       //   return u.
       // })
     }
-
   }
 
+  function canRotate(currentPosition, rotationMatrix) {
+    const rotatedPosition = []
+    let onLeft = false
+    let onRight = false
+
+    console.log('rotationMatrix: '+rotationMatrix)
+
+    for (let i=0; i<currentPosition.length; i++) {
+      rotatedPosition.push(currentPosition[i]+rotationMatrix[i])
+
+      if (rotatedPosition.length === 4) {
+        console.log(rotatedPosition)
+      }
+
+      if (gridLocationsOccupied.includes(rotatedPosition[i])){
+        console.log('HIT OBJECT')
+        soundBump()
+        return false
+      }
+      if ((rotatedPosition[i] % 10) === 0) {
+        console.log('left hit with: '+rotatedPosition[i])
+        onLeft = true
+      }
+      if (((rotatedPosition[i]+1) % 10) === 0) {
+        console.log('right hit with: '+rotatedPosition[i])
+        onRight = true
+      }
+    }
+
+    if (onLeft && onRight) {
+      console.log('HIT WALL')
+      soundBump()
+      return false
+    }
+    return true
+  }
 
   class TetriA extends Tetrimino{
-    constructor(teriName, tetriFalling){
-      super(teriName, tetriFalling)
+    constructor(teriName, tetriFalling, rotation){
+      super(teriName, tetriFalling, rotation)
       this.color = 'red'
       this.shape = [31,30,21,20]
     }
     rotate(){
-      console.log('Rotate')
     }
   }
 
   class TetriB extends Tetrimino{
-    constructor(teriName, tetriFalling){
-      super(teriName, tetriFalling)
+    constructor(teriName, tetriFalling, rotation){
+      super(teriName, tetriFalling, rotation)
       this.color = 'green'
-      this.shape = [31,30,21,11]
+      this.shape = [30,31,21,11]
+    }
 
-    }
     rotate(){
-      console.log('Rotate')
-      const rotate1 = [1,-10,0,11]
-      for (let i=0; i<this.shape.length; i++)
-        this.shape[i]+= rotate1[i]
+      let rotationMatrix = []
+      this.rotation += 90
+      if (this.rotation === 360) this.rotation = 0
+      console.log('Rotation '+this.rotation)
+      switch (this.rotation) {
+        case 0:
+          rotationMatrix = [20,11,0,-11]
+          break
+        case 90:
+          rotationMatrix = [2,-11,0,11]
+          break
+        case 180:
+          rotationMatrix = [-20,11,0,-11]
+          break
+        case 270:
+          rotationMatrix = [-2,-11,0,11]
+          break
+      }
+
+      if (canRotate(this.shape, rotationMatrix)) {
+        for (let i=0; i<this.shape.length; i++) {
+          this.shape[i] += rotationMatrix[i]
+        }
+        drawAll()
+      }
     }
+
   }
 
   class TetriC extends Tetrimino{
-    constructor(teriName, tetriFalling){
-      super(teriName, tetriFalling)
+    constructor(teriName, tetriFalling, rotation){
+      super(teriName, tetriFalling, rotation)
       this.color = 'blue'
-      this.shape = [30,20,10,0]
+      this.shape = [31,21,11,1]
     }
+
+    rotate(){
+      this.rotation += 90
+      let rotationMatrix = []
+      if (this.rotation === 360) this.rotation = 0
+      console.log('Rotation '+this.rotation)
+      switch (this.rotation) {
+        case 0:
+          rotationMatrix = [11,0,-11,-22]
+          break
+        case 90:
+          rotationMatrix = [-11,0,11,22]
+          break
+        case 180:
+          rotationMatrix = [12,-9,0,-21]
+          break
+        case 270:
+          rotationMatrix = [-12,9,0,21]
+          break
+      }
+
+      if (canRotate(this.shape, rotationMatrix)) {
+        for (let i=0; i<this.shape.length; i++) {
+          this.shape[i] += rotationMatrix[i]
+        }
+      } else {
+        this.rotation -= 90
+        if (this.rotation === -90) this.rotation = 270
+      }
+      console.log('Rotation '+this.rotation)
+      // gridClear()
+drawAll()
+      // this.shape = checkRotation(this.shape, rotationMatrix)
+      // console.log('recieved: '+this.shape)
+      //
+      // gridClear()
+      // drawAll()
+    }
+
   }
 
   class TetriD extends Tetrimino{
-    constructor(teriName, tetriFalling){
-      super(teriName, tetriFalling)
+    constructor(teriName, tetriFalling, rotation){
+      super(teriName, tetriFalling, rotation)
       this.color = 'orange'
       this.shape = [32,31,30,21]
     }
   }
 
   class TetriE extends Tetrimino{
-    constructor(teriName, tetriFalling){
-      super(teriName, tetriFalling)
+    constructor(teriName, tetriFalling, rotation){
+      super(teriName, tetriFalling, rotation)
       this.color = 'pink'
       this.shape = [31,30,20,10]
     }
   }
 
-
   class TetriF extends Tetrimino{
-    constructor(teriName, tetriFalling){
-      super(teriName, tetriFalling)
+    constructor(teriName, tetriFalling, rotation){
+      super(teriName, tetriFalling, rotation)
       this.color = 'cyan'
       this.shape = [31,30,22,21]
     }
   }
 
   class TetriG extends Tetrimino{
-    constructor(teriName, tetriFalling){
-      super(teriName, tetriFalling)
+    constructor(teriName, tetriFalling, rotation){
+      super(teriName, tetriFalling, rotation)
       this.color = 'purple'
       this.shape = [32,31,21,20]
     }
   }
 
 
-
   function tetriNew() {
     let tetriBaby = 0
+
     // const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
-    const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
-    // console.log('New Tetrimino Type: '+ tetriNum)
+    const tetriNum = 3 //find random
     switch (tetriNum) {
       case 1:
         tetriBaby = new TetriA('a')
@@ -312,13 +403,14 @@ const $gameGrid = $('#gameGrid')
     console.log('Total Tetriminos: '+ tetriCount)
   }
 
-
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
-    tetriCurrent.move(e.which)
+    if (e.which === 32) {
+      tetriCurrent.rotate()
+    } else {
+      tetriCurrent.move(e.which)
+    }
   })
-
-
 
   function gridClear(){
     $gridSquares.siblings().removeClass('red')
@@ -332,6 +424,7 @@ const $gameGrid = $('#gameGrid')
   }
 
   function drawAll() {
+    gridClear()
     for (let i=0; i < tetriSequence.length; i++) {
       tetriSequence[i].drawTetri()
     }
@@ -378,8 +471,6 @@ const $gameGrid = $('#gameGrid')
     }
   }
 
-
-
   function checkRow(rowNumber) {
     // console.log('Checking row '+rowNumber)
     for (let j=0; j<10; j++) {    // Loop through all cells
@@ -392,7 +483,6 @@ const $gameGrid = $('#gameGrid')
     return true
   }
 
-
   function checkFullRows() {
     rowsToRemove = []
     let linesCounted = 0
@@ -401,7 +491,6 @@ const $gameGrid = $('#gameGrid')
         linesCounted++
       }
     }
-
     if (rowsToRemove.length > 0) {
       console.log('Completed rows: '+ rowsToRemove)
       removeRows()
@@ -411,11 +500,6 @@ const $gameGrid = $('#gameGrid')
     }
   }
 
-
-
-
-
-
   function gameLoop() {
     tetriCurrent.willFallOnSomething()
 
@@ -423,12 +507,9 @@ const $gameGrid = $('#gameGrid')
       checkFullRows()
       tetriNew(tetriCurrent)
     }
-    gridClear()
     tetriCurrent.fall()
     drawAll()
   }
-
-
 
   // createBoard()
   console.log('make first')
@@ -436,5 +517,4 @@ const $gameGrid = $('#gameGrid')
   console.log('start')
 
   let looper = setInterval(gameLoop,gameSpeed)
-
 })
