@@ -17,6 +17,7 @@ $(() => {
   let rowsToRemove = []
   let soundOn = true
   let gamePaused = false
+  let looper = undefined
 
   const soundThemeWav  = document.querySelector('audio.theme')
   const soundNudgeWav  = document.querySelector('audio.nudge')
@@ -668,10 +669,7 @@ $(() => {
     }
   }
 
-  function gameEnd() {
-    clearInterval(looper)
-    console.log('you lose!')
-  }
+
 
   function gameLoop() {
 
@@ -688,7 +686,12 @@ $(() => {
   // createBoard()
   function startGame() {
     tetriNew(tetriCurrent)
-    let looper = setInterval(gameLoop,gameSpeed)
+    looper = setInterval(gameLoop,gameSpeed)
+  }
+
+  function gameEnd() {
+    clearInterval(looper)
+    console.log('you lose!')
   }
   //
 
