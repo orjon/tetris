@@ -9,7 +9,7 @@ const $gameGrid = $('#gameGrid')
   let   tetriCount = 0
   let gridLocationsOccupied = []
   const gameGridArray = []
-  const gameSpeed = 750
+  const gameSpeed = 500
   const gridShift = 40
   let tetriCurrent = []
   const gameGridTotal = 240
@@ -209,36 +209,26 @@ const $gameGrid = $('#gameGrid')
     const rotatedPosition = []
     let onLeft = false
     let onRight = false
-
     console.log('rotationMatrix: '+rotationMatrix)
-
     for (let i=0; i<currentPosition.length; i++) {
       rotatedPosition.push(currentPosition[i]+rotationMatrix[i])
-
       if (rotatedPosition.length === 4) {
         console.log(rotatedPosition)
       }
-
       if (gridLocationsOccupied.includes(rotatedPosition[i])){
         console.log('HIT OBJECT')
         soundBump()
         return false
       }
-      if ((rotatedPosition[i] % 10) === 0) {
-        console.log('left hit with: '+rotatedPosition[i])
-        onLeft = true
-      }
-      if (((rotatedPosition[i]+1) % 10) === 0) {
-        console.log('right hit with: '+rotatedPosition[i])
-        onRight = true
-      }
+      if ((rotatedPosition[i] % 10) === 0) onLeft = true
+      if (((rotatedPosition[i]+1) % 10) === 0) onRight = true
     }
-
     if (onLeft && onRight) {
       console.log('HIT WALL')
       soundBump()
       return false
     }
+    soundRotate()
     return true
   }
 
@@ -249,6 +239,7 @@ const $gameGrid = $('#gameGrid')
       this.shape = [31,30,21,20]
     }
     rotate(){
+      soundRotate()
     }
   }
 
@@ -258,7 +249,6 @@ const $gameGrid = $('#gameGrid')
       this.color = 'green'
       this.shape = [30,31,21,11]
     }
-
     rotate(){
       let rotationMatrix = []
       this.rotation += 90
@@ -266,27 +256,29 @@ const $gameGrid = $('#gameGrid')
       console.log('Rotation '+this.rotation)
       switch (this.rotation) {
         case 0:
-          rotationMatrix = [20,11,0,-11]
+          rotationMatrix = [-2,11,0,-11]
           break
         case 90:
-          rotationMatrix = [2,-11,0,11]
+          rotationMatrix = [-20,-11,0,11]
           break
         case 180:
-          rotationMatrix = [-20,11,0,-11]
+          rotationMatrix = [2,11,0,-11]
           break
         case 270:
-          rotationMatrix = [-2,-11,0,11]
+          rotationMatrix = [20,-11,0,11]
           break
       }
-
       if (canRotate(this.shape, rotationMatrix)) {
         for (let i=0; i<this.shape.length; i++) {
           this.shape[i] += rotationMatrix[i]
         }
-        drawAll()
+      } else {
+        this.rotation -= 90
+        if (this.rotation === -90) this.rotation = 270
       }
+      console.log('Rotation '+this.rotation)
+      drawAll()
     }
-
   }
 
   class TetriC extends Tetrimino{
@@ -315,7 +307,6 @@ const $gameGrid = $('#gameGrid')
           rotationMatrix = [-12,9,0,21]
           break
       }
-
       if (canRotate(this.shape, rotationMatrix)) {
         for (let i=0; i<this.shape.length; i++) {
           this.shape[i] += rotationMatrix[i]
@@ -325,38 +316,117 @@ const $gameGrid = $('#gameGrid')
         if (this.rotation === -90) this.rotation = 270
       }
       console.log('Rotation '+this.rotation)
-      // gridClear()
-drawAll()
-      // this.shape = checkRotation(this.shape, rotationMatrix)
-      // console.log('recieved: '+this.shape)
-      //
-      // gridClear()
-      // drawAll()
+      drawAll()
     }
-
   }
 
   class TetriD extends Tetrimino{
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'orange'
-      this.shape = [32,31,30,21]
+      this.shape = [30,21,32,31]
+    }
+    rotate(){
+      this.rotation += 90
+      let rotationMatrix = []
+      if (this.rotation === 360) this.rotation = 0
+      console.log('Rotation '+this.rotation)
+      switch (this.rotation) {
+        case 0:
+          rotationMatrix = [0,0,-9,0]
+          break
+        case 90:
+          rotationMatrix = [11,0,0,0]
+          break
+        case 180:
+          rotationMatrix = [-11,20,0,0]
+          break
+        case 270:
+          rotationMatrix = [0,-20,9,0]
+          break
+      }
+      if (canRotate(this.shape, rotationMatrix)) {
+        for (let i=0; i<this.shape.length; i++) {
+          this.shape[i] += rotationMatrix[i]
+        }
+      } else {
+        this.rotation -= 90
+        if (this.rotation === -90) this.rotation = 270
+      }
+      console.log('Rotation '+this.rotation)
+      drawAll()
     }
   }
+
 
   class TetriE extends Tetrimino{
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'pink'
-      this.shape = [31,30,20,10]
+      this.shape = [11,21,31,32]
+    }
+    rotate(){
+      let rotationMatrix = []
+      this.rotation += 90
+      if (this.rotation === 360) this.rotation = 0
+      console.log('Rotation '+this.rotation)
+      switch (this.rotation) {
+        case 0:
+          rotationMatrix = [-9,0,9,20]
+          break
+        case 90:
+          rotationMatrix = [11,0,-11,-2]
+          break
+        case 180:
+          rotationMatrix = [9,0,-9,-20]
+          break
+        case 270:
+          rotationMatrix = [-11,0,11,2]
+          break
+      }
+      if (canRotate(this.shape, rotationMatrix)) {
+        for (let i=0; i<this.shape.length; i++) {
+          this.shape[i] += rotationMatrix[i]
+        }
+      } else {
+        this.rotation -= 90
+        if (this.rotation === -90) this.rotation = 270
+      }
+      console.log('Rotation '+this.rotation)
+      drawAll()
     }
   }
+
 
   class TetriF extends Tetrimino{
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'cyan'
-      this.shape = [31,30,22,21]
+      this.shape = [21,30,31,22]
+    }
+    rotate(){
+      let rotationMatrix = []
+      this.rotation += 90
+      if (this.rotation === 180) this.rotation = 0
+      console.log('Rotation '+this.rotation)
+      switch (this.rotation) {
+        case 0:
+          rotationMatrix = [0,20,0,2]
+          break
+        case 90:
+          rotationMatrix = [0,-20,0,-2]
+          break
+      }
+      if (canRotate(this.shape, rotationMatrix)) {
+        for (let i=0; i<this.shape.length; i++) {
+          this.shape[i] += rotationMatrix[i]
+        }
+      } else {
+        this.rotation -= 90
+        if (this.rotation === -90) this.rotation = 90
+      }
+      console.log('Rotation '+this.rotation)
+      drawAll()
     }
   }
 
@@ -364,7 +434,31 @@ drawAll()
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'purple'
-      this.shape = [32,31,21,20]
+      this.shape = [21,31,32,20]
+    }
+    rotate(){
+      let rotationMatrix = []
+      this.rotation += 90
+      if (this.rotation === 180) this.rotation = 0
+      console.log('Rotation '+this.rotation)
+      switch (this.rotation) {
+        case 0:
+          rotationMatrix = [0,0,20,-2]
+          break
+        case 90:
+          rotationMatrix = [0,0,-20,2]
+          break
+      }
+      if (canRotate(this.shape, rotationMatrix)) {
+        for (let i=0; i<this.shape.length; i++) {
+          this.shape[i] += rotationMatrix[i]
+        }
+      } else {
+        this.rotation -= 90
+        if (this.rotation === -90) this.rotation = 90
+      }
+      console.log('Rotation '+this.rotation)
+      drawAll()
     }
   }
 
@@ -372,8 +466,8 @@ drawAll()
   function tetriNew() {
     let tetriBaby = 0
 
-    // const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
-    const tetriNum = 3 //find random
+    const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
+    // const tetriNum = 3 //find random
     switch (tetriNum) {
       case 1:
         tetriBaby = new TetriA('a')
