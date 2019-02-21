@@ -109,6 +109,16 @@ $(() => {
     soundNudgeWav.play()
   }
 
+  function soundSoftNudge() {
+    if (!soundOn) {
+      return
+    }
+    soundNudgeWav.currentTime = 0
+    soundBumpWav.playbackRate = .5
+    soundBumpWav.volumne = .2
+    soundNudgeWav.play()
+  }
+
   function soundRotate() {
     if (!soundOn) {
       return
@@ -230,6 +240,11 @@ $(() => {
             }
           }
           break
+        case 77: //m = music
+          musicOn = !musicOn
+          soundThemeWav.pause()
+          if (musicOn) soundThemeWav.play()
+          break
         case 80: //P for pause
           if (!gamePaused) {
             soundThemeWav.pause()
@@ -242,6 +257,9 @@ $(() => {
             console.log(' - Resume -')
             gamePaused = false
           }
+          break
+        case 83: //s = sound
+          soundOn = !soundOn
           break
         case 39: // right
           if (!this.hitSomethingRight()) {
@@ -274,12 +292,6 @@ $(() => {
           $gridSquares.siblings().eq(gridLocationShifted).addClass(`${this.color}`)
         }
       }
-    }
-
-    destroy() {
-      // tetriSequence = tetriSequence.filter( u => {
-      //   return u.
-      // })
     }
   }
 
@@ -665,7 +677,7 @@ $(() => {
 
 
   function gameLoop() {
-
+    // soundSoftNudge()
     tetriCurrent.willFallOnSomething()
     if (!tetriCurrent.isFalling) {
       checkFullRows()
