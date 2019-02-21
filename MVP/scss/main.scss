@@ -1,0 +1,134 @@
+$gridSquare : 4vh;
+$gridSquareLabelSize :1.5vh;
+// $gridSquareLabelSize :0vh;
+
+$blockColorRed : #F00;
+$blockColorEdgeRed : #FAA;
+$blockColorGreen : #0D0;
+$blockColorEdgeGreen : #BFB;
+$blockColorBlue : #00F;
+$blockColorEdgeBlue : #99F;
+$blockColorOrange: #F90;
+$blockColorEdgeOrange : #FC8;
+$blockColorPink: #F0F;
+$blockColorEdgePink : #FAF;
+$blockColorPurple: #A0A;
+$blockColorEdgePurple : #C9C;
+$blockColorCyan: #0DD;
+$blockColorEdgeCyan: #9FF;
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+
+  font-family: sans-serif;
+}
+
+body {
+  background-color: #555;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  // border: 1px solid darkgrey;
+
+  header {
+    height: 10vh;
+    width: 100vw;
+    // border: 1px dashed darkgrey;
+  }
+
+  #gameGrid {
+    height: 85vh;
+    width: 0 auto;
+    border: 1px dashed darkgrey;
+    display: flex;
+    flex-direction: column;
+    border: 1px red;
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+
+      .square {
+        color: #444;
+        font-size: $gridSquareLabelSize;
+        width: $gridSquare;
+        height: $gridSquare;
+        display: flex;
+        flex-direction: row;
+        border: 1px solid #666;
+
+
+      }
+      .red {
+        color: $blockColorEdgeRed;
+        background-color: $blockColorRed;
+        box-shadow: 0px 0px 5px $blockColorRed;
+        border: 1px solid $blockColorEdgeRed;
+      }
+      .green {
+        color: $blockColorEdgeGreen;
+        background-color: $blockColorGreen;
+        box-shadow: 0px 0px 5px $blockColorGreen;
+        border: 1px solid $blockColorEdgeGreen;
+      }
+      .blue {
+        background-color: $blockColorBlue;
+        box-shadow: 0px 0px 5px $blockColorBlue;
+        border: 1px solid $blockColorEdgeBlue;
+        color:  $blockColorEdgeBlue;
+      }
+      .pink {
+        background-color: $blockColorPink;
+        box-shadow: 0px 0px 5px $blockColorPink;
+        border: 1px solid $blockColorEdgePink;
+        color:  $blockColorEdgePink;
+      }
+      .purple{
+        background-color: $blockColorPurple;
+        box-shadow: 0px 0px 5px $blockColorPurple;
+        border: 1px solid $blockColorEdgePurple;
+        color: $blockColorEdgePurple;
+      }
+      .orange {
+        background-color: $blockColorOrange;
+        box-shadow: 0px 0px 5px $blockColorOrange;
+        border: 1px solid $blockColorEdgeOrange;
+        color:  $blockColorEdgeOrange;
+      }
+      .cyan {
+        background-color: $blockColorCyan;
+        box-shadow: 0px 0px 5px $blockColorCyan;
+        border: 1px solid $blockColorEdgeCyan;
+        color: $blockColorEdgeCyan;
+      }
+      .empty {
+        // visibility: hidden;
+        // display:none;
+        background-color: none;
+        // background-color: rgba(255,0,0,0);
+      }
+
+    }
+
+  }
+
+  footer {
+    height: 5vh;
+    // border: 1px dashed darkgrey;
+  }
+}
