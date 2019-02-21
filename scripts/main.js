@@ -16,6 +16,7 @@ $(() => {
   const startPosition = 34
   let rowsToRemove = []
   let soundOn = true
+  let musicOn = false
   let gamePaused = false
   let looper = undefined
 
@@ -52,7 +53,7 @@ $(() => {
     // soundNudge()
     soundTheme()
     // setInterval(soundTheme,48000)
-    setTimeout(startGame,500)
+    setTimeout(startGame,0)
   })
 
 
@@ -119,7 +120,7 @@ $(() => {
   }
 
   function soundTheme() {
-    if (!soundOn) {
+    if (!musicOn) {
       return
     }
     soundThemeWav.loop = true
@@ -312,7 +313,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'red'
-      this.shape = [31,30,21,20]
+      this.shape = [35,34,25,24]
     }
     rotate(){
       soundRotate()
@@ -323,7 +324,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'green'
-      this.shape = [30,31,21,11]
+      this.shape = [34,35,25,15]
     }
     rotate(){
       let rotationMatrix = []
@@ -359,7 +360,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'blue'
-      this.shape = [31,21,11,1]
+      this.shape = [35,25,15,5]
     }
 
     rotate(){
@@ -396,7 +397,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'cyan'
-      this.shape = [30,21,32,31]
+      this.shape = [34,25,36,35]
     }
     rotate(){
       this.rotation += 90
@@ -433,7 +434,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'pink'
-      this.shape = [11,21,31,32]
+      this.shape = [15,25,35,36]
     }
     rotate(){
       let rotationMatrix = []
@@ -469,7 +470,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'orange'
-      this.shape = [21,30,31,22]
+      this.shape = [24,33,34,25]
     }
     rotate(){
       let rotationMatrix = []
@@ -499,7 +500,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'purple'
-      this.shape = [21,31,32,20]
+      this.shape = [24,34,35,23]
     }
     rotate(){
       let rotationMatrix = []
@@ -691,6 +692,7 @@ $(() => {
 
   function gameEnd() {
     clearInterval(looper)
+    soundThemeWav.pause()
     console.log('you lose!')
   }
   //

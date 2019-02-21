@@ -37,7 +37,6 @@ body {
 }
 
 #titleScreen {
-  box-shadow: inset 0px 0px 100px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -45,15 +44,26 @@ body {
   width: 100vw;
   // border: 1px solid blue;
 
-  .titleWrapper {
-    height: 90vh;
+  #imageWrapper {
+    height: 5vh;
     width: 100vw;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     // border: 1px solid green;
+    img {
+      opacity: 1;
+      margin-top: 91.5vh;
+      width: 80vw;
+    }
   }
+
+  .spacer {
+    height: 85vh;
+    width: 100vw;
+  }
+
 
   .startButtonWrapper {
     height: 10vh;
@@ -74,48 +84,8 @@ body {
     //
     // }
 
+  }
 }
-}
-
-
-
-
-
-//
-//     #startButton {
-//       position: relative;
-//
-//       img {
-//         position: absolute;
-//         opacity: 0.6;
-//         // transition: opacity 1s ease-in-out;
-//         // -moz-transition: opacity 1s ease-in-out;
-//         // -webkit-transition: opacity 1s ease-in-out;
-//       }
-//
-//       img:hover {
-//         opacity: 1.0;
-//         transition: opacity .55s ease-in;
-//       }
-//     }
-//   }
-// }
-//
-//
-// // img {
-// //     opacity: 0.6;
-// //     transition: opacity 1s ease-in-out;
-// //     -moz-transition: opacity 1s ease-in-out;
-// //     -webkit-transition: opacity 1s ease-in-out;
-// // }
-// // img:hover {
-// //     opacity: 1.0;
-// //     transition: opacity .55s ease-in-out;
-// //     -moz-transition: opacity .55s ease-in-out;
-// //     -webkit-transition: opacity .55s ease-in-out;
-// // }​
-//
-
 
 
 main {
@@ -127,8 +97,19 @@ main {
   // border: 1px solid darkgrey;
 
   header {
-    height: 7.5vh;
+    height: 5vh;
     width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      opacity: 1;
+      margin-top: 92vh;
+      width: 80vw;
+      // border: 2px solid $white;
+    }
   }
 
   #gameGrid {
@@ -136,7 +117,7 @@ main {
     width: 0 auto;
     display: flex;
     flex-direction: column;
-    border: 1px red;
+    // border: 1px red;
 
     .highlight {
       box-shadow: 0px 0px 10px $white;
@@ -152,13 +133,14 @@ main {
 
 
       .square {
+        opacity: 0.75;
         color: #444;
         font-size: $gridSquareLabelSize;
         width: $gridSquare;
         height: $gridSquare;
         display: flex;
         flex-direction: row;
-        border: 1px solid #666;
+        border: 1px solid #777;  //#666
 
 
       }
@@ -219,7 +201,51 @@ main {
   }
 
   footer {
-    height: 2.5vh;
+    height: 5vh;
     // border: 1px dashed darkgrey;
   }
 }
+
+
+
+
+
+
+
+
+
+
+//
+//     #startButton {
+//       position: relative;
+//
+//       img {
+//         position: absolute;
+//         opacity: 0.6;
+//         // transition: opacity 1s ease-in-out;
+//         // -moz-transition: opacity 1s ease-in-out;
+//         // -webkit-transition: opacity 1s ease-in-out;
+//       }
+//
+//       img:hover {
+//         opacity: 1.0;
+//         transition: opacity .55s ease-in;
+//       }
+//     }
+//   }
+// }
+//
+//
+// // img {
+// //     opacity: 0.6;
+// //     transition: opacity 1s ease-in-out;
+// //     -moz-transition: opacity 1s ease-in-out;
+// //     -webkit-transition: opacity 1s ease-in-out;
+// // }
+// // img:hover {
+// //     opacity: 1.0;
+// //     transition: opacity .55s ease-in-out;
+// //     -moz-transition: opacity .55s ease-in-out;
+// //     -webkit-transition: opacity .55s ease-in-out;
+// // }​
+//
