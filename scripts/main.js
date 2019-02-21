@@ -80,7 +80,9 @@ $(() => {
           gridLocationsOccupied.push(this.shape[i])
         } //and to occupied list
       }
-      gridLocationsOccupied.sort()
+      gridLocationsOccupied.sort((a, b) => {
+        return a-b
+      })
       console.log(`Occupied (more): ${gridLocationsOccupied}`)
     }
 
@@ -104,12 +106,10 @@ $(() => {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationLeft = this.shape[i]-1 //every pixel below
         if (this.shape[i] % 10 === 0) {
-          console.log('HIT LEFT')
           soundBump()
           return true //Hit left
         }
         if (gridLocationsOccupied.includes(gridLocationLeft)) {
-          console.log('HIT OBJECT')
           soundBump()
           return true //Hit another block
         }
@@ -122,12 +122,10 @@ $(() => {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         const gridLocationRight = this.shape[i]+1 //every pixel below
         if ((this.shape[i]+1) % 10 === 0) {
-          console.log('HIT RIGHT')
           soundBump()
           return true //Hit right
         }
         if (gridLocationsOccupied.includes(gridLocationRight)) {
-          console.log('HIT OBJECT')
           soundBump()
           return true //Hit another block
         }
@@ -209,19 +207,13 @@ $(() => {
     const rotatedPosition = []
     let onLeft = false
     let onRight = false
-    console.log('rotationMatrix: '+rotationMatrix)
     for (let i=0; i<currentPosition.length; i++) {
       rotatedPosition.push(currentPosition[i]+rotationMatrix[i])
-      if (rotatedPosition.length === 4) {
-        console.log(rotatedPosition)
-      }
       if (rotatedPosition[i] >= 240) {
-        console.log('HIT BOTTOM')
         soundBump()
         return false //Hit bottom
       }
       if (gridLocationsOccupied.includes(rotatedPosition[i])){
-        console.log('HIT OBJECT')
         soundBump()
         return false
       }
@@ -229,7 +221,6 @@ $(() => {
       if (((rotatedPosition[i]+1) % 10) === 0) onRight = true
     }
     if (onLeft && onRight) {
-      console.log('HIT WALL')
       soundBump()
       return false
     }
@@ -258,7 +249,6 @@ $(() => {
       let rotationMatrix = []
       this.rotation += 90
       if (this.rotation === 360) this.rotation = 0
-      console.log('Rotation '+this.rotation)
       switch (this.rotation) {
         case 0:
           rotationMatrix = [-2,11,0,-11]
@@ -281,7 +271,6 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 270
       }
-      console.log('Rotation '+this.rotation)
       drawAll()
     }
   }
@@ -297,7 +286,6 @@ $(() => {
       this.rotation += 90
       let rotationMatrix = []
       if (this.rotation === 360) this.rotation = 0
-      console.log('Rotation '+this.rotation)
       switch (this.rotation) {
         case 0:
           rotationMatrix = [11,0,-11,-22]
@@ -320,7 +308,6 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 270
       }
-      console.log('Rotation '+this.rotation)
       drawAll()
     }
   }
@@ -328,14 +315,13 @@ $(() => {
   class TetriD extends Tetrimino{
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
-      this.color = 'orange'
+      this.color = 'cyan'
       this.shape = [30,21,32,31]
     }
     rotate(){
       this.rotation += 90
       let rotationMatrix = []
       if (this.rotation === 360) this.rotation = 0
-      console.log('Rotation '+this.rotation)
       switch (this.rotation) {
         case 0:
           rotationMatrix = [0,0,-9,0]
@@ -358,7 +344,6 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 270
       }
-      console.log('Rotation '+this.rotation)
       drawAll()
     }
   }
@@ -374,7 +359,6 @@ $(() => {
       let rotationMatrix = []
       this.rotation += 90
       if (this.rotation === 360) this.rotation = 0
-      console.log('Rotation '+this.rotation)
       switch (this.rotation) {
         case 0:
           rotationMatrix = [-9,0,9,20]
@@ -397,23 +381,20 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 270
       }
-      console.log('Rotation '+this.rotation)
       drawAll()
     }
   }
 
-
   class TetriF extends Tetrimino{
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
-      this.color = 'cyan'
+      this.color = 'orange'
       this.shape = [21,30,31,22]
     }
     rotate(){
       let rotationMatrix = []
       this.rotation += 90
       if (this.rotation === 180) this.rotation = 0
-      console.log('Rotation '+this.rotation)
       switch (this.rotation) {
         case 0:
           rotationMatrix = [0,20,0,2]
@@ -430,7 +411,6 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 90
       }
-      console.log('Rotation '+this.rotation)
       drawAll()
     }
   }
@@ -445,7 +425,6 @@ $(() => {
       let rotationMatrix = []
       this.rotation += 90
       if (this.rotation === 180) this.rotation = 0
-      console.log('Rotation '+this.rotation)
       switch (this.rotation) {
         case 0:
           rotationMatrix = [0,0,20,-2]
@@ -462,7 +441,6 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 90
       }
-      console.log('Rotation '+this.rotation)
       drawAll()
     }
   }
@@ -470,18 +448,16 @@ $(() => {
 
   function tetriNew() {
     let tetriBaby = 0
-
-    const tetriNum = (Math.floor(Math.random() * 1)+1) //find random
-    // const tetriNum = 3 //find random
+    const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
     switch (tetriNum) {
+      case 1:
+        tetriBaby = new TetriC('c')
+        break
       case 3:
         tetriBaby = new TetriA('a')
         break
       case 2:
         tetriBaby = new TetriB('b')
-        break
-      case 1:
-        tetriBaby = new TetriC('c')
         break
       case 4:
         tetriBaby = new TetriD('d')
@@ -534,14 +510,10 @@ $(() => {
   }
 
   function dropRowsAbove(rowsToRemove) {
-    console.log(`Occupied (current): ${gridLocationsOccupied}`)
-    console.log('Row above dropper')
     for (let i=0; i<rowsToRemove.length; i++){ //loop through all removed lines
-      console.log('Removing row: '+rowsToRemove[i])
       for (let j=0; j<tetriSequence.length; j++) { //loop through all blocks
         for (let k=0; k<tetriSequence[j].shape.length; k++) { //loop through all blocks
           if (tetriSequence[j].shape[k] < (rowsToRemove[i]*10)) {
-            console.log('Removing index: '+tetriSequence[j].shape[k])
             tetriSequence[j].shape[k] += 10
           }
         }
@@ -551,29 +523,33 @@ $(() => {
           gridLocationsOccupied[l] +=10
         }
       }
-      console.log(`Occupied (less): ${gridLocationsOccupied}`)
     }
   }
 
   function removeRows() {
+    const tetriDead = []
     for (let i=0; i<tetriSequence.length; i++){ //loop through all blocks on grid
       const numberPixels = tetriSequence[i].shape.length
       for (let j=numberPixels-1 ; j>=0; j--) {//loop through all grid locations occupied by block (backwards)
         if (rowsToRemove.includes(Math.floor(tetriSequence[i].shape[j]/10))){
-          console.log('Remove '+tetriSequence[i].shape[j])
           gridLocationsOccupied = removeOccurances(gridLocationsOccupied, tetriSequence[i].shape[j]) //Updates list of occupied spaces.
           tetriSequence[i].shape.splice(j,1)
         }
       } // finish each block
       // gridClear()
       tetriSequence[i].drawTetri()
+      if (tetriSequence[i].shape.length === 0) {
+        tetriDead.push(i)
+
+      }
     }
+    // for (let i=0; i<tetriDead.length; i++) {
+    //   tetriSequence.splice(i,1)
+    // }
   }
 
   function checkRow(rowNumber) {
-    // console.log('Checking row '+rowNumber)
     for (let j=0; j<10; j++) {    // Loop through all cells
-      // console.log('Cell '+j)
       if (!gridLocationsOccupied.includes(rowNumber*10+j)) {
         return false
       }
@@ -591,29 +567,37 @@ $(() => {
       }
     }
     if (rowsToRemove.length > 0) {
-      console.log('Completed rows: '+ rowsToRemove)
       removeRows()
       dropRowsAbove(rowsToRemove)
-    } else {
-      console.log('No rows to remove')
     }
+  }
+
+  function checkTopReached() {
+    if (gridLocationsOccupied[0]<=40) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  function gameEnd() {
+    clearInterval(looper)
+    console.log('you lose!')
   }
 
   function gameLoop() {
     tetriCurrent.willFallOnSomething()
-
     if (!tetriCurrent.isFalling) {
       checkFullRows()
       tetriNew(tetriCurrent)
     }
+    if (checkTopReached()) gameEnd()
     tetriCurrent.fall()
     drawAll()
   }
 
   // createBoard()
-  console.log('make first')
   tetriNew(tetriCurrent)
-  console.log('start')
 
   let looper = setInterval(gameLoop,gameSpeed)
 })
