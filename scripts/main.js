@@ -83,7 +83,7 @@ $(() => {
       gridLocationsOccupied.sort((a, b) => {
         return a-b
       })
-      console.log(`Occupied (more): ${gridLocationsOccupied}`)
+      // console.log(`Occupied (more): ${gridLocationsOccupied}`)
     }
 
 
@@ -152,7 +152,7 @@ $(() => {
             }
           }
           break
-        case 38: //UP
+        case 80: //P for pause
           if (!gamePaused) {
             clearInterval(looper)
             console.log(' - Paused -')
@@ -480,7 +480,10 @@ $(() => {
 
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
-    if (e.which === 32) {
+    if (gamePaused) {
+      e.which = 80
+      tetriCurrent.move(e.which)
+    } else if (e.which === 32) {
       tetriCurrent.rotate()
     } else {
       tetriCurrent.move(e.which)
