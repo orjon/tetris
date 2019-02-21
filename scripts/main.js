@@ -15,18 +15,87 @@ $(() => {
   const gameGridTotal = 240
   const startPosition = 34
   let rowsToRemove = []
-  let soundOn = false
+  let soundOn = true
   let gamePaused = false
 
-  const soundMoveWav = document.querySelector('.moveWav')
-  const soundBumpWav = document.querySelector('.rotateWav')
+  const soundThemeWav  = document.querySelector('audio.theme')
+  const soundNudgeWav  = document.querySelector('audio.nudge')
+  const soundBumpWav   = document.querySelector('audio.bump')
+  const soundRotateWav = document.querySelector('audio.rotate')
+  const soundClear1Wav = document.querySelector('audio.clear1')
+  const soundClear2Wav = document.querySelector('audio.clear2')
+  const soundClear3Wav = document.querySelector('audio.clear3')
+  const soundClear4Wav = document.querySelector('audio.clear4')
+
+  soundThemeWav.src  = './sounds/theme.mp3'
+  soundNudgeWav.src  = './sounds/nudge.wav'
+  soundBumpWav.src   = './sounds/bump.wav'
+  soundRotateWav.src = './sounds/rotate.mp3'
+  soundClear1Wav.src = './sounds/clear1.mp3'
+  soundClear2Wav.src = './sounds/clear2.mp3'
+  soundClear3Wav.src = './sounds/clear3.mp3'
+  soundClear4Wav.src = './sounds/clear4.mp3'
+
+  const $titleScreen = $('#titleScreen')
+  const $gameScreen = $('main')
+  const $buttonStart = $('#buttonStart')
+
+
+
+  $buttonStart.on('click', function() {
+    $buttonStart.attr('src','./images/buttonStartHover.png')
+    $titleScreen.css('display','none')
+    $gameScreen.css('display','flex')
+    // soundRotate()
+    // soundBump()
+    // soundNudge()
+    soundTheme()
+    // setInterval(soundTheme,48000)
+    setTimeout(startGame,500)
+  })
+
+
+
+  function soundRowsCleared(numberOfRows) {
+    if (!soundOn) {
+      return
+    }
+    switch (numberOfRows) {
+      case 1:
+        soundClear1Wav.currentTime = 0
+        soundClear1Wav.play()
+        break
+      case 2:
+        soundClear2Wav.currentTime = 0
+        soundClear2Wav.play()
+        break
+      case 3:
+        soundClear3Wav.currentTime = 0
+        soundClear3Wav.play()
+        break
+      case 4:
+        soundClear4Wav.currentTime = 0
+        soundClear4Wav.play()
+        break
+    }
+
+  }
+
 
   function soundBump() {
     if (!soundOn) {
       return
     }
     soundBumpWav.currentTime = 0
-    soundBumpWav.playbackRate = 1
+    soundBumpWav.play()
+  }
+
+  function soundStop() {
+    if (!soundOn) {
+      return
+    }
+    soundBumpWav.currentTime = 0
+    soundBumpWav.playbackRate = .7
     soundBumpWav.play()
   }
 
@@ -34,19 +103,29 @@ $(() => {
     if (!soundOn) {
       return
     }
-    soundMoveWav.currentTime = 0
-    soundMoveWav.playbackRate = 1
-    soundMoveWav.play()
+    soundNudgeWav.currentTime = 0
+    soundNudgeWav.play()
   }
 
   function soundRotate() {
     if (!soundOn) {
       return
     }
-    // soundRotateWav.currentTime = 0
-    // soundRotateWav.playbackRate = 1
-    // soundRotateWav.play()
+    soundRotateWav.currentTime = 0
+    soundRotateWav.playbackRate = 1.5
+    soundRotateWav.volume = 0.05
+    soundRotateWav.play()
   }
+
+  function soundTheme() {
+    if (!soundOn) {
+      return
+    }
+    soundThemeWav.loop = true
+    soundThemeWav.play()
+  }
+
+
 
 
   // function createBoard() {
@@ -74,7 +153,7 @@ $(() => {
 
     stopFalling() {
       this.isFalling = false //stop block falling
-      soundBump()
+      soundStop()
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         if (!gridLocationsOccupied.includes(this.shape[i])){
           gridLocationsOccupied.push(this.shape[i])
@@ -551,6 +630,11 @@ $(() => {
     // }
   }
 
+
+  function highlightRow(rowNumber) {
+    $gameGrid.children().eq(rowNumber).children().addClass('highlight')
+  }
+
   function checkRow(rowNumber) {
     for (let j=0; j<10; j++) {    // Loop through all cells
       if (!gridLocationsOccupied.includes(rowNumber*10+j)) {
@@ -558,6 +642,7 @@ $(() => {
       }
     }
     rowsToRemove.push(rowNumber)
+    highlightRow(rowNumber)
     return true
   }
 
@@ -589,6 +674,7 @@ $(() => {
   }
 
   function gameLoop() {
+
     tetriCurrent.willFallOnSomething()
     if (!tetriCurrent.isFalling) {
       checkFullRows()
@@ -600,7 +686,10 @@ $(() => {
   }
 
   // createBoard()
-  tetriNew(tetriCurrent)
+  function startGame() {
+    tetriNew(tetriCurrent)
+    let looper = setInterval(gameLoop,gameSpeed)
+  }
+  //
 
-  let looper = setInterval(gameLoop,gameSpeed)
 })

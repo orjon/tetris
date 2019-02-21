@@ -1,6 +1,6 @@
-$gridSquare : 4vh;
-$gridSquareLabelSize :1.5vh;
-// $gridSquareLabelSize :0vh;
+$gridSquare : 4.5vh;
+// $gridSquareLabelSize :1.5vh;
+$gridSquareLabelSize :0vh;
 
 $blockColorRed : #F00;
 $blockColorEdgeRed : #FAA;
@@ -17,7 +17,8 @@ $blockColorEdgePurple : #C9C;
 $blockColorCyan: #0DD;
 $blockColorEdgeCyan: #9FF;
 
-
+$blockColorStopCyan: #0AA;
+$white: #FFF;
 
 
 * {
@@ -35,8 +36,90 @@ body {
   padding: 0;
 }
 
-main {
+#titleScreen {
+  box-shadow: inset 0px 0px 100px rgba(0,0,0,0.25);
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  // border: 1px solid blue;
+
+  .titleWrapper {
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    // border: 1px solid green;
+  }
+
+  .startButtonWrapper {
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    // border: 1px solid blue;
+
+    // #buttonStart{
+    //   display: none;
+    //
+    //    // $moleHoles.children().eq(moleToPopDown).attr('src','images/moleNone.png')
+    //
+    // }
+    // #buttonStart:hover {
+    //
+    // }
+
+}
+}
+
+
+
+
+
+//
+//     #startButton {
+//       position: relative;
+//
+//       img {
+//         position: absolute;
+//         opacity: 0.6;
+//         // transition: opacity 1s ease-in-out;
+//         // -moz-transition: opacity 1s ease-in-out;
+//         // -webkit-transition: opacity 1s ease-in-out;
+//       }
+//
+//       img:hover {
+//         opacity: 1.0;
+//         transition: opacity .55s ease-in;
+//       }
+//     }
+//   }
+// }
+//
+//
+// // img {
+// //     opacity: 0.6;
+// //     transition: opacity 1s ease-in-out;
+// //     -moz-transition: opacity 1s ease-in-out;
+// //     -webkit-transition: opacity 1s ease-in-out;
+// // }
+// // img:hover {
+// //     opacity: 1.0;
+// //     transition: opacity .55s ease-in-out;
+// //     -moz-transition: opacity .55s ease-in-out;
+// //     -webkit-transition: opacity .55s ease-in-out;
+// // }​
+//
+
+
+
+main {
+  display: none;
   flex-direction: column;
   justify-content: center;
   height: 100vh;
@@ -44,23 +127,28 @@ main {
   // border: 1px solid darkgrey;
 
   header {
-    height: 10vh;
+    height: 7.5vh;
     width: 100vw;
-    // border: 1px dashed darkgrey;
   }
 
   #gameGrid {
-    height: 85vh;
+    height: 100%;
     width: 0 auto;
-    border: 1px dashed darkgrey;
     display: flex;
     flex-direction: column;
     border: 1px red;
+
+    .highlight {
+      box-shadow: 0px 0px 10px $white;
+      border: 2px solid $white;
+    }
 
     .row {
       display: flex;
       flex-direction: row;
       justify-content: center;
+
+
 
 
       .square {
@@ -75,10 +163,12 @@ main {
 
       }
       .red {
+
         color: $blockColorEdgeRed;
         background-color: $blockColorRed;
         box-shadow: 0px 0px 5px $blockColorRed;
         border: 1px solid $blockColorEdgeRed;
+        // box-shadow: inset 0px 0px 20px rgba(255,255,255,5.25);
       }
       .green {
         color: $blockColorEdgeGreen;
@@ -116,6 +206,7 @@ main {
         border: 1px solid $blockColorEdgeCyan;
         color: $blockColorEdgeCyan;
       }
+
       .empty {
         // visibility: hidden;
         // display:none;
@@ -128,7 +219,7 @@ main {
   }
 
   footer {
-    height: 5vh;
+    height: 2.5vh;
     // border: 1px dashed darkgrey;
   }
 }
