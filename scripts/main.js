@@ -16,7 +16,7 @@ $(() => {
   const startPosition = 34
   let rowsToRemove = []
   let soundOn = true
-  let musicOn = false
+  let musicOn = true
   let gamePaused = false
   let looper = undefined
 
@@ -29,7 +29,7 @@ $(() => {
   const soundClear3Wav = document.querySelector('audio.clear3')
   const soundClear4Wav = document.querySelector('audio.clear4')
 
-  soundThemeWav.src  = './sounds/theme.mp3'
+  soundThemeWav.src  = './sounds/theme-short.mp3'
   soundNudgeWav.src  = './sounds/nudge.wav'
   soundBumpWav.src   = './sounds/bump.wav'
   soundRotateWav.src = './sounds/rotate.mp3'
@@ -53,7 +53,7 @@ $(() => {
     // soundNudge()
     soundTheme()
     // setInterval(soundTheme,48000)
-    setTimeout(startGame,0)
+    setTimeout(startGame,1000)
   })
 
 
@@ -128,8 +128,6 @@ $(() => {
   }
 
 
-
-
   // function createBoard() {
   //   let gridNumbers = '' //40 //starting point for visible grid
   //   for (let i=0; i<20; i++){ //Create 20 rows of..
@@ -142,7 +140,6 @@ $(() => {
   //   }
   //   $('#gameGrid .row').children().addClass('square') //
   // }
-
 
 
   class Tetrimino {
@@ -235,11 +232,13 @@ $(() => {
           break
         case 80: //P for pause
           if (!gamePaused) {
+            soundThemeWav.pause()
             clearInterval(looper)
             console.log(' - Paused -')
             gamePaused = true
           } else {
             looper = setInterval(gameLoop,gameSpeed)
+            if (musicOn) soundThemeWav.play()
             console.log(' - Resume -')
             gamePaused = false
           }
@@ -434,7 +433,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'pink'
-      this.shape = [15,25,35,36]
+      this.shape = [14,24,34,35]
     }
     rotate(){
       let rotationMatrix = []
@@ -627,15 +626,9 @@ $(() => {
 
       }
     }
-    // for (let i=0; i<tetriDead.length; i++) {
-    //   tetriSequence.splice(i,1)
-    // }
   }
 
 
-  function highlightRow(rowNumber) {
-    $gameGrid.children().eq(rowNumber).children().addClass('highlight')
-  }
 
   function checkRow(rowNumber) {
     for (let j=0; j<10; j++) {    // Loop through all cells
@@ -644,7 +637,6 @@ $(() => {
       }
     }
     rowsToRemove.push(rowNumber)
-    highlightRow(rowNumber)
     return true
   }
 

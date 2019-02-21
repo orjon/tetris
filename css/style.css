@@ -36,6 +36,13 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center; }
+    #titleScreen .startButtonWrapper img {
+      border: 1px solid #333;
+      border-radius: 5px; }
+    #titleScreen .startButtonWrapper img:hover {
+      border: 1px solid #777;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px #888; }
 
 main {
   display: none;
@@ -58,7 +65,9 @@ main {
     height: 100%;
     width: 0 auto;
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; }
     main #gameGrid .highlight {
       box-shadow: 0px 0px 10px #FFF;
       border: 2px solid #FFF; }
@@ -67,6 +76,8 @@ main {
       flex-direction: row;
       justify-content: center; }
       main #gameGrid .row .square {
+        margin-top: -1px;
+        margin-left: -1px;
         opacity: 0.75;
         color: #444;
         font-size: 0vh;
