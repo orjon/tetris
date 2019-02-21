@@ -3,7 +3,7 @@ $(() => {
 
   console.log('Welcome to Tetris')
 
-const $gameGrid = $('#gameGrid')
+  const $gameGrid = $('#gameGrid')
   const $gridSquares = $('.square')
   const tetriSequence = []
   let   tetriCount = 0
@@ -214,6 +214,11 @@ const $gameGrid = $('#gameGrid')
       rotatedPosition.push(currentPosition[i]+rotationMatrix[i])
       if (rotatedPosition.length === 4) {
         console.log(rotatedPosition)
+      }
+      if (rotatedPosition[i] >= 240) {
+        console.log('HIT BOTTOM')
+        soundBump()
+        return false //Hit bottom
       }
       if (gridLocationsOccupied.includes(rotatedPosition[i])){
         console.log('HIT OBJECT')
@@ -466,16 +471,16 @@ const $gameGrid = $('#gameGrid')
   function tetriNew() {
     let tetriBaby = 0
 
-    const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
+    const tetriNum = (Math.floor(Math.random() * 1)+1) //find random
     // const tetriNum = 3 //find random
     switch (tetriNum) {
-      case 1:
+      case 3:
         tetriBaby = new TetriA('a')
         break
       case 2:
         tetriBaby = new TetriB('b')
         break
-      case 3:
+      case 1:
         tetriBaby = new TetriC('c')
         break
       case 4:
