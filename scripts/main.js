@@ -607,6 +607,14 @@ $(() => {
     increaseSpeed()
   }
 
+  $('#titleScreen').click(function() {
+    gameNotStarted = !gameNotStarted
+    $titleScreen.css('display','none')
+    $gameScreen.css('display','flex')
+    soundTheme()
+    setTimeout(startGame,500)
+  })
+
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
     if (gameEnded) {
