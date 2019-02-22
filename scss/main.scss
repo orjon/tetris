@@ -1,9 +1,12 @@
-$gridSquare : 4.5vh;
+$background: #555;
+
+$gridSquare: 4.5vh;
 // $gridSquareLabelSize :1.5vh;
 $gridSquareLabelSize :0vh;
 $gridBorder: #777;
 $buttonBorder: #333;
-$scoreColor: #AAA;
+$scoreColor: #999;
+$menuColor: #666;
 
 $blockColorRed : #F00;
 $blockColorEdgeRed : #FAA;
@@ -25,20 +28,22 @@ $white: #FFF;
 
 * {
   box-sizing: border-box;
+  user-select: none; //make text unhighlightable
+  // overflow:hidden;
 }
 
-html {
+.pointer {cursor: pointer;}
 
+html {
   font-family: sans-serif;
 }
 
 body {
-  background-color: #555;
+  background-color: $background;
   margin: 0;
   padding: 0;
   font-family: 'ZCOOL QingKe HuangYou', cursive;
 }
-
 #titleScreen {
   display: flex;
   flex-direction: column;
@@ -46,7 +51,6 @@ body {
   height: 100vh;
   width: 100vw;
   // border: 1px solid blue;
-
   #imageWrapper {
     height: 5vh;
     width: 100vw;
@@ -67,7 +71,6 @@ body {
     width: 100vw;
   }
 
-
   .startButtonWrapper {
     height: 10vh;
     width: 100vw;
@@ -84,12 +87,9 @@ body {
       border: 1px solid $gridBorder;
       border-radius: 5px;
       box-shadow: 0px 0px 10px #888;
-
     }
-
   }
 }
-
 
 main {
   display: none;
@@ -98,7 +98,6 @@ main {
   height: 100vh;
   width: 100vw;
   // border: 1px solid darkgrey;
-
   header {
     height: 5vh;
     width: 100vw;
@@ -106,7 +105,6 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
     img {
       opacity: 1;
       margin-top: 92vh;
@@ -114,7 +112,6 @@ main {
       // border: 2px solid $white;
     }
   }
-
   #gameGrid {
     height: 100%;
     width: 0 auto;
@@ -123,19 +120,14 @@ main {
     justify-content: center;
     align-items: center;
     // border: 1px solid red;
-
     .highlight {
       box-shadow: 0px 0px 10px $white;
       border: 2px solid $white;
     }
-
     .row {
       display: flex;
       flex-direction: row;
       justify-content: center;
-
-
-
 
       .square {
         margin-top: -1px;
@@ -148,11 +140,8 @@ main {
         display: flex;
         flex-direction: row;
         border: 1px solid $gridBorder;
-
-
       }
       .red {
-
         color: $blockColorEdgeRed;
         background-color: $blockColorRed;
         box-shadow: 0px 0px 5px $blockColorRed;
@@ -195,73 +184,40 @@ main {
         border: 1px solid $blockColorEdgeCyan;
         color: $blockColorEdgeCyan;
       }
-
       .empty {
         // visibility: hidden;
         // display:none;
         background-color: none;
         // background-color: rgba(255,0,0,0);
       }
-
     }
-
   }
-
 
   footer {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: flex-end;
     height: 5vh;
-    margin: 15px;
     font-size: 10vh;
-    color: $scoreColor;
+    #buttonsControl {
+      color: $menuColor;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5vw;
+      padding: 15px;
+      padding-left: 25px;
+      display: flex;
+      span:hover{
+        color: $scoreColor;
+      }
 
-    // border: 1px dashed darkgrey;
+    }
+    #scoreBoard {
+      color: $scoreColor;
+      padding: 15px;
+      padding-right: 25px;
+      display: flex;
+      // border: 1px dashed darkgrey;
+    }
   }
 }
-
-
-
-
-
-
-
-
-
-
-//
-//     #startButton {
-//       position: relative;
-//
-//       img {
-//         position: absolute;
-//         opacity: 0.6;
-//         // transition: opacity 1s ease-in-out;
-//         // -moz-transition: opacity 1s ease-in-out;
-//         // -webkit-transition: opacity 1s ease-in-out;
-//       }
-//
-//       img:hover {
-//         opacity: 1.0;
-//         transition: opacity .55s ease-in;
-//       }
-//     }
-//   }
-// }
-//
-//
-// // img {
-// //     opacity: 0.6;
-// //     transition: opacity 1s ease-in-out;
-// //     -moz-transition: opacity 1s ease-in-out;
-// //     -webkit-transition: opacity 1s ease-in-out;
-// // }
-// // img:hover {
-// //     opacity: 1.0;
-// //     transition: opacity .55s ease-in-out;
-// //     -moz-transition: opacity .55s ease-in-out;
-// //     -webkit-transition: opacity .55s ease-in-out;
-// // }​
-//

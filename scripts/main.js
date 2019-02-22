@@ -3,6 +3,7 @@ $(() => {
 
   console.log('Welcome to Tetris')
 
+  let gameNotStarted = true
   const $gameGrid = $('#gameGrid')
   const $gridSquares = $('.square')
   const tetriSequence = []
@@ -42,9 +43,7 @@ $(() => {
   const $titleScreen = $('#titleScreen')
   const $gameScreen = $('main')
   const $buttonStart = $('#buttonStart')
-//   const $scoreBoard = $('footer')
-//
-// console.log($scoreBoard)
+
 
   $buttonStart.on('click', function() {
     $buttonStart.attr('src','./images/buttonStartHover.png')
@@ -55,6 +54,20 @@ $(() => {
   })
 
 
+  $('.buttonExit').on('click', function(){
+    location.reload()
+  })
+  $('.buttonPause').on('click', function(){
+    gamePause()
+  })
+  $('.buttonMusic').on('click', function(){
+    musicOn = !musicOn
+    soundThemeWav.pause()
+    soundTheme()
+  })
+  $('.buttonSound').on('click', function(){
+    soundOn = !soundOn
+  })
 
   function soundRowsCleared(numberOfRows) {
     if (!soundOn) {
@@ -133,6 +146,20 @@ $(() => {
     }
     soundThemeWav.loop = true
     soundThemeWav.play()
+  }
+
+  function gamePause(){
+    if (!gamePaused) {
+      soundThemeWav.pause()
+      clearInterval(looper)
+      console.log(' - Paused -')
+      gamePaused = true
+    } else {
+      looper = setInterval(gameLoop,gameSpeed)
+      if (musicOn) soundThemeWav.play()
+      console.log(' - Resume -')
+      gamePaused = false
+    }
   }
 
 
@@ -248,20 +275,13 @@ $(() => {
           if (musicOn) soundThemeWav.play()
           break
         case 80: //P for pause
-          if (!gamePaused) {
-            soundThemeWav.pause()
-            clearInterval(looper)
-            console.log(' - Paused -')
-            gamePaused = true
-          } else {
-            looper = setInterval(gameLoop,gameSpeed)
-            if (musicOn) soundThemeWav.play()
-            console.log(' - Resume -')
-            gamePaused = false
-          }
+          gamePause()
           break
         case 83: //s = sound
           soundOn = !soundOn
+          break
+        case 88: //x = sound
+          location.reload()
           break
         case 39: // right
           if (!this.hitSomethingRight()) {
@@ -573,12 +593,18 @@ $(() => {
   }
 
   function updateScoreBoard() {
-    $('footer').html(`${playerScore}`)
+    $('#scoreBoard').html(`${playerScore}`)
   }
 
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
-    if (gamePaused) {
+    if (gameNotStarted) {
+      gameNotStarted = !gameNotStarted
+      $titleScreen.css('display','none')
+      $gameScreen.css('display','flex')
+      soundTheme()
+      setTimeout(startGame,500)
+    } else if (gamePaused) {
       e.which = 80
       tetriCurrent.move(e.which)
     } else if (e.which === 32) {

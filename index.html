@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Tetris</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=ZCOOL+QingKe+HuangYou" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
@@ -29,7 +30,7 @@
 
     </div>
     <div class='startButtonWrapper'>
-      <img id='buttonStart' src='./images/buttonStart.png' alt='start game' height=50% width =auto>
+      <!-- <img id='buttonStart' src='./images/buttonStart.png' alt='start game' height=50% width =auto> -->
     </div>
   </div>
   <main>
@@ -280,7 +281,14 @@
       </div>
     </div>
 
-    <footer></footer>
+    <footer>
+      <div id='buttonsControl'>
+        <span class='buttonExit'>X</span>&nbsp;&nbsp;
+        <span class='buttonMusic'>M</span>&nbsp;&nbsp;
+        <span class='buttonSound'>S</span>&nbsp;&nbsp;
+        <span class='buttonPause'>P</span></div>
+        <div id='scoreBoard'></div>
+    </footer>
   </main>
 </body>
 </html>

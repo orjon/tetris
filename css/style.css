@@ -1,5 +1,9 @@
 * {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  user-select: none; }
+
+.pointer {
+  cursor: pointer; }
 
 html {
   font-family: sans-serif; }
@@ -127,11 +131,23 @@ main {
   main footer {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: flex-end;
     height: 5vh;
-    margin: 15px;
-    font-size: 10vh;
-    color: #AAA; }
+    font-size: 10vh; }
+    main footer #buttonsControl {
+      color: #666;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5vw;
+      padding: 15px;
+      padding-left: 25px;
+      display: flex; }
+      main footer #buttonsControl span:hover {
+        color: #999; }
+    main footer #scoreBoard {
+      color: #999;
+      padding: 15px;
+      padding-right: 25px;
+      display: flex; }
 
 /*# sourceMappingURL=style.css.map */
