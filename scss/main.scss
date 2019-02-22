@@ -6,7 +6,8 @@ $gridSquareLabelSize :0vh;
 $gridBorder: #777;
 $buttonBorder: #333;
 $scoreColor: #999;
-$menuColor: #666;
+$menuColor: #888;
+$menuColorHighlight: #CCC;
 
 
 $blockColorGrey : #444;
@@ -217,7 +218,7 @@ main {
       padding-left: 25px;
       display: flex;
       span:hover{
-        color: $scoreColor;
+        color: $menuColorHighlight;
       }
 
     }

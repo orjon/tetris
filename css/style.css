@@ -141,14 +141,14 @@ main {
     height: 5vh;
     font-size: 10vh; }
     main footer #buttonsControl {
-      color: #666;
+      color: #888;
       font-family: 'Montserrat', sans-serif;
       font-size: 1.5vw;
       padding: 15px;
       padding-left: 25px;
       display: flex; }
       main footer #buttonsControl span:hover {
-        color: #999; }
+        color: #CCC; }
     main footer #scoreBoard {
       color: #999;
       padding: 15px;
