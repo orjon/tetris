@@ -11,7 +11,7 @@ $(() => {
   let   tetriCount = 0
   let gridLocationsOccupied = []
   const gameGridArray = []
-  const gameSpeed = 500
+  let gameSpeed = 500
   const gridShift = 40
   let tetriCurrent = []
   const gameGridTotal = 240
@@ -593,8 +593,18 @@ $(() => {
     console.log('Total Tetriminos: '+ tetriCount)
   }
 
+  function increaseSpeed() {
+    const newSpeed = 500 - (Math.floor(playerScore/1000)*100)
+    if (!(newSpeed === gameSpeed)) {
+      gameSpeed = newSpeed
+      clearInterval(looper)
+      looper = setInterval(gameLoop,gameSpeed)
+    }
+  }
+
   function updateScoreBoard() {
     $('#scoreBoard').html(`${playerScore}`)
+    increaseSpeed()
   }
 
   $(document).keydown(function(e) { //keyup
@@ -742,6 +752,7 @@ $(() => {
     looper = setInterval(gameLoop,gameSpeed)
   }
 
+
   function gameEnd() {
     gameEnded = true
     soundBump()
@@ -749,9 +760,10 @@ $(() => {
     for (let i=0; i<gridLocationsOccupied.length; i++) {
       $gridSquares.siblings().eq((gridLocationsOccupied[i]-40)).addClass('grey')
     }
-    clearInterval(looper)
+
     soundThemeWav.pause()
     console.log('you lose!')
+    clearInterval(looper)
   }
   //
 
