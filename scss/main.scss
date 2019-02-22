@@ -3,6 +3,7 @@ $gridSquare : 4.5vh;
 $gridSquareLabelSize :0vh;
 $gridBorder: #777;
 $buttonBorder: #333;
+$scoreColor: #AAA;
 
 $blockColorRed : #F00;
 $blockColorEdgeRed : #FAA;
@@ -19,7 +20,6 @@ $blockColorEdgePurple : #C9C;
 $blockColorCyan: #0DD;
 $blockColorEdgeCyan: #9FF;
 
-$blockColorStopCyan: #0AA;
 $white: #FFF;
 
 
@@ -36,6 +36,7 @@ body {
   background-color: #555;
   margin: 0;
   padding: 0;
+  font-family: 'ZCOOL QingKe HuangYou', cursive;
 }
 
 #titleScreen {
@@ -93,7 +94,7 @@ body {
 main {
   display: none;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   height: 100vh;
   width: 100vw;
   // border: 1px solid darkgrey;
@@ -121,7 +122,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // border: 1px red;
+    // border: 1px solid red;
 
     .highlight {
       box-shadow: 0px 0px 10px $white;
@@ -206,8 +207,17 @@ main {
 
   }
 
+
   footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
     height: 5vh;
+    margin: 15px;
+    font-size: 10vh;
+    color: $scoreColor;
+
     // border: 1px dashed darkgrey;
   }
 }

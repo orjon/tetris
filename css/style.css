@@ -7,7 +7,8 @@ html {
 body {
   background-color: #555;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  font-family: 'ZCOOL QingKe HuangYou', cursive; }
 
 #titleScreen {
   display: flex;
@@ -47,7 +48,7 @@ body {
 main {
   display: none;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   height: 100vh;
   width: 100vw; }
   main header {
@@ -124,6 +125,13 @@ main {
       main #gameGrid .row .empty {
         background-color: none; }
   main footer {
-    height: 5vh; }
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 5vh;
+    margin: 15px;
+    font-size: 10vh;
+    color: #AAA; }
 
 /*# sourceMappingURL=style.css.map */

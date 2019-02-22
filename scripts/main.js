@@ -19,6 +19,7 @@ $(() => {
   let musicOn = true
   let gamePaused = false
   let looper = undefined
+  let playerScore = 0
 
   const soundThemeWav  = document.querySelector('audio.theme')
   const soundNudgeWav  = document.querySelector('audio.nudge')
@@ -29,7 +30,7 @@ $(() => {
   const soundClear3Wav = document.querySelector('audio.clear3')
   const soundClear4Wav = document.querySelector('audio.clear4')
 
-  soundThemeWav.src  = './sounds/theme-short.mp3'
+  soundThemeWav.src  = './sounds/theme-short2.mp3'
   soundNudgeWav.src  = './sounds/nudge.wav'
   soundBumpWav.src   = './sounds/bump.wav'
   soundRotateWav.src = './sounds/rotate.mp3'
@@ -41,19 +42,16 @@ $(() => {
   const $titleScreen = $('#titleScreen')
   const $gameScreen = $('main')
   const $buttonStart = $('#buttonStart')
-
-
+//   const $scoreBoard = $('footer')
+//
+// console.log($scoreBoard)
 
   $buttonStart.on('click', function() {
     $buttonStart.attr('src','./images/buttonStartHover.png')
     $titleScreen.css('display','none')
     $gameScreen.css('display','flex')
-    // soundRotate()
-    // soundBump()
-    // soundNudge()
     soundTheme()
-    // setInterval(soundTheme,48000)
-    setTimeout(startGame,1000)
+    setTimeout(startGame,500)
   })
 
 
@@ -195,10 +193,12 @@ $(() => {
         const gridLocationLeft = this.shape[i]-1 //every pixel below
         if (this.shape[i] % 10 === 0) {
           soundBump()
+          playerScore -=1
           return true //Hit left
         }
         if (gridLocationsOccupied.includes(gridLocationLeft)) {
           soundBump()
+          playerScore -=1
           return true //Hit another block
         }
       }
@@ -211,10 +211,12 @@ $(() => {
         const gridLocationRight = this.shape[i]+1 //every pixel below
         if ((this.shape[i]+1) % 10 === 0) {
           soundBump()
+          playerScore -=1
           return true //Hit right
         }
         if (gridLocationsOccupied.includes(gridLocationRight)) {
           soundBump()
+          playerScore -=1
           return true //Hit another block
         }
       }
@@ -570,6 +572,10 @@ $(() => {
     console.log('Total Tetriminos: '+ tetriCount)
   }
 
+  function updateScoreBoard() {
+    $('footer').html(`${playerScore}`)
+  }
+
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
     if (gamePaused) {
@@ -635,12 +641,9 @@ $(() => {
       tetriSequence[i].drawTetri()
       if (tetriSequence[i].shape.length === 0) {
         tetriDead.push(i)
-
       }
     }
   }
-
-
 
   function checkRow(rowNumber) {
     for (let j=0; j<10; j++) {    // Loop through all cells
@@ -662,7 +665,22 @@ $(() => {
     }
     if (rowsToRemove.length > 0) {
       removeRows()
+      soundRowsCleared(rowsToRemove.length)
       dropRowsAbove(rowsToRemove)
+    }
+    switch (rowsToRemove.length) {
+      case 1:
+        playerScore +=90
+        break
+      case 2:
+        playerScore +=240
+        break
+      case 3:
+        playerScore +=490
+        break
+      case 4:
+        playerScore +=990
+        break
     }
   }
 
@@ -674,23 +692,24 @@ $(() => {
     }
   }
 
-
-
   function gameLoop() {
     // soundSoftNudge()
     tetriCurrent.willFallOnSomething()
     if (!tetriCurrent.isFalling) {
       checkFullRows()
       tetriNew(tetriCurrent)
+      playerScore +=10
     }
     if (checkTopReached()) gameEnd()
     tetriCurrent.fall()
     drawAll()
+    updateScoreBoard()
   }
 
   // createBoard()
   function startGame() {
     tetriNew(tetriCurrent)
+    updateScoreBoard()
     looper = setInterval(gameLoop,gameSpeed)
   }
 
