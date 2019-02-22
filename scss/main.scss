@@ -8,6 +8,9 @@ $buttonBorder: #333;
 $scoreColor: #999;
 $menuColor: #666;
 
+
+$blockColorGrey : #444;
+$blockColorEdgeGrey : #222;
 $blockColorRed : #F00;
 $blockColorEdgeRed : #FAA;
 $blockColorGreen : #0D0;
@@ -183,6 +186,12 @@ main {
         box-shadow: 0px 0px 5px $blockColorCyan;
         border: 1px solid $blockColorEdgeCyan;
         color: $blockColorEdgeCyan;
+      }
+      .grey {
+        background-color: $blockColorGrey;
+        box-shadow: 0px 0px 5px $blockColorGrey;
+        border: 1px solid $blockColorEdgeGrey;
+        color: $blockColorEdgeGrey;
       }
       .empty {
         // visibility: hidden;

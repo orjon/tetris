@@ -4,6 +4,7 @@ $(() => {
   console.log('Welcome to Tetris')
 
   let gameNotStarted = true
+  let gameEnded = false
   const $gameGrid = $('#gameGrid')
   const $gridSquares = $('.square')
   const tetriSequence = []
@@ -598,7 +599,9 @@ $(() => {
 
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
-    if (gameNotStarted) {
+    if (gameEnded) {
+      location.reload()
+    } else if (gameNotStarted) {
       gameNotStarted = !gameNotStarted
       $titleScreen.css('display','none')
       $gameScreen.css('display','flex')
@@ -740,6 +743,12 @@ $(() => {
   }
 
   function gameEnd() {
+    gameEnded = true
+    soundBump()
+    gridClear()
+    for (let i=0; i<gridLocationsOccupied.length; i++) {
+      $gridSquares.siblings().eq((gridLocationsOccupied[i]-40)).addClass('grey')
+    }
     clearInterval(looper)
     soundThemeWav.pause()
     console.log('you lose!')
