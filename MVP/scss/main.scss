@@ -1,7 +1,17 @@
-$gridSquare : 4vh;
-$gridSquareLabelSize :1.5vh;
-// $gridSquareLabelSize :0vh;
+$background: #555;
 
+$gridSquare: 4.5vh;
+// $gridSquareLabelSize :1.5vh;
+$gridSquareLabelSize :0vh;
+$gridBorder: #777;
+$buttonBorder: #333;
+$scoreColor: #999;
+$menuColor: #888;
+$menuColorHighlight: #CCC;
+
+
+$blockColorGrey : #444;
+$blockColorEdgeGrey : #222;
 $blockColorRed : #F00;
 $blockColorEdgeRed : #FAA;
 $blockColorGreen : #0D0;
@@ -17,68 +27,130 @@ $blockColorEdgePurple : #C9C;
 $blockColorCyan: #0DD;
 $blockColorEdgeCyan: #9FF;
 
-
+$white: #FFF;
 
 
 * {
   box-sizing: border-box;
+  user-select: none; //make text unhighlightable
+  // overflow:hidden;
 }
 
-html {
+.pointer {cursor: pointer;}
 
+html {
   font-family: sans-serif;
 }
 
 body {
-  background-color: #555;
+  background-color: $background;
   margin: 0;
   padding: 0;
+  font-family: 'ZCOOL QingKe HuangYou', cursive;
 }
-
-main {
+#titleScreen {
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  // border: 1px solid darkgrey;
-
-  header {
-    height: 10vh;
+  // border: 1px solid blue;
+  #imageWrapper {
+    height: 5vh;
     width: 100vw;
-    // border: 1px dashed darkgrey;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    // border: 1px solid green;
+    img {
+      opacity: 1;
+      margin-top: 91.5vh;
+      width: 80vw;
+    }
   }
 
-  #gameGrid {
+  .spacer {
     height: 85vh;
+    width: 100vw;
+  }
+
+  .startButtonWrapper {
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    // border: 1px solid blue;
+    img {
+      border: 1px solid $buttonBorder;
+      border-radius: 5px;
+    }
+    img:hover {
+      border: 1px solid $gridBorder;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px #888;
+    }
+  }
+}
+
+main {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100vh;
+  width: 100vw;
+  // border: 1px solid darkgrey;
+  header {
+    height: 5vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    img {
+      opacity: 1;
+      margin-top: 92vh;
+      width: 80vw;
+      // border: 2px solid $white;
+    }
+  }
+  #gameGrid {
+    height: 100%;
     width: 0 auto;
-    border: 1px dashed darkgrey;
     display: flex;
     flex-direction: column;
-    border: 1px red;
-
+    justify-content: center;
+    align-items: center;
+    // border: 1px solid red;
+    .highlight {
+      box-shadow: 0px 0px 10px $white;
+      border: 2px solid $white;
+    }
     .row {
       display: flex;
       flex-direction: row;
       justify-content: center;
 
-
       .square {
+        margin-top: -1px;
+        margin-left: -1px;
+        opacity: 0.75;
         color: #444;
         font-size: $gridSquareLabelSize;
         width: $gridSquare;
         height: $gridSquare;
         display: flex;
         flex-direction: row;
-        border: 1px solid #666;
-
-
+        border: 1px solid $gridBorder;
       }
       .red {
         color: $blockColorEdgeRed;
         background-color: $blockColorRed;
         box-shadow: 0px 0px 5px $blockColorRed;
         border: 1px solid $blockColorEdgeRed;
+        // box-shadow: inset 0px 0px 20px rgba(255,255,255,5.25);
       }
       .green {
         color: $blockColorEdgeGreen;
@@ -116,19 +188,46 @@ main {
         border: 1px solid $blockColorEdgeCyan;
         color: $blockColorEdgeCyan;
       }
+      .grey {
+        background-color: $blockColorGrey;
+        box-shadow: 0px 0px 5px $blockColorGrey;
+        border: 1px solid $blockColorEdgeGrey;
+        color: $blockColorEdgeGrey;
+      }
       .empty {
         // visibility: hidden;
         // display:none;
         background-color: none;
         // background-color: rgba(255,0,0,0);
       }
-
     }
-
   }
 
   footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
     height: 5vh;
-    // border: 1px dashed darkgrey;
+    font-size: 10vh;
+    #buttonsControl {
+      color: $menuColor;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5vw;
+      padding: 15px;
+      padding-left: 25px;
+      display: flex;
+      span:hover{
+        color: $menuColorHighlight;
+      }
+
+    }
+    #scoreBoard {
+      color: $scoreColor;
+      padding: 15px;
+      padding-right: 25px;
+      display: flex;
+      // border: 1px dashed darkgrey;
+    }
   }
 }

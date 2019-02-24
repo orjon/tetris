@@ -3,30 +3,113 @@ $(() => {
 
   console.log('Welcome to Tetris')
 
+  let gameNotStarted = true
+  let gameEnded = false
   const $gameGrid = $('#gameGrid')
   const $gridSquares = $('.square')
   const tetriSequence = []
   let   tetriCount = 0
   let gridLocationsOccupied = []
   const gameGridArray = []
-  const gameSpeed = 500
+  let gameSpeed = 500
   const gridShift = 40
   let tetriCurrent = []
   const gameGridTotal = 240
   const startPosition = 34
   let rowsToRemove = []
-  let soundOn = false
+  let soundOn = true
+  let musicOn = true
   let gamePaused = false
+  let looper = undefined
+  let playerScore = 0
 
-  const soundMoveWav = document.querySelector('.moveWav')
-  const soundBumpWav = document.querySelector('.rotateWav')
+  const soundThemeWav  = document.querySelector('audio.theme')
+  const soundNudgeWav  = document.querySelector('audio.nudge')
+  const soundBumpWav   = document.querySelector('audio.bump')
+  const soundRotateWav = document.querySelector('audio.rotate')
+  const soundClear1Wav = document.querySelector('audio.clear1')
+  const soundClear2Wav = document.querySelector('audio.clear2')
+  const soundClear3Wav = document.querySelector('audio.clear3')
+  const soundClear4Wav = document.querySelector('audio.clear4')
+
+  soundThemeWav.src  = './sounds/theme-short2.mp3'
+  soundNudgeWav.src  = './sounds/nudge.wav'
+  soundBumpWav.src   = './sounds/bump.wav'
+  soundRotateWav.src = './sounds/rotate.mp3'
+  soundClear1Wav.src = './sounds/clear1.mp3'
+  soundClear2Wav.src = './sounds/clear2.mp3'
+  soundClear3Wav.src = './sounds/clear3.mp3'
+  soundClear4Wav.src = './sounds/clear4.mp3'
+
+  const $titleScreen = $('#titleScreen')
+  const $gameScreen = $('main')
+  const $buttonStart = $('#buttonStart')
+
+
+  $buttonStart.on('click', function() {
+    $buttonStart.attr('src','./images/buttonStartHover.png')
+    $titleScreen.css('display','none')
+    $gameScreen.css('display','flex')
+    soundTheme()
+    setTimeout(startGame,500)
+  })
+
+
+  $('.buttonExit').on('click', function(){
+    location.reload()
+  })
+  $('.buttonPause').on('click', function(){
+    gamePause()
+  })
+  $('.buttonMusic').on('click', function(){
+    musicOn = !musicOn
+    soundThemeWav.pause()
+    soundTheme()
+  })
+  $('.buttonSound').on('click', function(){
+    soundOn = !soundOn
+  })
+
+  function soundRowsCleared(numberOfRows) {
+    if (!soundOn) {
+      return
+    }
+    switch (numberOfRows) {
+      case 1:
+        soundClear1Wav.currentTime = 0
+        soundClear1Wav.play()
+        break
+      case 2:
+        soundClear2Wav.currentTime = 0
+        soundClear2Wav.play()
+        break
+      case 3:
+        soundClear3Wav.currentTime = 0
+        soundClear3Wav.play()
+        break
+      case 4:
+        soundClear4Wav.currentTime = 0
+        soundClear4Wav.play()
+        break
+    }
+
+  }
+
 
   function soundBump() {
     if (!soundOn) {
       return
     }
     soundBumpWav.currentTime = 0
-    soundBumpWav.playbackRate = 1
+    soundBumpWav.play()
+  }
+
+  function soundStop() {
+    if (!soundOn) {
+      return
+    }
+    soundBumpWav.currentTime = 0
+    soundBumpWav.playbackRate = .7
     soundBumpWav.play()
   }
 
@@ -34,18 +117,50 @@ $(() => {
     if (!soundOn) {
       return
     }
-    soundMoveWav.currentTime = 0
-    soundMoveWav.playbackRate = 1
-    soundMoveWav.play()
+    soundNudgeWav.currentTime = 0
+    soundNudgeWav.play()
+  }
+
+  function soundSoftNudge() {
+    if (!soundOn) {
+      return
+    }
+    soundNudgeWav.currentTime = 0
+    soundBumpWav.playbackRate = .5
+    soundBumpWav.volumne = .2
+    soundNudgeWav.play()
   }
 
   function soundRotate() {
     if (!soundOn) {
       return
     }
-    // soundRotateWav.currentTime = 0
-    // soundRotateWav.playbackRate = 1
-    // soundRotateWav.play()
+    soundRotateWav.currentTime = 0
+    soundRotateWav.playbackRate = 1.5
+    soundRotateWav.volume = 0.05
+    soundRotateWav.play()
+  }
+
+  function soundTheme() {
+    if (!musicOn) {
+      return
+    }
+    soundThemeWav.loop = true
+    soundThemeWav.play()
+  }
+
+  function gamePause(){
+    if (!gamePaused) {
+      soundThemeWav.pause()
+      clearInterval(looper)
+      console.log(' - Paused -')
+      gamePaused = true
+    } else {
+      looper = setInterval(gameLoop,gameSpeed)
+      if (musicOn) soundThemeWav.play()
+      console.log(' - Resume -')
+      gamePaused = false
+    }
   }
 
 
@@ -63,7 +178,6 @@ $(() => {
   // }
 
 
-
   class Tetrimino {
     constructor(tetriName){
       this.tetriName = tetriName
@@ -74,7 +188,7 @@ $(() => {
 
     stopFalling() {
       this.isFalling = false //stop block falling
-      soundBump()
+      soundStop()
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         if (!gridLocationsOccupied.includes(this.shape[i])){
           gridLocationsOccupied.push(this.shape[i])
@@ -83,7 +197,7 @@ $(() => {
       gridLocationsOccupied.sort((a, b) => {
         return a-b
       })
-      console.log(`Occupied (more): ${gridLocationsOccupied}`)
+      // console.log(`Occupied (more): ${gridLocationsOccupied}`)
     }
 
 
@@ -107,10 +221,12 @@ $(() => {
         const gridLocationLeft = this.shape[i]-1 //every pixel below
         if (this.shape[i] % 10 === 0) {
           soundBump()
+          playerScore -=1
           return true //Hit left
         }
         if (gridLocationsOccupied.includes(gridLocationLeft)) {
           soundBump()
+          playerScore -=1
           return true //Hit another block
         }
       }
@@ -123,10 +239,12 @@ $(() => {
         const gridLocationRight = this.shape[i]+1 //every pixel below
         if ((this.shape[i]+1) % 10 === 0) {
           soundBump()
+          playerScore -=1
           return true //Hit right
         }
         if (gridLocationsOccupied.includes(gridLocationRight)) {
           soundBump()
+          playerScore -=1
           return true //Hit another block
         }
       }
@@ -152,16 +270,19 @@ $(() => {
             }
           }
           break
-        case 38: //UP
-          if (!gamePaused) {
-            clearInterval(looper)
-            console.log(' - Paused -')
-            gamePaused = true
-          } else {
-            looper = setInterval(gameLoop,gameSpeed)
-            console.log(' - Resume -')
-            gamePaused = false
-          }
+        case 77: //m = music
+          musicOn = !musicOn
+          soundThemeWav.pause()
+          if (musicOn) soundThemeWav.play()
+          break
+        case 80: //P for pause
+          gamePause()
+          break
+        case 83: //s = sound
+          soundOn = !soundOn
+          break
+        case 88: //x = sound
+          location.reload()
           break
         case 39: // right
           if (!this.hitSomethingRight()) {
@@ -195,12 +316,6 @@ $(() => {
         }
       }
     }
-
-    destroy() {
-      // tetriSequence = tetriSequence.filter( u => {
-      //   return u.
-      // })
-    }
   }
 
   function canRotate(currentPosition, rotationMatrix) {
@@ -232,7 +347,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'red'
-      this.shape = [31,30,21,20]
+      this.shape = [35,34,25,24]
     }
     rotate(){
       soundRotate()
@@ -243,7 +358,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'green'
-      this.shape = [30,31,21,11]
+      this.shape = [34,35,25,15]
     }
     rotate(){
       let rotationMatrix = []
@@ -279,7 +394,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'blue'
-      this.shape = [31,21,11,1]
+      this.shape = [35,25,15,5]
     }
 
     rotate(){
@@ -316,7 +431,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'cyan'
-      this.shape = [30,21,32,31]
+      this.shape = [34,25,36,35]
     }
     rotate(){
       this.rotation += 90
@@ -353,7 +468,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'pink'
-      this.shape = [11,21,31,32]
+      this.shape = [14,24,34,35]
     }
     rotate(){
       let rotationMatrix = []
@@ -389,7 +504,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'orange'
-      this.shape = [21,30,31,22]
+      this.shape = [24,33,34,25]
     }
     rotate(){
       let rotationMatrix = []
@@ -419,7 +534,7 @@ $(() => {
     constructor(teriName, tetriFalling, rotation){
       super(teriName, tetriFalling, rotation)
       this.color = 'purple'
-      this.shape = [21,31,32,20]
+      this.shape = [24,34,35,23]
     }
     rotate(){
       let rotationMatrix = []
@@ -478,9 +593,42 @@ $(() => {
     console.log('Total Tetriminos: '+ tetriCount)
   }
 
+  function increaseSpeed() {
+    const newSpeed = 500 - (Math.floor(playerScore/1000)*100)
+    if (!(newSpeed === gameSpeed)) {
+      gameSpeed = newSpeed
+      clearInterval(looper)
+      looper = setInterval(gameLoop,gameSpeed)
+    }
+  }
+
+  function updateScoreBoard() {
+    $('#scoreBoard').html(`${playerScore}`)
+    increaseSpeed()
+  }
+
+  $('#titleScreen').click(function() {
+    gameNotStarted = !gameNotStarted
+    $titleScreen.css('display','none')
+    $gameScreen.css('display','flex')
+    soundTheme()
+    setTimeout(startGame,500)
+  })
+
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
-    if (e.which === 32) {
+    if (gameEnded) {
+      location.reload()
+    } else if (gameNotStarted) {
+      gameNotStarted = !gameNotStarted
+      $titleScreen.css('display','none')
+      $gameScreen.css('display','flex')
+      soundTheme()
+      setTimeout(startGame,500)
+    } else if (gamePaused) {
+      e.which = 80
+      tetriCurrent.move(e.which)
+    } else if (e.which === 32) {
       tetriCurrent.rotate()
     } else {
       tetriCurrent.move(e.which)
@@ -540,12 +688,8 @@ $(() => {
       tetriSequence[i].drawTetri()
       if (tetriSequence[i].shape.length === 0) {
         tetriDead.push(i)
-
       }
     }
-    // for (let i=0; i<tetriDead.length; i++) {
-    //   tetriSequence.splice(i,1)
-    // }
   }
 
   function checkRow(rowNumber) {
@@ -568,7 +712,22 @@ $(() => {
     }
     if (rowsToRemove.length > 0) {
       removeRows()
+      soundRowsCleared(rowsToRemove.length)
       dropRowsAbove(rowsToRemove)
+    }
+    switch (rowsToRemove.length) {
+      case 1:
+        playerScore +=90
+        break
+      case 2:
+        playerScore +=240
+        break
+      case 3:
+        playerScore +=490
+        break
+      case 4:
+        playerScore +=990
+        break
     }
   }
 
@@ -580,24 +739,40 @@ $(() => {
     }
   }
 
-  function gameEnd() {
-    clearInterval(looper)
-    console.log('you lose!')
-  }
-
   function gameLoop() {
+    // soundSoftNudge()
     tetriCurrent.willFallOnSomething()
     if (!tetriCurrent.isFalling) {
       checkFullRows()
       tetriNew(tetriCurrent)
+      playerScore +=10
     }
     if (checkTopReached()) gameEnd()
     tetriCurrent.fall()
     drawAll()
+    updateScoreBoard()
   }
 
   // createBoard()
-  tetriNew(tetriCurrent)
+  function startGame() {
+    tetriNew(tetriCurrent)
+    updateScoreBoard()
+    looper = setInterval(gameLoop,gameSpeed)
+  }
 
-  let looper = setInterval(gameLoop,gameSpeed)
+
+  function gameEnd() {
+    gameEnded = true
+    soundBump()
+    gridClear()
+    for (let i=0; i<gridLocationsOccupied.length; i++) {
+      $gridSquares.siblings().eq((gridLocationsOccupied[i]-40)).addClass('grey')
+    }
+
+    soundThemeWav.pause()
+    console.log('you lose!')
+    clearInterval(looper)
+  }
+  //
+
 })

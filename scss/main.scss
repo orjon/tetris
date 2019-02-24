@@ -65,7 +65,7 @@ body {
     // border: 1px solid green;
     img {
       opacity: 1;
-      margin-top: 91.5vh;
+      margin-top: 91.75vh;
       width: 80vw;
     }
   }
@@ -211,16 +211,18 @@ main {
     height: 5vh;
     font-size: 10vh;
     #buttonsControl {
-      color: $menuColor;
       font-family: 'Montserrat', sans-serif;
       font-size: 1.5vw;
       padding: 15px;
       padding-left: 25px;
       display: flex;
+      span {
+        color: $menuColor;
+        transition: color .25s ease-in-out;
+      }
       span:hover{
         color: $menuColorHighlight;
       }
-
     }
     #scoreBoard {
       color: $scoreColor;

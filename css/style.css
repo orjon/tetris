@@ -29,7 +29,7 @@ body {
     justify-content: center; }
     #titleScreen #imageWrapper img {
       opacity: 1;
-      margin-top: 91.5vh;
+      margin-top: 91.75vh;
       width: 80vw; }
   #titleScreen .spacer {
     height: 85vh;
@@ -141,12 +141,14 @@ main {
     height: 5vh;
     font-size: 10vh; }
     main footer #buttonsControl {
-      color: #888;
       font-family: 'Montserrat', sans-serif;
       font-size: 1.5vw;
       padding: 15px;
       padding-left: 25px;
       display: flex; }
+      main footer #buttonsControl span {
+        color: #888;
+        transition: color .25s ease-in-out; }
       main footer #buttonsControl span:hover {
         color: #CCC; }
     main footer #scoreBoard {

@@ -56,8 +56,10 @@ $(() => {
 
 
   $('.buttonExit').on('click', function(){
-    location.reload()
+    exitGame()
   })
+
+  // $('.buttonExit').on('click', exitGame())
   $('.buttonPause').on('click', function(){
     gamePause()
   })
@@ -69,6 +71,22 @@ $(() => {
   $('.buttonSound').on('click', function(){
     soundOn = !soundOn
   })
+
+  function exitGame(){
+    soundThemeWav.pause()
+    if (confirm('Exit?')) {
+      location.reload()
+    } else {
+      soundThemeWav.play()
+    }
+  }
+
+  function resartGame(){
+    soundThemeWav.pause()
+    alert(`Score: ${playerScore}`)
+    location.reload()
+
+  }
 
   function soundRowsCleared(numberOfRows) {
     if (!soundOn) {
@@ -185,10 +203,22 @@ $(() => {
       this.rotation = 0
     }
 
+    canFall() {
+      for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
+        const gridLocationBelow = this.shape[i]+10 //every pixel below
+        if (gridLocationBelow >= 240) {
+          return false //will hit bottom
+        } else if (gridLocationsOccupied.includes(gridLocationBelow)) {
+          return false //will hit another block
+        }
+      }
+      return true //wiil not hit anything
+    }
 
-    stopFalling() {
-      this.isFalling = false //stop block falling
+    stopFall() {
       soundStop()
+      playerScore +=10
+      updateScoreBoard()
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         if (!gridLocationsOccupied.includes(this.shape[i])){
           gridLocationsOccupied.push(this.shape[i])
@@ -197,24 +227,7 @@ $(() => {
       gridLocationsOccupied.sort((a, b) => {
         return a-b
       })
-      // console.log(`Occupied (more): ${gridLocationsOccupied}`)
     }
-
-
-    willFallOnSomething() {
-      for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
-        const gridLocationBelow = this.shape[i]+10 //every pixel below
-        if (gridLocationBelow >= 240) {
-          this.stopFalling()
-          return true //Hit bottom
-        } else if (gridLocationsOccupied.includes(gridLocationBelow)) {
-          this.stopFalling()
-          return true //Hit another block
-        }
-      }
-      return false //Not hit anything
-    }
-
 
     hitSomethingLeft() {
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
@@ -253,14 +266,16 @@ $(() => {
 
 
     fall(){
+      this.shapePrevious = this.shape.slice()
       for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
         this.shape[i] += 10 //every pixel below
       }
+      this.drawTetri()
     }
 
 
     move(direction){
-      gridClear()
+      this.shapePrevious = this.shape.slice()
       switch (direction) {
         case 37: //left
           if (!this.hitSomethingLeft()) {
@@ -281,8 +296,8 @@ $(() => {
         case 83: //s = sound
           soundOn = !soundOn
           break
-        case 88: //x = sound
-          location.reload()
+        case 88: //x = exit
+          exitGame()
           break
         case 39: // right
           if (!this.hitSomethingRight()) {
@@ -293,9 +308,7 @@ $(() => {
           }
           break
         case 40: // down
-          if (this.willFallOnSomething()) {
-            this.tetriFalling = false //stop block falling
-          } else {
+          if (this.canFall()) {
             soundNudge()
             for (let i=0; i<this.shape.length; i++) { //loop through each shape pixel
               this.shape[i] += 10 //every pixel below
@@ -303,16 +316,26 @@ $(() => {
           }
           break
       }
-      drawAll()
+      this.drawTetri()
+      updateScoreBoard()
+    }
+
+    deletePreviousLocation(){
+      for (let i=0; i<this.shapePrevious.length; i++) {
+        if (this.shapePrevious[i]>= gridShift) {
+          $gridSquares.siblings().eq(this.shapePrevious[i]-gridShift).removeClass(`${this.color}`)
+        }
+      }
     }
 
     drawTetri() {
+      this.deletePreviousLocation()
       const gridLocations = []
       for (let i=0; i<this.shape.length; i++) {
         gridLocations.push(this.shape[i])
-        const gridLocationShifted = this.shape[i]-gridShift
-        if (gridLocationShifted >= 0) {
-          $gridSquares.siblings().eq(gridLocationShifted).addClass(`${this.color}`)
+        const gridLocationsShifted = this.shape[i]-gridShift
+        if (gridLocationsShifted >= 0) {
+          $gridSquares.siblings().eq(gridLocationsShifted).addClass(`${this.color}`)
         }
       }
     }
@@ -348,6 +371,7 @@ $(() => {
       super(teriName, tetriFalling, rotation)
       this.color = 'red'
       this.shape = [35,34,25,24]
+      this.shapePrevious = this.shape.slice()
     }
     rotate(){
       soundRotate()
@@ -359,6 +383,8 @@ $(() => {
       super(teriName, tetriFalling, rotation)
       this.color = 'green'
       this.shape = [34,35,25,15]
+      this.shapePrevious = this.shape.slice()
+
     }
     rotate(){
       let rotationMatrix = []
@@ -382,11 +408,11 @@ $(() => {
         for (let i=0; i<this.shape.length; i++) {
           this.shape[i] += rotationMatrix[i]
         }
+
       } else {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 270
       }
-      drawAll()
     }
   }
 
@@ -395,6 +421,7 @@ $(() => {
       super(teriName, tetriFalling, rotation)
       this.color = 'blue'
       this.shape = [35,25,15,5]
+      this.shapePrevious = this.shape.slice()
     }
 
     rotate(){
@@ -423,7 +450,7 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 270
       }
-      drawAll()
+      // drawAll()
     }
   }
 
@@ -432,6 +459,7 @@ $(() => {
       super(teriName, tetriFalling, rotation)
       this.color = 'cyan'
       this.shape = [34,25,36,35]
+      this.shapePrevious = this.shape.slice()
     }
     rotate(){
       this.rotation += 90
@@ -459,7 +487,6 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 270
       }
-      drawAll()
     }
   }
 
@@ -469,6 +496,7 @@ $(() => {
       super(teriName, tetriFalling, rotation)
       this.color = 'pink'
       this.shape = [14,24,34,35]
+      this.shapePrevious = this.shape.slice()
     }
     rotate(){
       let rotationMatrix = []
@@ -496,7 +524,7 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 270
       }
-      drawAll()
+      // drawAll()
     }
   }
 
@@ -505,6 +533,7 @@ $(() => {
       super(teriName, tetriFalling, rotation)
       this.color = 'orange'
       this.shape = [24,33,34,25]
+      this.shapePrevious = this.shape.slice()
     }
     rotate(){
       let rotationMatrix = []
@@ -526,7 +555,7 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 90
       }
-      drawAll()
+      // drawAll()
     }
   }
 
@@ -535,6 +564,7 @@ $(() => {
       super(teriName, tetriFalling, rotation)
       this.color = 'purple'
       this.shape = [24,34,35,23]
+      this.shapePrevious = this.shape.slice()
     }
     rotate(){
       let rotationMatrix = []
@@ -556,7 +586,6 @@ $(() => {
         this.rotation -= 90
         if (this.rotation === -90) this.rotation = 90
       }
-      drawAll()
     }
   }
 
@@ -566,13 +595,13 @@ $(() => {
     const tetriNum = (Math.floor(Math.random() * 7)+1) //find random
     switch (tetriNum) {
       case 1:
-        tetriBaby = new TetriC('c')
-        break
-      case 3:
         tetriBaby = new TetriA('a')
         break
       case 2:
         tetriBaby = new TetriB('b')
+        break
+      case 3:
+        tetriBaby = new TetriC('c')
         break
       case 4:
         tetriBaby = new TetriD('d')
@@ -593,10 +622,11 @@ $(() => {
     console.log('Total Tetriminos: '+ tetriCount)
   }
 
-  function increaseSpeed() {
-    const newSpeed = 500 - (Math.floor(playerScore/1000)*100)
+  function increaseGameSpeed() {
+    const newSpeed = 500 - (Math.floor(playerScore/500)*50)
     if (!(newSpeed === gameSpeed)) {
       gameSpeed = newSpeed
+      console.log(`Game Speed: ${gameSpeed}ms`)
       clearInterval(looper)
       looper = setInterval(gameLoop,gameSpeed)
     }
@@ -604,7 +634,7 @@ $(() => {
 
   function updateScoreBoard() {
     $('#scoreBoard').html(`${playerScore}`)
-    increaseSpeed()
+    increaseGameSpeed()
   }
 
   $('#titleScreen').click(function() {
@@ -618,8 +648,8 @@ $(() => {
   $(document).keydown(function(e) { //keyup
     e.preventDefault() // prevent the default action (scroll / move caret)
     if (gameEnded) {
-      location.reload()
-    } else if (gameNotStarted) {
+      resartGame()
+    }else if (gameNotStarted) {
       gameNotStarted = !gameNotStarted
       $titleScreen.css('display','none')
       $gameScreen.css('display','flex')
@@ -628,30 +658,14 @@ $(() => {
     } else if (gamePaused) {
       e.which = 80
       tetriCurrent.move(e.which)
-    } else if (e.which === 32) {
+    } else if (e.which === 32) { //space bar
+      tetriCurrent.shapePrevious = tetriCurrent.shape.slice()
       tetriCurrent.rotate()
+      tetriCurrent.drawTetri()
     } else {
       tetriCurrent.move(e.which)
     }
   })
-
-  function gridClear(){
-    $gridSquares.siblings().removeClass('red')
-    $gridSquares.siblings().removeClass('green')
-    $gridSquares.siblings().removeClass('blue')
-    $gridSquares.siblings().removeClass('orange')
-    $gridSquares.siblings().removeClass('cyan')
-    $gridSquares.siblings().removeClass('pink')
-    $gridSquares.siblings().removeClass('purple')
-    $gridSquares.siblings().addClass('empty')
-  }
-
-  function drawAll() {
-    gridClear()
-    for (let i=0; i < tetriSequence.length; i++) {
-      tetriSequence[i].drawTetri()
-    }
-  }
 
   function removeOccurances(array, element) {
     return array.filter(el => el !== element)
@@ -659,12 +673,14 @@ $(() => {
 
   function dropRowsAbove(rowsToRemove) {
     for (let i=0; i<rowsToRemove.length; i++){ //loop through all removed lines
-      for (let j=0; j<tetriSequence.length; j++) { //loop through all blocks
-        for (let k=0; k<tetriSequence[j].shape.length; k++) { //loop through all blocks
-          if (tetriSequence[j].shape[k] < (rowsToRemove[i]*10)) {
-            tetriSequence[j].shape[k] += 10
+      for (let tetriNumber=0; tetriNumber<tetriSequence.length; tetriNumber++) { //loop through all blocks
+        tetriSequence[tetriNumber].shapePrevious = tetriSequence[tetriNumber].shape.slice()
+        for (let pixelNumber=0; pixelNumber<tetriSequence[tetriNumber].shape.length; pixelNumber++) { //loop through all pixels of block
+          if (tetriSequence[tetriNumber].shape[pixelNumber] < (rowsToRemove[i]*10)) {
+            tetriSequence[tetriNumber].shape[pixelNumber] += 10 //drop pixel if above removed row
           }
         }
+        tetriSequence[tetriNumber].drawTetri()
       }
       for (let l=0; l<gridLocationsOccupied.length; l++) {
         if (gridLocationsOccupied[l]<(rowsToRemove[i]*10)) {
@@ -675,27 +691,23 @@ $(() => {
   }
 
   function removeRows() {
-    const tetriDead = []
-    for (let i=0; i<tetriSequence.length; i++){ //loop through all blocks on grid
-      const numberPixels = tetriSequence[i].shape.length
-      for (let j=numberPixels-1 ; j>=0; j--) {//loop through all grid locations occupied by block (backwards)
-        if (rowsToRemove.includes(Math.floor(tetriSequence[i].shape[j]/10))){
-          gridLocationsOccupied = removeOccurances(gridLocationsOccupied, tetriSequence[i].shape[j]) //Updates list of occupied spaces.
-          tetriSequence[i].shape.splice(j,1)
+    for (let tetriNumber=0; tetriNumber<tetriSequence.length; tetriNumber++){ //loop through all blocks on grid
+      tetriSequence[tetriNumber].shapePrevious = tetriSequence[tetriNumber].shape.slice()
+      const numberPixels = tetriSequence[tetriNumber].shape.length
+      for (let pixelNumber=numberPixels-1 ; pixelNumber>=0; pixelNumber--) {//loop through all grid locations occupied by block (backwards)
+        if (rowsToRemove.includes(Math.floor(tetriSequence[tetriNumber].shape[pixelNumber]/10))){
+          gridLocationsOccupied = removeOccurances(gridLocationsOccupied, tetriSequence[tetriNumber].shape[pixelNumber]) //Updates list of occupied spaces.
+          tetriSequence[tetriNumber].shape.splice(pixelNumber,1)
         }
       } // finish each block
-      // gridClear()
-      tetriSequence[i].drawTetri()
-      if (tetriSequence[i].shape.length === 0) {
-        tetriDead.push(i)
-      }
+      tetriSequence[tetriNumber].drawTetri()
     }
   }
 
   function checkRow(rowNumber) {
-    for (let j=0; j<10; j++) {    // Loop through all cells
-      if (!gridLocationsOccupied.includes(rowNumber*10+j)) {
-        return false
+    for (let columnNumber=0; columnNumber<10; columnNumber++) {    // Loop through all columns (x axis)
+      if (!gridLocationsOccupied.includes(rowNumber*10+columnNumber)) {
+        return false //Check for any empty columns
       }
     }
     rowsToRemove.push(rowNumber)
@@ -705,8 +717,8 @@ $(() => {
   function checkFullRows() {
     rowsToRemove = []
     let linesCounted = 0
-    for (let i=4; i<24; i +=1) {
-      if (checkRow(i)) {  //Loop through all rows
+    for (let rowNumber=4; rowNumber<24; rowNumber +=1) {
+      if (checkRow(rowNumber)) {  //Loop through all rows (y axis)
         linesCounted++
       }
     }
@@ -729,6 +741,10 @@ $(() => {
         playerScore +=990
         break
     }
+    if (gridLocationsOccupied.length ===0){
+      playerScore +=100
+    }
+    updateScoreBoard()
   }
 
   function checkTopReached() {
@@ -740,17 +756,14 @@ $(() => {
   }
 
   function gameLoop() {
-    // soundSoftNudge()
-    tetriCurrent.willFallOnSomething()
-    if (!tetriCurrent.isFalling) {
+    if (!tetriCurrent.canFall()) {
+      tetriCurrent.stopFall()
       checkFullRows()
       tetriNew(tetriCurrent)
-      playerScore +=10
+    } else {
+      tetriCurrent.fall()
     }
     if (checkTopReached()) gameEnd()
-    tetriCurrent.fall()
-    drawAll()
-    updateScoreBoard()
   }
 
   // createBoard()
@@ -764,13 +777,11 @@ $(() => {
   function gameEnd() {
     gameEnded = true
     soundBump()
-    gridClear()
     for (let i=0; i<gridLocationsOccupied.length; i++) {
       $gridSquares.siblings().eq((gridLocationsOccupied[i]-40)).addClass('grey')
     }
 
     soundThemeWav.pause()
-    console.log('you lose!')
     clearInterval(looper)
   }
   //
