@@ -109,6 +109,7 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    // border: 1px solid green;
     img {
       opacity: 1;
       margin-top: 92vh;
@@ -118,6 +119,7 @@ main {
   }
   #gameGrid {
     height: 100%;
+    height: 90vh;
     width: 0 auto;
     display: flex;
     flex-direction: column;
@@ -204,30 +206,33 @@ main {
   }
 
   footer {
+    // height: 5vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    #buttonsControl {
+    // border: 1px solid blue;
 
+    #buttonsControl {
       padding-left: 25px;
+      font-size: 5vh;
       display: flex;
+      align-items:flex-end;
       span {
         color: $menuColor;
-        transition: color .25s ease-in-out;
+        transition: color .15s ease-in-out;
       }
       span:hover{
         color: $menuColorHighlight;
       }
     }
     #scoreBoard {
-      height: 5vh;
-      font-size: 10vh;
+
+      font-size: 5vh;
       color: $scoreColor;
-      padding: 15px;
       padding-right: 25px;
       display: flex;
-      border: 1px dashed darkgrey;
+      align-items:center;
     }
   }
 }

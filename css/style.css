@@ -68,6 +68,7 @@ main {
       width: 80vw; }
   main #gameGrid {
     height: 100%;
+    height: 90vh;
     width: 0 auto;
     display: flex;
     flex-direction: column;
@@ -137,26 +138,22 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.5vw;
-    padding: 15px;
-    padding: 15px; }
+    align-items: center; }
     main footer #buttonsControl {
       padding-left: 25px;
-      display: flex; }
+      font-size: 5vh;
+      display: flex;
+      align-items: flex-end; }
       main footer #buttonsControl span {
         color: #888;
-        transition: color .25s ease-in-out; }
+        transition: color .15s ease-in-out; }
       main footer #buttonsControl span:hover {
         color: #CCC; }
     main footer #scoreBoard {
-      height: 5vh;
-      font-size: 10vh;
+      font-size: 5vh;
       color: #999;
-      padding: 15px;
       padding-right: 25px;
       display: flex;
-      border: 1px dashed darkgrey; }
+      align-items: center; }
 
 /*# sourceMappingURL=style.css.map */
