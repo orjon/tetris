@@ -141,6 +141,10 @@ main {
     justify-content: space-between;
     align-items: center; }
     main footer #buttonsControl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5vw;
+      padding: 15px;
+      padding-left: 25px;
       padding-left: 25px;
       font-size: 3vh;
       font-weight: lighter;
