@@ -205,15 +205,11 @@ main {
 
   footer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: flex-end;
-    height: 5vh;
-    font-size: 10vh;
+    align-items: center;
     #buttonsControl {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5vw;
-      padding: 15px;
+
       padding-left: 25px;
       display: flex;
       span {
@@ -225,11 +221,13 @@ main {
       }
     }
     #scoreBoard {
+      height: 5vh;
+      font-size: 10vh;
       color: $scoreColor;
       padding: 15px;
       padding-right: 25px;
       display: flex;
-      // border: 1px dashed darkgrey;
+      border: 1px dashed darkgrey;
     }
   }
 }

@@ -137,13 +137,12 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end;
-    height: 5vh;
-    font-size: 10vh; }
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5vw;
+    padding: 15px;
+    padding: 15px; }
     main footer #buttonsControl {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5vw;
-      padding: 15px;
       padding-left: 25px;
       display: flex; }
       main footer #buttonsControl span {
@@ -152,9 +151,12 @@ main {
       main footer #buttonsControl span:hover {
         color: #CCC; }
     main footer #scoreBoard {
+      height: 5vh;
+      font-size: 10vh;
       color: #999;
       padding: 15px;
       padding-right: 25px;
-      display: flex; }
+      display: flex;
+      border: 1px dashed darkgrey; }
 
 /*# sourceMappingURL=style.css.map */

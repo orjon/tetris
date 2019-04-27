@@ -33,8 +33,8 @@ $(() => {
   const soundClear4Wav = document.querySelector('audio.clear4')
 
   soundThemeWav.src  = './sounds/theme-short2.mp3'
-  soundNudgeWav.src  = './sounds/nudge.wav'
-  soundBumpWav.src   = './sounds/bump.wav'
+  soundNudgeWav.src  = './sounds/nudge.mp3'
+  soundBumpWav.src   = './sounds/bump.mp3'
   soundRotateWav.src = './sounds/rotate.mp3'
   soundClear1Wav.src = './sounds/clear1.mp3'
   soundClear2Wav.src = './sounds/clear2.mp3'
