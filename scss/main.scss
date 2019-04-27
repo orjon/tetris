@@ -1,39 +1,8 @@
-$background: #555;
-
-$gridSquare: 4.5vh;
-// $gridSquareLabelSize :1.5vh;
-$gridSquareLabelSize :0vh;
-$gridBorder: #777;
-$buttonBorder: #333;
-$scoreColor: #999;
-$menuColor: #888;
-$menuColorHighlight: #CCC;
-
-
-$blockColorGrey : #444;
-$blockColorEdgeGrey : #222;
-$blockColorRed : #F00;
-$blockColorEdgeRed : #FAA;
-$blockColorGreen : #0D0;
-$blockColorEdgeGreen : #BFB;
-$blockColorBlue : #00F;
-$blockColorEdgeBlue : #99F;
-$blockColorOrange: #F90;
-$blockColorEdgeOrange : #FC8;
-$blockColorPink: #F0F;
-$blockColorEdgePink : #FAF;
-$blockColorPurple: #A0A;
-$blockColorEdgePurple : #C9C;
-$blockColorCyan: #0DD;
-$blockColorEdgeCyan: #9FF;
-
-$white: #FFF;
-
+@import 'variables';
 
 * {
   box-sizing: border-box;
-  user-select: none; //make text unhighlightable
-  // overflow:hidden;
+  user-select: none;
 }
 
 .pointer {cursor: pointer;}
@@ -48,6 +17,7 @@ body {
   padding: 0;
   font-family: 'ZCOOL QingKe HuangYou', cursive;
 }
+
 #titleScreen {
   display: flex;
   flex-direction: column;
@@ -62,17 +32,19 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    // border: 1px solid green;
+    border: 1px solid green;
     img {
       opacity: 1;
       margin-top: 91.75vh;
       width: 80vw;
+      border: 1px solid cyan;
     }
   }
 
   .spacer {
     height: 85vh;
     width: 100vw;
+      border: 1px solid red;
   }
 
   .startButtonWrapper {
@@ -82,7 +54,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    // border: 1px solid blue;
+    border: 1px solid magenta;
     img {
       border: 1px solid $buttonBorder;
       border-radius: 5px;
@@ -109,23 +81,23 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    // border: 1px solid green;
+    border: 1px solid green;
     img {
       opacity: 1;
-      margin-top: 92vh;
+      margin-top: 91.75vh;
       width: 80vw;
-      // border: 2px solid $white;
+      border: 1px solid cyan;
     }
   }
   #gameGrid {
     height: 100%;
-    height: 90vh;
+    height: 85vh;
     width: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // border: 1px solid red;
+    border: 1px solid red;
     .highlight {
       box-shadow: 0px 0px 10px $white;
       border: 2px solid $white;
@@ -206,18 +178,20 @@ main {
   }
 
   footer {
-    // height: 5vh;
+    height: 10vh;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    // border: 1px solid blue;
+    border: 1px solid magenta;
 
     #buttonsControl {
       padding-left: 25px;
-      font-size: 5vh;
+      font-size: 3vh;
+      font-weight: lighter;
       display: flex;
       align-items:flex-end;
+      border: 1px solid green;
       span {
         color: $menuColor;
         transition: color .15s ease-in-out;
@@ -227,7 +201,7 @@ main {
       }
     }
     #scoreBoard {
-
+      border: 1px solid green;
       font-size: 5vh;
       color: $scoreColor;
       padding-right: 25px;
