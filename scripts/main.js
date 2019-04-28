@@ -23,6 +23,7 @@ $(() => {
   let looper = undefined
   let playerScore = 0
 
+
   const soundThemeWav  = document.querySelector('audio.theme')
   const soundNudgeWav  = document.querySelector('audio.nudge')
   const soundBumpWav   = document.querySelector('audio.bump')
@@ -71,6 +72,7 @@ $(() => {
   $('.buttonSound').on('click', function(){
     soundOn = !soundOn
   })
+
 
   function exitGame(){
     soundThemeWav.pause()
@@ -642,6 +644,7 @@ $(() => {
     $titleScreen.css('display','none')
     $gameScreen.css('display','flex')
     soundTheme()
+
     setTimeout(startGame,500)
   })
 
@@ -666,6 +669,7 @@ $(() => {
       tetriCurrent.move(e.which)
     }
   })
+
 
   function removeOccurances(array, element) {
     return array.filter(el => el !== element)

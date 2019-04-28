@@ -18,6 +18,12 @@ body {
   font-family: 'ZCOOL QingKe HuangYou', cursive;
 }
 
+
+
+.animateFade{animation:fading $fadeSpeed infinite}@keyframes fading{0%{opacity:0}35%{opacity:0}75%{opacity:1}80%{opacity:1}100%{opacity:0}}
+
+
+
 #titleScreen {
   display: flex;
   flex-direction: column;
@@ -33,10 +39,11 @@ body {
     align-items: center;
     justify-content: center;
     // border: 1px solid green;
+
     img {
       opacity: 1;
       margin-top: 91.75vh;
-      width: 80vw;
+      width: $imageLogoWidth;
       // border: 1px solid cyan;
     }
   }
@@ -44,27 +51,49 @@ body {
   .spacer {
     height: $heightMain;
     width: 100vw;
-      // border: 1px solid red;
-  }
-
-  .startButtonWrapper {
-    height: $heightFooter;
-    width: 100vw;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    // border: 1px solid magenta;
+      // border: 1px solid red;
+
     img {
-      border: 1px solid $buttonBorder;
-      border-radius: 5px;
-    }
-    img:hover {
-      border: 1px solid $gridBorder;
-      border-radius: 5px;
-      box-shadow: 0px 0px 10px #888;
+        // margin-bottom: -5vh;
+        // opacity: 1;
+        width: $imageKeyboardWidth;
+        // transition: color .15s ease-in-out;
+        // border: 1px solid lime;
     }
   }
+
+  footer {
+    height: $heightFooter;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    // border: 1px solid magenta;
+  }
+
+// #titleScreen > div.spacer > img:nth-child(1)
+//   .startButtonWrapper {
+//     height: $heightFooter;
+//     width: 100vw;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+//     // border: 1px solid magenta;
+//     img {
+//       border: 1px solid $buttonBorder;
+//       border-radius: 5px;
+//     }
+//     img:hover {
+//       border: 1px solid $gridBorder;
+//       border-radius: 5px;
+//       box-shadow: 0px 0px 10px #888;
+//     }
+//   }
 }
 
 main {
