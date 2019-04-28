@@ -3,7 +3,7 @@
   user-select: none; }
 
 .pointer {
-  cursor: pointer; }
+  cursor: none; }
 
 html {
   font-family: sans-serif; }

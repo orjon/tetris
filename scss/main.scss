@@ -5,7 +5,7 @@
   user-select: none;
 }
 
-.pointer {cursor: pointer;}
+.pointer {cursor: none;}
 
 html {
   font-family: sans-serif;
@@ -19,10 +19,7 @@ body {
 }
 
 
-
 .animateFade{animation:fading $fadeSpeed infinite}@keyframes fading{0%{opacity:0}35%{opacity:0}75%{opacity:1}80%{opacity:1}100%{opacity:0}}
-
-
 
 #titleScreen {
   display: flex;

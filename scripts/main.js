@@ -3,6 +3,9 @@ $(() => {
 
   console.log('Welcome to Tetris')
 
+  // document.body.style.cursor = 'none'
+
+
   let gameNotStarted = true
   let gameEnded = false
   const $gameGrid = $('#gameGrid')
