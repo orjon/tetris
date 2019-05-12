@@ -1,11 +1,16 @@
 @import 'variables';
 
+
+    :root {
+      --fontSize: 73vh;
+    }
+
 * {
   box-sizing: border-box;
   user-select: none;
 }
 
-.pointer {cursor: none;}
+.pointer {cursor: pointer;}
 
 html {
   font-family: sans-serif;
@@ -16,10 +21,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'ZCOOL QingKe HuangYou', cursive;
+  font-weight: 300;
 }
 
 
-.animateFade{animation:fading $fadeSpeed infinite}@keyframes fading{0%{opacity:0}35%{opacity:0}75%{opacity:1}80%{opacity:1}100%{opacity:0}}
+.animateFade{animation:fading $fadeSpeed infinite}@keyframes fading{0%{opacity:0}40%{opacity:1}45%{opacity:1}65%{opacity:0}100%{opacity:0}}
+
 
 #titleScreen {
   display: flex;
@@ -27,7 +34,7 @@ body {
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  // border: 1px solid blue;
+  // border: $layoutBorders solid blue;
   #imageWrapper {
     height: $heightHeader;
     width: 100vw;
@@ -35,13 +42,13 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    // border: 1px solid green;
+    // border: $layoutBorders solid green;
 
     img {
       opacity: 1;
       margin-top: 91.75vh;
       width: $imageLogoWidth;
-      // border: 1px solid cyan;
+      // border: $layoutBorders solid cyan;
     }
   }
 
@@ -52,14 +59,10 @@ body {
     flex-direction: row;
     align-items: flex-end;
     justify-content: center;
-      // border: 1px solid red;
+      // border: $layoutBorders solid red;
 
     img {
-        // margin-bottom: -5vh;
-        // opacity: 1;
         width: $imageKeyboardWidth;
-        // transition: color .15s ease-in-out;
-        // border: 1px solid lime;
     }
   }
 
@@ -69,29 +72,12 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    // border: 1px solid magenta;
+    // border: $layoutBorders solid magenta;
   }
-
-// #titleScreen > div.spacer > img:nth-child(1)
-//   .startButtonWrapper {
-//     height: $heightFooter;
-//     width: 100vw;
-//     display: flex;
-//     flex-direction: row;
-//     align-items: center;
-//     justify-content: center;
-//     // border: 1px solid magenta;
-//     img {
-//       border: 1px solid $buttonBorder;
-//       border-radius: 5px;
-//     }
-//     img:hover {
-//       border: 1px solid $gridBorder;
-//       border-radius: 5px;
-//       box-shadow: 0px 0px 10px #888;
-//     }
-//   }
 }
+
+
+
 
 main {
   display: none;
@@ -99,7 +85,7 @@ main {
   justify-content: space-around;
   height: 100vh;
   width: 100vw;
-  // border: 1px solid darkgrey;
+  // border: $layoutBorders solid darkgrey;
   header {
     height: $heightHeader;
     width: 100vw;
@@ -107,12 +93,12 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    // border: 1px solid green;
+    // border: $layoutBorders solid green;
     img {
       opacity: 1;
       margin-top: 91.75vh;
       width: 80vw;
-      // border: 1px solid cyan;
+      // border: $layoutBorders solid cyan;
     }
   }
   #gameGrid {
@@ -123,7 +109,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // border: 1px solid red;
+    // border: $layoutBorders solid red;
     .highlight {
       box-shadow: 0px 0px 10px $white;
       border: 2px solid $white;
@@ -143,62 +129,63 @@ main {
         height: $gridSquare;
         display: flex;
         flex-direction: row;
-        border: 1px solid $gridBorder;
+        border: $gridBorderWidth solid $gridBorder;
+
       }
+      .square.toggled {
+        border: 0px;
+      }
+
       .red {
         color: $blockColorEdgeRed;
         background-color: $blockColorRed;
         box-shadow: 0px 0px 5px $blockColorRed;
-        border: 1px solid $blockColorEdgeRed;
-        // box-shadow: inset 0px 0px 20px rgba(255,255,255,5.25);
+        border: $blockBorder solid $blockColorEdgeRed;
       }
       .green {
         color: $blockColorEdgeGreen;
         background-color: $blockColorGreen;
         box-shadow: 0px 0px 5px $blockColorGreen;
-        border: 1px solid $blockColorEdgeGreen;
+        border: $blockBorder solid $blockColorEdgeGreen;
       }
       .blue {
         background-color: $blockColorBlue;
         box-shadow: 0px 0px 5px $blockColorBlue;
-        border: 1px solid $blockColorEdgeBlue;
+        border: $blockBorder solid $blockColorEdgeBlue;
         color:  $blockColorEdgeBlue;
       }
       .pink {
         background-color: $blockColorPink;
         box-shadow: 0px 0px 5px $blockColorPink;
-        border: 1px solid $blockColorEdgePink;
+        border: $blockBorder solid $blockColorEdgePink;
         color:  $blockColorEdgePink;
       }
       .purple{
         background-color: $blockColorPurple;
         box-shadow: 0px 0px 5px $blockColorPurple;
-        border: 1px solid $blockColorEdgePurple;
+        border: $blockBorder solid $blockColorEdgePurple;
         color: $blockColorEdgePurple;
       }
       .orange {
         background-color: $blockColorOrange;
         box-shadow: 0px 0px 5px $blockColorOrange;
-        border: 1px solid $blockColorEdgeOrange;
+        border: $blockBorder solid $blockColorEdgeOrange;
         color:  $blockColorEdgeOrange;
       }
       .cyan {
         background-color: $blockColorCyan;
         box-shadow: 0px 0px 5px $blockColorCyan;
-        border: 1px solid $blockColorEdgeCyan;
+        border: $blockBorder solid $blockColorEdgeCyan;
         color: $blockColorEdgeCyan;
       }
       .grey {
         background-color: $blockColorGrey;
         box-shadow: 0px 0px 5px $blockColorGrey;
-        border: 1px solid $blockColorEdgeGrey;
+        border: $blockBorder solid $blockColorEdgeGrey;
         color: $blockColorEdgeGrey;
       }
       .empty {
-        // visibility: hidden;
-        // display:none;
         background-color: none;
-        // background-color: rgba(255,0,0,0);
       }
     }
   }
@@ -209,38 +196,53 @@ main {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    // border: 1px solid magenta;
+    // border: $layoutBorders solid magenta;
 
-    #buttonsControl {
-
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5vw;
-      padding: 15px;
-      padding-left: 25px;
-
-
-
-      padding-left: 25px;
-      font-size: 3vh;
-      font-weight: lighter;
+    .footerRow {
       display: flex;
-      align-items:flex-end;
-      // border: 1px solid green;
-      span {
-        color: $menuColor;
-        transition: color .15s ease-in-out;
-      }
-      span:hover{
-        color: $menuColorHighlight;
-      }
-    }
-    #scoreBoard {
-      // border: 1px solid green;
-      font-size: 5vh;
-      color: $scoreColor;
-      padding-right: 25px;
-      display: flex;
-      align-items:center;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+          #buttonsControl {
+
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5vw;
+            padding-left: 2vw;
+            padding-bottom: -3vh;
+            font-size: 3vh;
+            font-weight: lighter;
+            display: flex;
+            align-items:flex-end;
+            // border: $layoutBorders solid green;
+            span {
+              color: $menuColor;
+              transition: color .15s ease-in-out;
+            }
+            span:hover{
+              color: $menuColorHighlight;
+            }
+          }
+          #scoreBoard {
+            // border: $layoutBorders solid green;
+            font-size: 5vh;
+            color: $scoreColor;
+            padding-right: 2vw;
+            padding-bottom: 2vh;
+            align-items:center;
+          }
     }
   }
+}
+
+#displayContact a {
+    text-decoration: none;
+    color: $textNormal;
+    position: fixed;
+    bottom: 0.5%;
+    right: 0.5%;
+    font-family: sans-serif;
+    font-size: $fontSize;
+    border: $layoutBorders solid green;
 }

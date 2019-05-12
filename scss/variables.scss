@@ -9,8 +9,7 @@ $imageKeyboardWidth: 40vw;
 
 $fadeSpeed: 8s;
 
-
-//$gridSquare: 4.5vh;
+$gridBorderWidth: 1px;
 $gridSquare: 4.25vh;
 $gridSquareLabelSize :0vh; //1.5vh
 
@@ -38,4 +37,13 @@ $blockColorEdgePurple : #C9C;
 $blockColorCyan: #0DD;
 $blockColorEdgeCyan: #9FF;
 
+$blockBorder: 1px;
+
 $white: #FFF;
+
+$textBright: #aaa;
+$textNormal: #ccc;
+$textDim: #666;
+$fontSize: 1.62vh;
+
+$layoutBorders: 0px;

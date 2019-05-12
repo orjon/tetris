@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>Tetris</title>
+  <link rel='shortcut icon' type='image/x-icon' href='./images/favicon.ico' />
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=ZCOOL+QingKe+HuangYou" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
   <link rel="stylesheet" href="./css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
 
@@ -28,18 +28,16 @@
 
     <div class='spacer'>
 
-      <!-- <img class='keyboard animateFade' src='./images/keyboardHidden.png' alt='tetris logo'> -->
       <img class='keyboard animateFade' src='./images/keyboardHighlight.png' alt='tetris logo'>
-      <!-- <img class='keyboard' src='./images/keyboard.png' alt='tetris logo'> -->
-      <!-- <img class='keyboard fadeOut' src='./images/keyboardHighlight.png' alt='tetris logo'> -->
     </div>
     <footer>
+      <div id="displayContact" class="text"><a style='color:#999 ; text-decoration:none' href='mailto:contact@orjon.com'>contact@orjon.com</a></div>
     </footer>
 
     <div class='startButtonWrapper'>
-      <!-- <img id='buttonStart' src='./images/buttonStart.png' alt='start game' height=50% width =auto> -->
     </div>
   </div>
+
   <main>
     <header>
       <img src='./images/title.png' alt='tetris logo'>
@@ -289,6 +287,7 @@
     </div>
 
     <footer>
+      <div class='footerRow'>
       <div id='buttonsControl'>
         <span class='button buttonExit'>X</span>&nbsp;&nbsp;
         <span class='button buttonMusic'>M</span>&nbsp;&nbsp;
@@ -296,6 +295,10 @@
         <span class='button buttonPause'>P</span>
       </div>
       <div id='scoreBoard'></div>
+    </div>
+      <div id="displayContact" class="text">
+        <a style='color:#999 ; text-decoration:none' href='mailto:contact@orjon.com'>contact@orjon.com</a>
+      </div>
     </footer>
   </main>
 </body>

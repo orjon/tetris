@@ -35,6 +35,7 @@ $(() => {
   const soundClear2Wav = document.querySelector('audio.clear2')
   const soundClear3Wav = document.querySelector('audio.clear3')
   const soundClear4Wav = document.querySelector('audio.clear4')
+  const gridSquares = document.querySelectorAll('.square')
 
   soundThemeWav.src  = './sounds/theme-short2.mp3'
   soundNudgeWav.src  = './sounds/nudge.mp3'
@@ -186,6 +187,13 @@ $(() => {
     }
   }
 
+  function gridToggle(){
+    for (let x of gridSquares) {
+      x.classList.toggle('toggled')
+
+    }
+  }
+
 
   // function createBoard() {
   //   let gridNumbers = '' //40 //starting point for visible grid
@@ -297,6 +305,10 @@ $(() => {
           break
         case 80: //P for pause
           gamePause()
+          break
+        case 71: //G for grid
+          console.log('toggle1?')
+          gridToggle()
           break
         case 83: //s = sound
           soundOn = !soundOn
