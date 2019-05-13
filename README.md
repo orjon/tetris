@@ -179,4 +179,4 @@ Some known bugs in the game:
      gridNumbers++
    }
    $('#gameGrid .row').children().addClass('square')
-}```
+} ```
