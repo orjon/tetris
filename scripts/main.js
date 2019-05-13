@@ -3,8 +3,6 @@ $(() => {
 
   console.log('Welcome to Tetris')
 
-  // document.body.style.cursor = 'none'
-
 
   let gameNotStarted = true
   let gameEnded = false
@@ -188,9 +186,8 @@ $(() => {
   }
 
   function gridToggle(){
-    for (let x of gridSquares) {
+    for (const x of gridSquares) {
       x.classList.toggle('toggled')
-
     }
   }
 
@@ -307,7 +304,6 @@ $(() => {
           gamePause()
           break
         case 71: //G for grid
-          console.log('toggle1?')
           gridToggle()
           break
         case 83: //s = sound

@@ -34,7 +34,7 @@ body {
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  // border: $layoutBorders solid blue;
+  border: $layoutBorders solid blue;
   #imageWrapper {
     height: $heightHeader;
     width: 100vw;
@@ -42,13 +42,13 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    // border: $layoutBorders solid green;
+    border: $layoutBorders solid green;
 
     img {
       opacity: 1;
       margin-top: 91.75vh;
       width: $imageLogoWidth;
-      // border: $layoutBorders solid cyan;
+      border: $layoutBorders solid cyan;
     }
   }
 
@@ -59,7 +59,7 @@ body {
     flex-direction: row;
     align-items: flex-end;
     justify-content: center;
-      // border: $layoutBorders solid red;
+      border: $layoutBorders solid red;
 
     img {
         width: $imageKeyboardWidth;
@@ -72,7 +72,7 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    // border: $layoutBorders solid magenta;
+    border: $layoutBorders solid magenta;
   }
 }
 
@@ -85,7 +85,7 @@ main {
   justify-content: space-around;
   height: 100vh;
   width: 100vw;
-  // border: $layoutBorders solid darkgrey;
+  border: $layoutBorders solid darkgrey;
   header {
     height: $heightHeader;
     width: 100vw;
@@ -93,12 +93,12 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    // border: $layoutBorders solid green;
+    border: $layoutBorders solid green;
     img {
       opacity: 1;
       margin-top: 91.75vh;
       width: 80vw;
-      // border: $layoutBorders solid cyan;
+      border: $layoutBorders solid cyan;
     }
   }
   #gameGrid {
@@ -109,7 +109,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // border: $layoutBorders solid red;
+    border: $layoutBorders solid red;
     .highlight {
       box-shadow: 0px 0px 10px $white;
       border: 2px solid $white;
@@ -130,10 +130,10 @@ main {
         display: flex;
         flex-direction: row;
         border: $gridBorderWidth solid $gridBorder;
-
       }
+
       .square.toggled {
-        border: 0px;
+        border: 0px solid $background;
       }
 
       .red {
@@ -142,6 +142,7 @@ main {
         box-shadow: 0px 0px 5px $blockColorRed;
         border: $blockBorder solid $blockColorEdgeRed;
       }
+
       .green {
         color: $blockColorEdgeGreen;
         background-color: $blockColorGreen;
@@ -196,7 +197,7 @@ main {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    // border: $layoutBorders solid magenta;
+    border: $layoutBorders solid magenta;
 
     .footerRow {
       display: flex;
@@ -215,7 +216,7 @@ main {
             font-weight: lighter;
             display: flex;
             align-items:flex-end;
-            // border: $layoutBorders solid green;
+            border: $layoutBorders solid green;
             span {
               color: $menuColor;
               transition: color .15s ease-in-out;
@@ -225,7 +226,7 @@ main {
             }
           }
           #scoreBoard {
-            // border: $layoutBorders solid green;
+            border: $layoutBorders solid green;
             font-size: 5vh;
             color: $scoreColor;
             padding-right: 2vw;
