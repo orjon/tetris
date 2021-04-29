@@ -1,8 +1,4 @@
 # **Tetris**
-## Project 1 : Web Development Immersive, General Assembly ![General Assembly](images/readme/ga-logo.png "General Assembly logo")
-
-Live link: http://www.orjon.com/tetris/<br>
-GitHub: https://github.com/orjon/tetris
 
 ## Overview
 Tetris is a recreation of the original 1980’s classic puzzle game.
@@ -181,3 +177,5 @@ Some known bugs in the game:
    $('#gameGrid .row').children().addClass('square')
 }
 ```
+## Project 1 : Web Development Immersive, General Assembly ![General Assembly](images/readme/ga-logo.png "General Assembly logo")
+
